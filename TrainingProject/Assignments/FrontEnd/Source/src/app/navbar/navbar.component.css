@@ -1,0 +1,28 @@
+#CardDiv{
+  background-color: rgb(230, 224, 228);
+}
+
+#cardWidth{
+  width:195px;
+  margin-left:450px;
+}
+
+.font-size-sm{
+  font-size: small;
+}
+
+#Teambtn{
+  background-color: darkorange;
+  padding-left: 25px;
+  padding-right: 30px;
+}
+
+.btn-size{
+  padding: 0px;
+  margin: 0px;
+}
+
+.cardhoverbg :hover{
+  background-color: lightgrey;
+  text-decoration: none;
+}

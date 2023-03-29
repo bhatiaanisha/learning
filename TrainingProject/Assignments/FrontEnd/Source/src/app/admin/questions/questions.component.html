@@ -1,0 +1,92 @@
+<!--GetQuestionCard-->
+<div class="container-fluid mt-3">
+  <div class="card shadow">
+    <div class="card-header">
+      <div class="card-title bg-light fs-5 fw-bold">Questions</div>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped table-bordered border-1">
+        <caption></caption>
+        <thead class="text-center">
+          <tr>
+            <th scope="col">QuestionId</th>
+            <th scope="col">QuestionTitle</th>
+            <th scope="col">QuestionBody</th>
+            <th scope="col">UserId</th>
+            <th scope="col">CreatedDate</th>
+            <th scope="col">ModifiedDate</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr *ngFor="let question of questions | paginate : { itemsPerPage: 4, currentPage: p,totalItems:this.totalItems}">
+            <td>{{question.questionId}}</td>
+            <td>{{question.questionTitle}}</td>
+            <td>{{question.questionBody}}</td>
+            <td>{{question.userId}}</td>
+            <td>{{question.createdDate | date:'short'}}</td>
+            <td>{{question.modifiedDate | date:'short'}}</td>
+            <td><a type="button" (click)="fillform(question);UpdateShow()"><em class="fa-solid fa-pen text-primary"></em></a></td>
+            <td><a type="button" (click)="deleteQuestions(question.questionId!)"><em class="fa-solid fa-trash-can text-primary"></em></a></td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+    <div class="card-footer">
+      <button type="button" class="btn btn-success" (click)="Addshow()"><em class="fa-solid fa-plus text-white me-1"></em>Add Question</button>
+    </div>
+  </div>
+</div>
+
+<!--Add Question Card-->
+
+<div *ngIf="showhide" class="container-fluid mt-4">
+  <div class="card shadow">
+    <div class="card-header">
+      <div class="card-title fs-5 fw-bold">Add Question</div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="AddQuestionForm" (ngSubmit)="postQuestions()">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" formControlName="questionTitle">
+        <label for="body">Body</label>
+        <angular-editor formControlName="questionBody" [config]="config"></angular-editor>
+        <!-- <textarea class="form-control" formControlName="questionBody"></textarea> -->
+        <button type="submit" class="btn btn-primary mt-3 px-5">Submit</button>
+        <button type="reset" class="btn btn-warning mt-3 ms-5 px-5">Reset</button>
+        <button type="button" class="btn btn-secondary mt-3 ms-5 px-5" (click)="Addhide()">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--update question card-->
+
+<div *ngIf="updateformshow" class="container-fluid mt-4">
+  <div class="card shadow">
+    <div class="card-header">
+      <div class="card-title fs-5 fw-bold">Update Question</div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="UpdateQuestionForm" (ngSubmit)="putQuestions()">
+        <label for="questionid">QuestionId</label>
+        <input readonly class="form-control" formControlName="questionId">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" formControlName="questionTitle">
+        <label for="body">Body</label>
+        <angular-editor formControlName="questionBody" [config]="config"></angular-editor>
+        <label for="userId">UserId</label>
+        <input readonly class="form-control" formControlName="userId">
+        <label for="createdDate">CreatedDate</label>
+        <input readonly class="form-control" formControlName="createdDate">
+        <label for="modifiedDate">ModifiedDate</label>
+        <input readonly class="form-control" formControlName="modifiedDate">
+        <button type="submit" class="btn btn-success mt-3 px-5">Update</button>
+        <button type="reset" class="btn btn-warning mt-3 ms-5 px-5">Reset</button>
+        <button type="button" class="btn btn-secondary mt-3 ms-5 px-5" (click)="UpdateHide()">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>

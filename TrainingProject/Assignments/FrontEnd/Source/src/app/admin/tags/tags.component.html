@@ -1,0 +1,56 @@
+<!--tag card -->
+
+<div class="container-fluid mt-3">
+  <div class="card shadow">
+    <div class="card-header">
+      <div class="card-title bg-light fs-5 fw-bold">Tags</div>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped table-bordered border-1">
+        <thead class="text-center">
+          <tr>
+            <th scope="col">TagId</th>
+            <th scope="col">TagName</th>
+            <th scope="col">CreatedDate</th>
+            <th scope="col">ModifiedDate</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr *ngFor="let tag of tags">
+            <td>{{tag.tagId}}</td>
+            <td>{{tag.tagName}}</td>
+            <td>{{tag.createdDate | date:'short'}}</td>
+            <td>{{tag.modifiedDate | date:'short'}}</td>
+            <td><a type="button"><em class="fa-solid fa-pen text-primary" (click)="Addshow();fillform(tag)"></em></a></td>
+            <td><a type="button"><em class="fa-solid fa-trash-can text-primary" (click)="deleteTags(tag.tagId!)"></em></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer">
+      <button type="button" class="btn btn-success" (click)="Addshow()"><em class="fa-solid fa-plus text-white me-1"></em>Add Tag</button>
+    </div>
+  </div>
+</div>
+
+<!--Tag Card-->
+
+<div *ngIf="showhide" class="container-fluid mt-4">
+  <div class="card shadow">
+    <div class="card-header">
+      <div class="card-title fs-5 fw-bold">Tag Form</div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="TagForm">
+        <label for="title">TagName</label>
+        <input type="text" class="form-control" formControlName="tagName">
+        <button type="submit" class="btn btn-primary mt-3 px-5" (click)="postTags()">Add</button>
+        <button type="submit" class="btn btn-warning mt-3 ms-5 px-5" (click)="putTags()">Update</button>
+        <button type="reset" class="btn btn-dark mt-3 ms-5 px-5 text-white">Reset</button>
+        <button type="button" class="btn btn-secondary mt-3 ms-5 px-5" (click)="Addhide()">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>

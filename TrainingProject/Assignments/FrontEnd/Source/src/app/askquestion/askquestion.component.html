@@ -1,0 +1,148 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-4" style="margin-top: 90px;">
+      <h2>Ask a public question</h2>
+    </div>
+    <div class="col-md-6 mt-3">
+      <img src="../../assets/images/background.png" width="650" height="160">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-7">
+      <form [formGroup]="AskQuestionForm">
+        <div class="card shadow">
+          <div class="card-body">
+            <label for="title">Title</label>
+            <span class="text-muted font-size-sm"><br>Be specific and imagine you’re asking a question to another
+              person</span>
+            <input type="text" class="form-control" formControlName="questionTitle"
+              placeholder="e.g. Is there an R function for finding the index of an element in a vector?">
+            <span
+              *ngIf="AskQuestionForm.controls['questionTitle'].invalid && (AskQuestionForm.controls['questionTitle'].dirty || AskQuestionForm.controls['questionTitle'].touched)"
+              class="text-danger">Field is required.</span>
+            <br>
+            <label for="body">Body</label>
+            <span class="text-muted font-size-sm"><br>Include all the information someone would need to answer your
+              question</span>
+            <!-- <textarea class="form-control" formControlName="questionBody" id="editor"></textarea> -->
+            <angular-editor formControlName="questionBody" [config]="config"></angular-editor>
+            <span
+              *ngIf="AskQuestionForm.controls['questionBody'].invalid && (AskQuestionForm.controls['questionBody'].dirty || AskQuestionForm.controls['questionBody'].touched)"
+              class="text-danger">Field is required.</span>
+            <br>
+            <div formArrayName="questionTags">
+              <label for="tags">Tags</label>
+              <span class="text-muted font-size-sm"><br>Add up to 5 tags to describe what your question is about</span>
+              <div *ngFor="let obj of getQuestionTags.controls; let i=index">
+                <div [formGroupName]="i">
+                  <select name="Cars" size="5" multiple="multiple" formControlName="tagId">
+                    <option *ngFor="let tag of tags" [ngValue]="tag.tagId">{{tag.tagName}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <button class="btn btn-primary text-white mt-3" type="submit" [disabled]="!AskQuestionForm.valid"
+        (click)="postAskQuestion()">Submit your
+        question
+      </button>
+    </div>
+    <div class="col-md-3">
+      <div class="accordion shadow" style="width:310px">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <span style="font-size: 15px;" class="text-black-50 ms-2">Step 1: Draft your question
+              <hr>
+            </span>
+            <p class="text-black fw-normal ms-1" style="font-size: 14px;">The community is here to help you with
+              specific <br> coding, algorithm, or language problems.<br><br>
+              Avoid asking opinion-based questions.</p>
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+              aria-expanded="false" aria-controls="collapseOne" style="font-size: 16px;">
+              1. <span class="text-black mt-1 ms-2 fw-semibold" style="font-size: 14px;"> Summarize the problem</span>
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <ul style="list-style-type: disc;">
+                <li style="font-size: 12px;">Include details about your goal</li>
+                <li style="font-size: 12px;">Describe expected and actual results</li>
+                <li style="font-size: 12px;">Include any error messages</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              2. <span class="text-black mt-1 ms-2 fw-semibold" style="font-size: 14px;">Describe what you've
+                tried</span>
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <p class="" style="font-size: 12px;">
+                Show what you’ve tried and tell us what you <br> found (on this site or elsewhere) and why it <br>
+                didn’t meet your
+                needs. You can get better <br> answers when you provide research.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              3. <span class="text-black mt-1 ms-2 fw-semibold" style="font-size: 14px;">Show some code</span>
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <p style="font-size: 12px;text-align: justify;">When appropriate, share the minimum <br> amount of code
+                others need to reproduce <br> your problem (also called a minimum, <br> reproducible example)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion shadow mt-3" style="width:310px">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour"
+              aria-expanded="false" aria-controls="collapseFour" style="font-size: 16px;">
+              <span class="text-black-50 mt-1 ms-2" style="font-size: 14px;">Have a non-programming question?</span>
+            </button>
+          </h2>
+          <div id="collapseFour" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <div>
+                <a href="" style="text-decoration: none;font-size: 13px;">Super user</a>
+                <p style="font-size: 13px;">Troubleshooting hardware and software issues</p>
+              </div>
+              <div>
+                <a href="" style="text-decoration: none;font-size: 13px;">Software engineering</a>
+                <p style="font-size: 13px;">For software development methods and process questions</p>
+              </div>
+              <div>
+                <a href="" style="text-decoration: none;font-size: 13px;">Hardware recommendations</a>
+              </div>
+              <div>
+                <a href="" style="text-decoration: none;font-size: 13px;">Software recommendations</a>
+              </div>
+              <div>
+                <p style="font-size: 13px;">Ask questions about the site on <a href=""
+                    style="text-decoration: none;font-size: 13px;"></a>meta</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

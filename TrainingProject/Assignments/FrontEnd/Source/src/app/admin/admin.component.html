@@ -1,0 +1,22 @@
+<div class="container-fluid">
+  <div class="row flex-nowrap">
+    <div class="col-auto px-sm-2 px-0 bg-dark">
+      <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
+          <li class="nav-item">
+            <em class="fa-solid fa-gear fa-2x"><span class="fs-2" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif">Admin</span></em>
+          </li>
+          <li class="nav-item mt-5 fs-5">
+              <button class="dropdown-item" type="button" [routerLink]="['./questions']">Questions</button>
+          </li>
+          <li class="nav-item mt-5 fs-5">
+            <button class="dropdown-item" type="button" [routerLink]="['./tags']">Tags</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col py-3">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

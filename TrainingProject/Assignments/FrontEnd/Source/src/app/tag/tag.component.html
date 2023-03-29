@@ -1,0 +1,224 @@
+<div class="container-fluid">
+  <div class="row min-vh-100">
+    <div class="col-md-3">
+      <div class="row">
+        <div class="col-md-7">
+        </div>
+        <div class="col-md-5">
+          <div class="card mt-2 shadow border border-0">
+            <div class="card-body p-0">
+              <div class="card-title">
+                <button class="border ms-0 border-0 text-black fw-bold font-size-sm mt-5" [routerLink]="['']">
+                  Home
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                PUBLIC
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light" [routerLink]="['/questions']">
+                  <em class="fa-solid fa-earth-asia"></em>
+                  Questions
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3" [routerLink]="['/tags']">
+                  Tags
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3">
+                  Users
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3">
+                  Companies
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm mt-2">
+                COLLECTIVES
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                <button class="border border-0 bg-light">
+                  <em class="fa-regular fa-star bg-warning"></em>
+                  Explore Collectives
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm mt-2">
+                TEAMS
+              </div>
+              <div class="card-text text-dark font-size-sm mt-3 ms-3">
+                <strong>Stack Overflow for <br>Teams - </strong>Start
+                <p> collaborating and sharing organizational knowledge.</p>
+              </div>
+              <div class="card-text text-dark font-size-sm mt-1 ms-2">
+                <img src="../assets/images/teams.png" alt="" class="mt-0">
+              </div>
+              <div class="card-text font-size-sm">
+                <button class="text-white border border-2 border-warning ms-3 mb-2 rounded-1" id="Teambtn">
+                  Create a free Team
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                <button class="border border-0 bg-light ms-3 ps-4 mb-2">
+                  Why Teams?
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7 border border-1">
+      <h4 class="mt-4">Tags</h4>
+      <p style="font-size: 15px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">A tag is a keyword or label
+        that categorizes your question with other, similar questions. Using <br> the right tags makes it easier for
+        others to find and answer your question. </p>
+      <form class="d-flex w-25" role="search">
+        <input class="form-control form-control-sm position-relative ps-4 text-muted" name="search" [(ngModel)]="searchText" type="text"
+          placeholder="Filter by tag name" aria-label="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" fill="currentColor"
+          class=" my-2 ms-2 bi bi-search position-absolute" viewBox="0 0 16 16">
+          <path
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+        </svg>
+      </form>
+      <div class="row mt-3">
+        <div class="col-md-3" *ngFor="let tag of tags | filter:searchText">
+          <div class="card card-width mt-3">
+            <div class="card-body">
+              <span class="badge badge-color"><a href="" style="text-decoration: none;color: black;" [routerLink]="['/questions']" [queryParams]="{tagname:tag.tagName}">{{tag.tagName}}</a></span>
+              <p class="font-size-sm mt-2">For questions regarding <br> programming in ECMAScript (JavaScript/JS) and its various dialects/implementations <br> (excluding ActionScript). Note... </p>
+              <div class="row">
+                <div class="col-md-5">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">2414490 <br> questions</p>
+                </div>
+                <div class="col-md-7">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">689 asked today, 4306 this week</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-md-3">
+          <div class="card card-width">
+            <div class="card-body">
+              <span class="badge badge-color"><a href="" style="text-decoration: none;color: black;">python</a></span>
+              <p class="font-size-sm mt-2">Python is a multi-paradigm, dynamically typed, multi-purpose programming language. It is designed to be quick to learn, understand.. </p>
+              <div class="row">
+                <div class="col-md-5">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">2008889 <br> questions</p>
+                </div>
+                <div class="col-md-7">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">1032 asked today, 6062 this week</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-width">
+            <div class="card-body">
+              <span class="badge badge-color"><a href="" style="text-decoration: none;color: black;">java</a></span>
+              <p class="font-size-sm mt-2">Java is a high-level object oriented programming language. Use this tag when you're having problems using or understanding the... </p>
+              <div class="row">
+                <div class="col-md-5">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">1861316 <br> questions</p>
+                </div>
+                <div class="col-md-7">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">372 asked today, 2035 this week</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-width">
+            <div class="card-body">
+              <span class="badge badge-color"><a href="" style="text-decoration: none;color: black;">c#</a></span>
+              <p class="font-size-sm mt-2">C# (pronounced "see sharp") is a high level, statically typed, multi-paradigm programming language developed by Microsoft. C# code usually..</p>
+              <div class="row">
+                <div class="col-md-5">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">1554251 <br> questions</p>
+                </div>
+                <div class="col-md-7">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">290 asked today, 1719 this week</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <!-- <div class="row mt-3">
+        <div class="col-md-3">
+          <div class="card card-width">
+            <div class="card-body">
+              <span class="badge badge-color"><a href="" style="text-decoration: none;color: black;">php</a></span>
+              <p class="font-size-sm mt-2">PHP is a widely used, open source, general-purpose, multi-paradigm, dynamically typed and interpreted scripting language originally designe.. </p>
+              <div class="row">
+                <div class="col-md-5">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">1443499 <br> questions</p>
+                </div>
+                <div class="col-md-7">
+                  <p class="mt-0 text-muted" style="font-size: 11px;"> 185 asked today, 1220 this week </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-width">
+            <div class="card-body">
+              <span class="badge badge-color"><a href="" style="text-decoration: none;color: black;">android</a></span>
+              <p class="font-size-sm mt-2">Android is Google's mobile operating system, used for programming or developing digital devices (Smartphones, Tablets, Automobiles.. </p>
+              <div class="row">
+                <div class="col-md-5">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">1383384 <br> questions</p>
+                </div>
+                <div class="col-md-7">
+                  <p class="mt-0 text-muted" style="font-size: 11px;"> 234 asked today, 1360 this week </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-width">
+            <div class="card-body">
+              <span class="badge badge-color"><a href="" style="text-decoration: none;color: black;">html</a></span>
+              <p class="font-size-sm mt-2">HTML (HyperText Markup Language) is the markup language for creating web pages and other information to be displayed in a web browser.. </p>
+              <div class="row">
+                <div class="col-md-5">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">1142002 <br> questions</p>
+                </div>
+                <div class="col-md-7">
+                  <p class="mt-0 text-muted" style="font-size: 11px;"> 264 asked today, 1589 this week </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-width">
+            <div class="card-body">
+              <span class="badge badge-color"><a href="" style="text-decoration: none;color: black;">jquery</a></span>
+              <p class="font-size-sm mt-2">jQuery is a JavaScript library, consider also adding the JavaScript tag. jQuery is a popular cross-browser JavaScript library that facilitates</p>
+              <div class="row">
+                <div class="col-md-5">
+                  <p class="mt-0 text-muted" style="font-size: 11px;">1028973 <br> questions</p>
+                </div>
+                <div class="col-md-7">
+                  <p class="mt-0 text-muted" style="font-size: 11px;"> 64 asked today, 353 this week </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <div class="col-md-2">
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+.font-size-sm{
+  font-size: small;
+}
+
+#Teambtn{
+  background-color: darkorange;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.card-width{
+  width: 320px;
+}
+
+.cardBodybgColor{
+  background-color: rgb(248, 236, 214);
+}
+
+.cardTitlebgColor{
+  background-color: rgb(241, 190, 119);
+}
+
+.borderColor{
+  border-color: rgb(224, 224, 224);
+}
+
+.badge-color{
+  background-color: rgb(147, 222, 247);
+}

@@ -1,0 +1,166 @@
+<div class="container-fluid">
+  <div class="row min-vh-100">
+    <div class="col-md-3">
+      <div class="row">
+        <div class="col-md-7">
+        </div>
+        <div class="col-md-5">
+          <div class="card mt-2 shadow-sm border border-0">
+            <div class="card-body p-0">
+              <div class="card-title">
+                <button class="border ms-0 border-0 text-black fw-bold font-size-sm mt-5" [routerLink]="['/']">
+                  Home
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                PUBLIC
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light" [routerLink]="['/questions']">
+                  <em class="fa-solid fa-earth-asia"></em>
+                  Questions
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3" [routerLink]="['/tags']">
+                  Tags
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3">
+                  Users
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3">
+                  Companies
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm mt-2">
+                COLLECTIVES
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                <button class="border border-0 bg-light">
+                  <em class="fa-regular fa-star bg-warning"></em>
+                  Explore Collectives
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm mt-2">
+                TEAMS
+              </div>
+              <div class="card-text text-dark font-size-sm mt-3 ms-3">
+                <strong>Stack Overflow for <br>Teams - </strong>Start
+                <p> collaborating and sharing organizational knowledge.</p>
+              </div>
+              <div class="card-text text-dark font-size-sm mt-1 ms-2">
+                <img src="../assets/images/teams.png" alt="" class="mt-0">
+              </div>
+              <div class="card-text font-size-sm">
+                <button class="text-white border border-2 border-warning ms-3 mb-2 rounded-1" id="Teambtn">
+                  Create a free Team
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                <button class="border border-0 bg-light ms-3 ps-4 mb-2">
+                  Why Teams?
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 border border-1 borderColor">
+      <div class="row">
+        <div class="col-md-10">
+          <h3 class="mt-4">All Questions</h3>
+          <input class="" type="search" placeholder="Search" [(ngModel)]="searchCriteria">
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary mt-4" type="button" [routerLink]="['/question/ask']" (click)="this.questionservice.AskQuestionLoggedin()">Ask Question</button>
+        </div>
+        <hr class="mt-2">
+      </div>
+      <div class="row" *ngFor="let question of questionTags | filter:searchCriteria | paginate: { itemsPerPage: 5, currentPage: p,totalItems:totalitems}">
+        <div class="col-md-1">
+          <p style="font-size: 12px;" class="ms-1">{{question.questionVotes}} votes</p>
+          <span *ngIf="question.totalAnswers==0" style="font-size: 12px;color: grey;">{{question.totalAnswers}} answers</span>
+          <span *ngIf="question.totalAnswers>0" style="font-size: 12px;" class="border border-1 border-success">{{question.totalAnswers}} answers</span>
+        </div>
+        <div class="col-md-11">
+          <a href="" class="" style="text-decoration: none;font-size:17px;" [routerLink]="['/questions',question.questionId]">{{question.questionTitle}}</a>
+          <p class="mt-3" style="font-family: Arial, Helvetica, sans-serif;font-size: 13px;">{{question.questionBody}}</p>
+          <p class="badge badge-color text-black ms-1" *ngFor="let tags of question.tags">{{tags.TagName}}</p>
+        </div>
+        <hr class="mt-3">
+      </div>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+    <div class="col-md-3">
+      <div class="card card-width border border-0 shadow mt-3">
+        <div class="card-header cardTitlebgColor">
+          <div class="card-title font-size-sm fw-semibold">The Overflow Blog</div>
+        </div>
+        <div class="card-body cardBodybgColor">
+          <div class="d-flex">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mt-2">
+                  <svg aria-hidden="true" class="va-text-top svg-icon iconPencilSm" width="14" height="14"
+                    viewBox="0 0 14 14">
+                    <path
+                      d="m11.1 1.71 1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0ZM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88Z">
+                    </path>
+                  </svg>
+                  <span style="font-size: 14px;">Does high velocity lead to burnout? That may be the wrong question to
+                    ask.</span>
+                </div>
+                <div class="mt-2">
+                  <svg aria-hidden="true" class="va-text-top svg-icon iconPencilSm" width="14" height="14"
+                    viewBox="0 0 14 14">
+                    <path
+                      d="m11.1 1.71 1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0ZM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88Z">
+                    </path>
+                  </svg>
+                  <span style="font-size: 14px;">AI is having an on-prem moment (Ep. 476)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-width border border-0 shadow">
+        <div class="card-header cardTitlebgColor">
+          <div class="card-title font-size-sm fw-semibold">Featured on Meta</div>
+        </div>
+        <div class="card-body cardBodybgColor">
+          <div class="d-flex">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mt-2">
+                  <em class="fa-regular fa-square"></em>
+                  <span class="ms-1" style="font-size: 14px;">Recent site instability, major outages – July/August 2022</span>
+                </div>
+                <div class="mt-2">
+                  <em class="fa-regular fa-square"></em>
+                  <span class="ms-1" style="font-size: 14px;">Please welcome Valued Associate #1301 - Emerson</span>
+                </div>
+                <div class="mt-2">
+                  <img src="../../assets/images/stackoverflow.png" style="width: 22px;">
+                  <span class="ms-1" style="font-size: 14px;">The [maintenance] tag is being burninated</span>
+                </div>
+                <div class="mt-2">
+                  <img src="../../assets/images/stackoverflow.png" style="width: 22px;">
+                  <span class="ms-1" style="font-size: 14px;">Announcing Design Accessibility Updates on SO</span>
+                </div>
+                <div class="mt-2">
+                  <img src="../../assets/images/stackoverflow.png" style="width: 22px;">
+                  <span class="ms-1" style="font-size: 14px;">Staging Ground Workflow: Question Lifecycle</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

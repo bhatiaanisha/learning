@@ -1,0 +1,164 @@
+<!--navbar-->
+
+<nav class="navbar navbar-expand-lg bg-light m-0 p-0 shadow-sm border border-bottom sticky-top">
+  <div class="container">
+    <button *ngIf="this.userservice.showhide" class="border border-0 btn btn-light" type="button" id="btnshow" data-bs-toggle="collapse"
+      data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      <em class="fa-solid fa-bars fa-8 mt-2"></em>
+    </button>
+    <a class="navbar-brand" href="/">
+      <img src="../assets/images/logo.png" alt="" width="170" height="40" class="d-inline-block align mt-0 p-0">
+    </a>
+    <div class="collapse navbar-collapse text-dark">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="#">
+            <button class="btn btn-light rounded-pill px-1 py-1 ps-3 pe-3">About</button>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">
+            <button class="btn btn-light rounded-pill px-1 py-1 ps-3 pe-3" type="button" data-bs-toggle="collapse"
+              data-bs-target="#productsCollapse" aria-expanded="false" aria-controls="productsCollapse">Products</button>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <button class="btn btn-light rounded-pill px-1 py-1 ps-3 pe-3 text-nowrap">For Teams</button>
+          </a>
+        </li>
+      </ul>
+      <form class="d-flex w-50" role="search">
+        <input class="form-control form-control-sm position-relative ps-4" name="navForm" type="search" placeholder="Search"
+          aria-label="Search" [(ngModel)]="searchCriteria">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" fill="currentColor"
+          class=" my-2 ms-2 bi bi-search position-absolute" viewBox="0 0 16 16">
+          <path
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+        </svg>
+      </form>
+      <ng-container *ngIf="loginservice.currentuser else login">
+        <div class="nav-item dropdown bg-warning text-black rounded-1 p-2 fw-semibold ms-2">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+            <em class="fa-solid fa-user"></em> Welcome {{loginservice.currentuser.username}}
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" [routerLink]="['/admin']"><span class="">My Account</span></a>
+            </li>
+            <li><a class="dropdown-item" href="" (click)="loginservice.logout()"><span class="">Logout</span></a></li>
+          </ul>
+        </div>
+      </ng-container>
+      <ng-template #login>
+        <div>
+          <ul class="navbar-nav me-auto mb-2 mb-md-0" style="font-size: small;">
+            <li class="nav-item border-end">
+              <button type="button" [routerLink]="['/Login']" class="btn btn-outline-secondary ms-lg-2">Log in</button>
+            </li>
+            <li class="nav-item">
+              <button type="button" [routerLink]="['/SignUp']" class="btn btn-primary ms-lg-2">Sign Up</button>
+            </li>
+          </ul>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</nav>
+
+<!--navbar toggler-->
+
+<div class="container-fluid position-relative border border-1 border-light p-0">
+  <div class="container">
+    <div class="container position-fixed" style="z-index: 3;">
+      <div class="collapse" id="collapseExample">
+        <div class="col-md-9">
+          <div class="card border border-1 w-25 shadow-sm">
+            <div class="card-body p-0">
+              <div class="card-title mt-4" id="CardDiv">
+                <button class="border border-0 text-black fw-bold font-size-sm" [routerLink]="['/']">
+                  Home
+                </button>
+                <!-- <a class="text-black fw-bold" href="../app/app.component.html">Home</a> -->
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                PUBLIC
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light" [routerLink]="['/questions']">
+                  <em class="fa-solid fa-earth-asia"></em>
+                  Questions
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3" [routerLink]="['/tags']">
+                  Tags
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3">
+                  Users
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3">
+                  Companies
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm mt-2">
+                COLLECTIVES
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                <button class="border border-0 bg-light">
+                  <em class="fa-regular fa-star bg-warning"></em>
+                  Explore Collectives
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm mt-2">
+                TEAMS
+              </div>
+              <div class="card-text text-dark font-size-sm mt-3 ms-4">
+                <strong>Stack Overflow for Teams –</strong>
+                <p>Start collaborating and sharing organizational knowledge.</p>
+              </div>
+              <div class="card-text text-dark font-size-sm mt-1 ms-5">
+                <img src="../assets/images/teams.png" alt="" class="mt-0">
+              </div>
+              <div class="card-text font-size-sm">
+                <button class="text-white border border-2 border-warning ms-4 mb-2 rounded-1" id="Teambtn">
+                  Create a free Team
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                <button class="border border-0 bg-light ms-5 ps-4 mb-2">
+                  Why Teams?
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--navbar products toggler-->
+
+<div class="container position-absolute" style="z-index: 3;">
+  <div class="collapse navbar-collapse" id="productsCollapse">
+    <div class="card" id="cardWidth">
+      <div class="card-body">
+        <div class="d-flex justify-content-start">
+          <div class="row text-start">
+            <div class="col-md-12">
+              <div>
+                <a [routerLink]="['/questions']" class="font-size-sm text-black cardhoverbg">Stack Overflow<p class="text-muted cardhoverbg">
+                    Public questions & answers</p></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

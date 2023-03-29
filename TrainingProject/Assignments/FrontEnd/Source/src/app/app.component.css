@@ -1,0 +1,13 @@
+#CardDiv{
+  background-color: rgb(230, 224, 228);
+}
+
+.font-size-sm{
+  font-size: small;
+}
+
+#Teambtn{
+  background-color: darkorange;
+  padding-left: 25px;
+  padding-right: 30px;
+}

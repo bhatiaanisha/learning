@@ -1,0 +1,279 @@
+<div class="container-fluid">
+  <div class="row min-vh-100">
+    <div class="col-md-3">
+      <div class="row">
+        <div class="col-md-7">
+        </div>
+        <div class="col-md-5">
+          <div class="card mt-2 shadow-sm border border-0">
+            <div class="card-body p-0">
+              <div class="card-title">
+                <button class="border ms-0 border-0 text-black fw-bold font-size-sm mt-5" [routerLink]="['/']">
+                  Home
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                PUBLIC
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light" [routerLink]="['/questions']">
+                  <em class="fa-solid fa-earth-asia"></em>
+                  Questions
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3" [routerLink]="['/tags']">
+                  Tags
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3">
+                  Users
+                </button>
+              </div>
+              <div class="card-text text-black font-size-sm">
+                <button class="border border-0 bg-light ms-3">
+                  Companies
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm mt-2">
+                COLLECTIVES
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                <button class="border border-0 bg-light">
+                  <em class="fa-regular fa-star bg-warning"></em>
+                  Explore Collectives
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm mt-2">
+                TEAMS
+              </div>
+              <div class="card-text text-dark font-size-sm mt-3 ms-3">
+                <strong>Stack Overflow for <br>Teams - </strong>Start
+                <p> collaborating and sharing organizational knowledge.</p>
+              </div>
+              <div class="card-text text-dark font-size-sm mt-1 ms-2">
+                <img src="../assets/images/teams.png" alt="" class="mt-0">
+              </div>
+              <div class="card-text font-size-sm">
+                <button class="text-white border border-2 border-warning ms-3 mb-2 rounded-1" id="Teambtn">
+                  Create a free Team
+                </button>
+              </div>
+              <div class="card-text text-black-50 font-size-sm">
+                <button class="border border-0 bg-light ms-3 ps-4 mb-2">
+                  Why Teams?
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 border border-1 borderColor">
+      <div class="row" *ngFor="let questionDetail of questionDetails">
+        <div class="col-md-10">
+          <h3 class="mt-4">{{questionDetail.questionTitle}}</h3>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary mt-4" type="button" [routerLink]="['/question/ask']"
+            (click)="this.questionservice.AskQuestionLoggedin()">Ask Question</button>
+        </div>
+        <hr class="mt-2">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="d-flex flex-column">
+              <div class="d-flex flex-column">
+                <i class="fa-solid fa-caret-up fa-4x" style="color: rgb(199, 198, 198);cursor: pointer;"
+                  (click)="increment(questionDetail.questionVotes)"></i>
+                <span class="fs-4" style="margin-left: 13px;margin-top: -20px;">{{questionDetail.questionVotes}}</span>
+                <i class="fa-solid fa-caret-down fa-4x"
+                  style="color: rgb(199, 198, 198);margin-top: -20px;cursor: pointer;"
+                  (click)="decrement(questionDetail.questionVotes)"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-11" id="Container">
+            <p style="font-family:Verdana, Geneva, Tahoma, sans-serif;">{{editor(questionDetail.questionBody)}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-11">
+            <p class="badge badge-color text-black ms-1" *ngFor="let tags of questionDetail.tags">{{tags.TagName}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-11">
+            <div class="card mt-4"
+              style="width: 210px;height: 65px;margin-left: 650px;background-color: rgb(213, 243, 253);">
+              <div class="card-body">
+                <p style="font-size: 12px;">asked {{questionDetail.createdDate | date:'mediumDate'}}
+                  {{questionDetail.createdDate | date:'shortTime'}} <span
+                    style="font-size: 14px;">{{questionDetail.displayName}}</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <hr class="mt-2"> -->
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
+          <p style="font-size: 12px;"><a (click)="showHideQuestionComment()"
+              style="text-decoration: none;cursor: pointer;" class="text-muted mt-5">Add a comment</a></p>
+          <form [formGroup]="PostQuestionComment" (ngSubmit)="postQuestionComments()" *ngIf="QuestionCommentToggle">
+            <input type="text" formControlName="questionCommentBody" class="form-control">
+            <button type="submit" class="btn btn-primary mt-2" [disabled]="!PostQuestionComment.valid">Post
+              Comment</button>
+          </form>
+        </div>
+        <div class="row" *ngFor="let questionComment of questionComments">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-11">
+            <p style="font-size: 12px;">{{questionComment.questionCommentBody}} - <a href=""
+                style="text-decoration: none;">{{questionComment.displayName}}</a> {{questionComment.createdDate |
+              date:'mediumDate'}} {{questionComment.createdDate | date:'shortTime'}}</p>
+          </div>
+        </div>
+        <hr class="mt-2">
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p style="font-size: 20px;">{{count}} Answers</p>
+        </div>
+      </div>
+      <div class="row" *ngFor="let answerDetail of answerDetails">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="d-flex flex-column">
+              <i class="fa-solid fa-caret-up fa-4x" style="color: rgb(199, 198, 198);cursor: pointer;"></i>
+              <span class="fs-4" style="margin-left: 13px;margin-top: -20px;">{{answerDetail.answerVotes}}</span>
+              <i class="fa-solid fa-caret-down fa-4x"
+                style="color: rgb(199, 198, 198);margin-top: -20px;cursor: pointer;"></i>
+            </div>
+          </div>
+          <div class="col-md-11" id="answerContainer">
+              <div style="background-color: rgb(244, 245, 248) ">{{answerDetail.answerBody}}</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-11">
+            <div class="card mt-4"
+              style="width: 210px;height: 65px;margin-left: 650px;background-color: rgb(213, 243, 253);">
+              <div class="card-body">
+                <p style="font-size: 12px;">answered {{answerDetail.createdDate | date:'mediumDate'}}
+                  {{answerDetail.createdDate | date:'shortTime'}} <span
+                    style="font-size: 14px;">{{answerDetail.displayName}}</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <hr class="mt-2"> -->
+        <div class="row mt-5">
+          <div class="col-md-1"></div>
+          <div class="col-md-11">
+            <p style="font-size: 12px;"><a (click)="showHideAnswerComment()"
+                style="text-decoration: none;cursor: pointer;" class="text-muted mt-5">Add a comment</a></p>
+            <form [formGroup]="PostAnswerComment" (ngSubmit)="postAnswerComments(answerDetail.answerId)"
+              *ngIf="AnswerCommentToggle">
+              <input type="text" class="form-control" formControlName="answerCommentBody">
+              <button type="submit" class="btn btn-primary mt-2" [disabled]="!PostAnswerComment.valid">Post
+                Comment</button>
+            </form>
+          </div>
+          <div class="row" *ngFor="let comment of answerDetail.comments">
+            <div class="col-md-1"></div>
+            <div class="col-md-11">
+              <p style="font-size: 12px;">{{comment.AnswerCommentBody}} - <a href=""
+                  style="text-decoration: none;">{{comment.Username}}</a> {{comment.CommentDate | date:'mediumDate'}}
+                {{comment.CommentDate | date:'shortTime'}}</p>
+            </div>
+          </div>
+          <hr class="mt-2">
+        </div>
+      </div>
+      <div class="row mt-5">
+        <form [formGroup]="PostAnswerForm">
+          <label for="answer" class="fs-4">Your Answer</label>
+          <angular-editor formControlName="answerBody" [config]="config"></angular-editor>
+          <span
+            *ngIf="PostAnswerForm.controls['answerBody'].invalid && (PostAnswerForm.controls['answerBody'].dirty || PostAnswerForm.controls['answerBody'].touched)"
+            class="text-danger">Field is required.</span>
+        </form>
+      </div>
+      <button class="btn btn-primary mt-3 text-white" [disabled]="!PostAnswerForm.valid" (click)="postAnswers()">Post
+        Your Answer</button>
+    </div>
+    <div class="col-md-3">
+      <div class="card card-width border border-0 shadow mt-3">
+        <div class="card-header cardTitlebgColor">
+          <div class="card-title font-size-sm fw-semibold">The Overflow Blog </div>
+        </div>
+        <div class="card-body cardBodybgColor">
+          <div class="d-flex">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mt-2">
+                  <svg aria-hidden="true" class="va-text-top svg-icon iconPencilSm" width="14" height="14"
+                    viewBox="0 0 14 14">
+                    <path
+                      d="m11.1 1.71 1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0ZM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88Z">
+                    </path>
+                  </svg>
+                  <span style="font-size: 14px;">Does high velocity lead to burnout? That may be the wrong question to
+                    ask.</span>
+                </div>
+                <div class="mt-2">
+                  <svg aria-hidden="true" class="va-text-top svg-icon iconPencilSm" width="14" height="14"
+                    viewBox="0 0 14 14">
+                    <path
+                      d="m11.1 1.71 1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0ZM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88Z">
+                    </path>
+                  </svg>
+                  <span style="font-size: 14px;">AI is having an on-prem moment (Ep. 476)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-width border border-0 shadow">
+        <div class="card-header cardTitlebgColor">
+          <div class="card-title font-size-sm fw-semibold">Featured on Meta</div>
+        </div>
+        <div class="card-body cardBodybgColor">
+          <div class="d-flex">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mt-2">
+                  <em class="fa-regular fa-square"></em>
+                  <span class="ms-1" style="font-size: 14px;">Recent site instability, major outages – July/August
+                    2022</span>
+                </div>
+                <div class="mt-2">
+                  <em class="fa-regular fa-square"></em>
+                  <span class="ms-1" style="font-size: 14px;">Please welcome Valued Associate #1301 - Emerson</span>
+                </div>
+                <div class="mt-2">
+                  <img src="../../assets/images/stackoverflow.png" style="width: 22px;">
+                  <span class="ms-1" style="font-size: 14px;">The [maintenance] tag is being burninated</span>
+                </div>
+                <div class="mt-2">
+                  <img src="../../assets/images/stackoverflow.png" style="width: 22px;">
+                  <span class="ms-1" style="font-size: 14px;">Announcing Design Accessibility Updates on SO</span>
+                </div>
+                <div class="mt-2">
+                  <img src="../../assets/images/stackoverflow.png" style="width: 22px;">
+                  <span class="ms-1" style="font-size: 14px;">Staging Ground Workflow: Question Lifecycle</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
