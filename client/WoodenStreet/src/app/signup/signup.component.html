@@ -1,0 +1,62 @@
+<div class="container signUp">
+  <div class="d-flex flex-row">
+    <div class="">
+      <img src="../../assets/images/register-image.jpg" class="signup-img" width="370px" height="570px">
+    </div>
+    <div class="w-50 ms-2">
+      <a class="float-end" href="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20.448 20.408">
+          <g transform="translate(0 0)">
+            <path
+              d="M20.448,1.786,19.263.6,10.224,9.624,1.185.6,0,1.786l9.039,9.021L0,19.828l1.185,1.183,9.039-9.021,9.039,9.021,1.185-1.183-9.039-9.021Z"
+              transform="translate(0 -0.603)" fill="#000">
+            </path>
+          </g>
+        </svg>
+      </a>
+      <h5 class="mt-4 mb-0">Register</h5>
+      <p class="register-text">Get exclusive discounts, newsletters and more</p>
+      <form [formGroup]="SignUpForm" (ngSubmit)="Registration()">
+        <div class="mb-1">
+          <input type="text" class="form-control rounded-0 text-size p-2 border border-1 border-gray-900" [(ngModel)]="username" (keyup)="checkUsername(username)" placeholder="Name" [ngClass]="{'is-invalid': SignUpForm.controls['userName'].invalid && (SignUpForm.controls['userName'].dirty || SignUpForm.controls['userName'].touched),'is-valid': SignUpForm.controls['userName'].valid}" formControlName="userName">
+          <div class="invalid-feedback is-invalid small-font">Field is required</div>
+          <div class="valid-feedback is-valid small-font">Valid</div>
+        </div>
+        <div class="d-flex flex-row mb-1">
+          <div>
+            <input type="text" class="form-control rounded-0 text-size p-2 border border-1 border-gray-900" placeholder="Mobile No." [ngClass]="{'is-invalid': SignUpForm.controls['mobileNumber'].invalid && (SignUpForm.controls['mobileNumber'].dirty || SignUpForm.controls['mobileNumber'].touched),'is-valid': SignUpForm.controls['mobileNumber'].valid}" formControlName="mobileNumber">
+            <div class="invalid-feedback is-invalid small-font">Field is required</div>
+            <div class="valid-feedback is-valid small-font">Valid</div>
+          </div>
+          <div class="ms-2">
+            <input type="text" class="form-control rounded-0 text-size p-2 border border-1 border-gray-900 me-2" placeholder="Pin Code" [ngClass]="{'is-invalid': SignUpForm.controls['pinCode'].invalid && (SignUpForm.controls['pinCode'].dirty || SignUpForm.controls['pinCode'].touched),'is-valid': SignUpForm.controls['pinCode'].valid}" formControlName="pinCode">
+            <div class="invalid-feedback is-invalid small-font">Field is required</div>
+            <div class="valid-feedback is-valid small-font">Valid</div>
+          </div>
+        </div>
+        <div class="mb-1">
+          <input type="text" class="form-control rounded-0 text-size p-2 border border-1 border-gray-900" placeholder="Email Address" [ngClass]="{'is-invalid': SignUpForm.controls['email'].invalid && (SignUpForm.controls['email'].dirty || SignUpForm.controls['email'].touched),'is-valid': SignUpForm.controls['email'].valid}" formControlName="email">
+          <div class="invalid-feedback is-invalid small-font">Field is required</div>
+          <div class="valid-feedback is-valid small-font">Valid</div>
+        </div>
+        <div class="mb-1">
+          <input type="password" class="form-control rounded-0 text-size p-2 border border-1 border-gray-900" placeholder="Password" [ngClass]="{'is-invalid': SignUpForm.controls['password'].invalid && (SignUpForm.controls['password'].dirty || SignUpForm.controls['password'].touched),'is-valid': SignUpForm.controls['password'].valid}" formControlName="password">
+          <div class="invalid-feedback is-invalid small-font">Field is required</div>
+          <div class="valid-feedback is-valid small-font">Valid</div>
+        </div>
+        <div>
+          <p class="small-font mt-4 text-center">By continuing, I agree to the <span class="orange-color">Terms of Use</span> & <span class="orange-color">Privacy Policy</span></p>
+          <button type="submit" class="orange-bg border-0 text-white w-100 rounded-1 fw-semibold" [class.grey]="SignUpForm.invalid" [disabled]="SignUpForm.invalid">CONTINUE</button>
+          <p class="small-font mt-4 text-center mb-3">Already have an account? <a class="orange-color alink" href="" [routerLink]="['/login']">Sign in</a></p>
+        </div>
+      </form>
+      <div>
+        <p class="text-center fs-6">
+          OR Continue With
+          <img src="../../assets/images/googleplus.svg">
+          <img src="../../assets/images/facebook.svg" height="28px" class="ms-2">
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

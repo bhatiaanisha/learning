@@ -1,0 +1,54 @@
+.login{
+  width: 760px;
+  height: 540px;
+  background-color: white;
+  box-shadow: 0px 0px 6px rgb(0 0 0 / 20%);
+  margin-top: 20px;
+}
+
+.login-img{
+  margin-left: -12px;
+}
+
+.login-text{
+  font-size: 14px;
+  color: #535353;
+}
+
+.text-size{
+  font-size: 14px;
+  font-weight: 400;
+  color: #535353;
+}
+
+.fontsize{
+  font-size: 14px;
+}
+
+.orange-color{
+  color: rgb(229, 114, 0);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.orange-bg{
+  background-color: #f3601e;
+  font-size: 17px;
+  padding: 12px;
+}
+
+.margin{
+  margin-top: 160px;
+}
+
+.alink{
+  text-decoration: none;
+}
+
+.grey{
+  background-color: lightgray;
+}
+
+.div-margin{
+  margin-bottom: 218px;
+}

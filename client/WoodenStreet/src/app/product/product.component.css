@@ -1,0 +1,60 @@
+.heading{
+  font-size: 1.625rem;
+  font-family: "pangramregular";
+  color: #333333;
+  line-height: 30px;
+}
+
+.product-main{
+  margin-top: 30px;
+  background: #f1f1f1;
+  padding: 40px 0 20px;
+}
+
+.card-width{
+  width: 510px;
+}
+
+.cardbody-margin{
+  margin-top: -10px;
+  margin-left: -15px;
+}
+
+.grey-color{
+  margin-top: -15px;
+  margin-left: -15px;
+  color: #646464;
+}
+
+.orange-bg{
+  margin-top: -15px;
+  margin-left: -15px;
+  color: #f3601e;
+}
+
+.hr-margin{
+  margin-left: -14px;
+  margin-right: -14px;
+}
+
+.price{
+  margin-top: -12px;
+  margin-left: -12px;
+  font-size: 18px;
+}
+
+.strikethrough{
+  text-decoration: line-through;
+}
+
+.card-bottom{
+  margin-bottom: -25px;
+}
+
+.cursor{
+  cursor: pointer;
+}
+
+.orange-color{
+  color: #f3601e;
+}

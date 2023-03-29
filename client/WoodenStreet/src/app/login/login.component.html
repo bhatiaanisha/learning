@@ -1,0 +1,64 @@
+<div class="container login">
+  <div class="d-flex flex-row w-100">
+    <div class="">
+      <img src="../../assets/images/login-image.jpg" class="login-img" width="370px" height="540px">
+    </div>
+    <div class="w-50 ms-2">
+      <a class="float-end" href="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20.448 20.408">
+          <g transform="translate(0 0)">
+            <path
+              d="M20.448,1.786,19.263.6,10.224,9.624,1.185.6,0,1.786l9.039,9.021L0,19.828l1.185,1.183,9.039-9.021,9.039,9.021,1.185-1.183-9.039-9.021Z"
+              transform="translate(0 -0.603)" fill="#000">
+            </path>
+          </g>
+        </svg>
+      </a>
+      <ng-container *ngIf="loginByOtp else loginByPassword">
+        <h5 class="mt-4 mb-0">Login via OTP</h5>
+        <p class="login-text">Enter your registered mobile number</p>
+        <form [formGroup]="LoginByOtpForm">
+          <div class="mb-3">
+            <input type="text" class="form-control rounded-0 text-size p-2 border border-1 border-gray-900" placeholder="Mobile No." [ngClass]="{'is-invalid': LoginByOtpForm.controls['mobileNumber'].invalid && (LoginByOtpForm.controls['mobileNumber'].dirty || LoginByOtpForm.controls['mobileNumber'].touched),'is-valid': LoginByOtpForm.controls['mobileNumber'].valid}" formControlName="mobileNumber">
+            <div class="invalid-feedback is-invalid">Field is required</div>
+            <div class="valid-feedback is-valid">Valid</div>
+          </div>
+          <div>
+            <a class="orange-color float-end fontsize mb-3" (click)="showPasswordOrOtp()">LOGIN USING PASSWORD</a>
+            <button type="submit" class="orange-bg border-0 text-white w-100 rounded-1 fw-semibold" [class.grey]="LoginByOtpForm.invalid" [disabled]="LoginByOtpForm.invalid">SEND OTP</button>
+            <p class="fontsize mt-4 text-center div-margin">New to Woodenstreet? <a class="orange-color alink" [routerLink]="['/signup']">Register Here</a></p>
+          </div>
+        </form>
+      </ng-container>
+      <ng-template #loginByPassword>
+        <h5 class="mt-4 mb-0">Login</h5>
+        <p class="login-text">Track your order, create wishlist & more</p>
+        <form [formGroup]="LoginByPasswordForm" (ngSubmit)="onPasswordLogin()">
+          <div class="mb-3">
+            <input type="text" class="form-control rounded-0 text-size p-2 border border-1 border-gray-900" placeholder="Email ID" [ngClass]="{'is-invalid': LoginByPasswordForm.controls['email'].invalid && (LoginByPasswordForm.controls['email'].dirty || LoginByPasswordForm.controls['email'].touched),'is-valid': LoginByPasswordForm.controls['email'].valid}" formControlName="email">
+            <div class="invalid-feedback is-invalid">Field is required</div>
+            <div class="valid-feedback is-valid">Valid</div>
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control rounded-0 text-size p-2 border border-1 border-gray-900" placeholder="Password" [ngClass]="{'is-invalid': LoginByPasswordForm.controls['password'].invalid && (LoginByPasswordForm.controls['password'].dirty || LoginByPasswordForm.controls['password'].touched),'is-valid': LoginByPasswordForm.controls['password'].valid}" formControlName="password">
+            <div class="invalid-feedback is-invalid">Field is required</div>
+            <div class="valid-feedback is-valid">Valid</div>
+          </div>
+          <div>
+            <p class="fontsize">Forgot Password? <a class="orange-color float-end" (click)="showPasswordOrOtp()">LOGIN USING OTP</a></p>
+            <button type="submit" class="orange-bg border-0 text-white w-100 rounded-1 fw-semibold mt-1" [class.grey]="LoginByPasswordForm.invalid" [disabled]="LoginByPasswordForm.invalid">LOG IN</button>
+            <p class="fontsize mt-4 text-center">New to Woodenstreet? <a class="orange-color alink" [routerLink]="['/signup']">Register Here</a></p>
+          </div>
+        </form>
+      </ng-template>
+      <div>
+        <p class="text-center fs-6">
+          OR Continue With
+          <img src="../../assets/images/googleplus.svg">
+          <img src="../../assets/images/facebook.svg" height="28px" class="ms-2">
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
