@@ -1,3 +1,17 @@
 .pointer{
   cursor: pointer;
 }
+
+.main-div{
+  margin-left: 150px;
+  width: 60%;
+  height: 590px;
+}
+
+.carousel-prev{
+  margin-left: 22px;
+}
+
+.carousel-next{
+  margin-right: 682px;
+}
