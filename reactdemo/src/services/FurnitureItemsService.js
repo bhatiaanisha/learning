@@ -3,6 +3,6 @@ import { environment } from '../environment';
 
 const hosturl = environment.appurl;
 
-export function getFurnitureItems(){
-    return axios.get(`${hosturl}/api/Furniture`);
+export async function getFurnitureItems(){
+    return await axios.get(`${hosturl}/api/Furniture`);
 }

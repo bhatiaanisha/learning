@@ -77,7 +77,7 @@ namespace WoodenStreet.Services
             var tokendescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(10),
+                Expires = DateTime.Now.AddMinutes(10),
                 SigningCredentials = signature
             };
 

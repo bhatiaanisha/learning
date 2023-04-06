@@ -1,0 +1,45 @@
+.font-size{
+    font-size: 13px;
+}
+
+.grey-color{
+    color: #646464;
+}
+
+.badge-color{
+    background-color: #f3601e;
+    width: 40px;
+    padding: 2px;
+}
+
+.cursor{
+    cursor: pointer;
+    color: #646464;
+    text-decoration: none;
+}
+
+.cursor:hover{
+    color: #f3601e;
+}
+
+.strikethrough{
+    text-decoration: line-through;
+}
+
+.orange-color{
+    color: #f3601e;
+}
+
+.alink{
+    text-decoration: none;
+}
+
+.btn-cart{
+    background: linear-gradient(45deg,#EE7120,#EA5039);
+    width: 300px;
+}
+
+.btn-buy{
+    background: linear-gradient(45deg,#FE8639,#EA6E39);
+    width: 300px;
+}

@@ -32,7 +32,7 @@ var settings = appsettingsread.Get<AppSettings>();
 var key = Encoding.ASCII.GetBytes(settings.Key);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwt =>
 {
-    jwt.RequireHttpsMetadata = false;
+    jwt.RequireHttpsMetadata = false; 
     jwt.SaveToken = true;
     jwt.TokenValidationParameters = new TokenValidationParameters
     {

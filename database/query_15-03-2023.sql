@@ -4,6 +4,8 @@ GO
 USE WoodenStreet
 GO
 
+use DAY1
+
 CREATE TABLE ObjectTypes
 (
 	ObjectTypeId int IDENTITY(1,1) PRIMARY KEY,
@@ -198,3 +200,9 @@ ADD CONSTRAINT DF_Images_Modify DEFAULT GETDATE() for [ModifiedDate]
 
 ALTER TABLE Category
 ADD ImageUrl nvarchar(max)
+
+select * from employees
+
+update employees
+set FirstName = LastName,LastName = FirstName
+go

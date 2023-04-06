@@ -13,5 +13,7 @@ public partial class FurnitureItem
 
     public DateTime ModifiedDate { get; set; }
 
+    public string? ImageUrl { get; set; }
+
     public virtual ICollection<Category> Categories { get; } = new List<Category>();
 }

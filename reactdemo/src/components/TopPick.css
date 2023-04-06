@@ -1,0 +1,19 @@
+.headingNew {
+    text-align: center;
+    font-size: 38px;
+    line-height: 40px;
+    color: #121212;
+    font-family: "Abhay-Libre Bold";
+    text-transform: capitalize;
+    padding: 0 0 30px;
+    margin-top: 50px;
+}
+
+.subheading{
+    text-align: center;
+    font-size: 18px;
+    font-family: "pangramregular";
+    color: #646464;
+    letter-spacing: 0.02em;
+    margin-top: -40px;
+}

@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import './Home.css';
+import TopPick from "./TopPick";
 
 export default function Home(){
     return(
@@ -8,27 +10,29 @@ export default function Home(){
                 <div>
                     <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
                         <div className="carousel-inner pointer">
-                            <div className="carousel-item active" data-bs-interval="1000">
-                                <img src="../../assets/images/banner.jpg" alt="first" />
-                            </div>
-                            <div className="carousel-item" data-bs-interval="1000">
-                                <img src="../../assets/images/banner-1.jpg" alt="second" />
-                            </div>
-                            <div className="carousel-item" data-bs-interval="1000">
-                                <img src="../../assets/images/banner-2.jpg" alt="third" />
-                            </div>
-                            <div className="carousel-item" data-bs-interval="1000">
-                                <img src="../../assets/images/banner-3.jpg" alt="fourth" />
-                            </div>
-                            <div className="carousel-item" data-bs-interval="1000">
-                                <img src="../../assets/images/banner-4.jpg" alt="fifth" />
-                            </div>
-                            <div className="carousel-item" data-bs-interval="1000">
-                                <img src="../../assets/images/banner-5.jpg" alt="sixth" />
-                            </div>
-                            <div className="carousel-item" data-bs-interval="1000">
-                                <img src="../../assets/images/banner-6.jpg" alt="seventh" />
-                            </div>
+                            <Link to="/products">
+                                <div className="carousel-item active" data-bs-interval="2000">
+                                    <img src="../../assets/images/banner.jpg" alt="first" />
+                                </div>
+                                <div className="carousel-item" data-bs-interval="2000">
+                                    <img src="../../assets/images/banner-1.jpg" alt="second" />
+                                </div>
+                                <div className="carousel-item" data-bs-interval="2000">
+                                    <img src="../../assets/images/banner-2.jpg" alt="third" />
+                                </div>
+                                <div className="carousel-item" data-bs-interval="2000">
+                                    <img src="../../assets/images/banner-3.jpg" alt="fourth" />
+                                </div>
+                                <div className="carousel-item" data-bs-interval="2000">
+                                    <img src="../../assets/images/banner-4.jpg" alt="fifth" />
+                                </div>
+                                <div className="carousel-item" data-bs-interval="2000">
+                                    <img src="../../assets/images/banner-5.jpg" alt="sixth" />
+                                </div>
+                                <div className="carousel-item" data-bs-interval="2000">
+                                    <img src="../../assets/images/banner-6.jpg" alt="seventh" />
+                                </div>
+                            </Link>
                         </div>
                     </div>
                     <button className="carousel-control-prev position-fixed carousel-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -44,6 +48,9 @@ export default function Home(){
                     <img src="../../assets/images/new-launch.jpg" alt="" />
                     <img src="../../assets/images/Sofa-Cum-Beds-Gif.gif" className="mt-2" height="268px" width="100%" alt=""/>
                 </div>
+            </div>
+            <div>
+                <TopPick />
             </div>
         </div>
     );

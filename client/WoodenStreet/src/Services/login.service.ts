@@ -24,6 +24,7 @@ export class LoginService {
         {
           localStorage.setItem("token",JSON.stringify(token));
           this.currentuser = token;
+          console.log(this.currentuser);
         }
         return token;
       })

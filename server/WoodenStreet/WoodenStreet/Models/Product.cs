@@ -40,6 +40,7 @@ public partial class Product
 }
 
 [Keyless]
+
 public class ProductDTO
 {
     public int ProductId { get; set; }
@@ -52,9 +53,9 @@ public class ProductDTO
 
     public int? Ratings { get; set; }
 
-    public int? OriginalPrice { get; set; }
-
     public int? DiscountedPrice { get; set; }
+
+    public int? OriginalPrice { get; set; }
 
     public string ProductImageUrl { get; set; } = null!;
 }
