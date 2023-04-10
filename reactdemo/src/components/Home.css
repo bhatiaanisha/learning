@@ -13,5 +13,36 @@
 }
 
 .carousel-next{
-    margin-right: 682px;
+    margin-right: 667px;
+}
+
+.heading{
+    text-align: center;
+    font-family: "Abhay-Libre Bold";
+    color: #333333;
+    font-size: 38px !important;
+    margin-bottom: 40px !important;
+    letter-spacing: 0.02em;
+    margin-top: 120px !important;
+}
+
+.subheadingHome{
+    text-align: center;
+    font-size: 18px;
+    font-family: "pangramregular";
+    color: #646464;
+    letter-spacing: 0.02em;
+    margin-top: -30px;
+}
+
+.finestImage{
+    overflow: hidden;
+}
+
+.finestImage img{
+    transition: all 0.9s;
+}
+
+.finestImage:hover img{
+    transform: scale(1.1);
 }

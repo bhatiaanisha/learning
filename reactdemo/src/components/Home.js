@@ -35,11 +35,11 @@ export default function Home(){
                             </Link>
                         </div>
                     </div>
-                    <button className="carousel-control-prev position-fixed carousel-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <button className="carousel-control-prev carousel-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                         <span className="carousel-control-prev-icon text-dark bg-dark text-start"></span>
                         <span className="visually-hidden">Previous</span>
                     </button>
-                    <button className="carousel-control-next position-fixed carousel-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <button className="carousel-control-next carousel-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
                         <span className="carousel-control-next-icon text-dark bg-dark text-end"></span>
                         <span className="visually-hidden">Next</span>
                     </button>
@@ -51,6 +51,37 @@ export default function Home(){
             </div>
             <div>
                 <TopPick />
+                <div className="container-fluid mt-5">
+                    <img alt="" src="../../assets/images/store-mid-banner.jpg" width={"1880px"} height={"210px"} />
+                </div>
+                <div className="container-fluid">
+                    <div>
+                        <p className="heading">India's Finest Online Furniture Brand</p>
+                        <p className="subheadingHome">Buy Furniture Online from our extensive collection of wooden furniture units to give your home an elegant touch at affordable prices.</p>
+                    </div>
+                    <div className="row mb-2 ms-5">
+                        <div className="col-auto finestImage">
+                            <img alt="" src="../../assets/images/banner1_finest.jpg" width={"580px"} height={"450px"} />
+                        </div>
+                        <div className="col-auto finestImage">
+                            <img alt="" src="../../assets/images/banner2_finest.jpg" width={"580px"} height={"450px"} />
+                        </div>
+                        <div className="col-auto finestImage">
+                            <img alt="" src="../../assets/images/banner3_finest.jpg" width={"580px"} height={"450px"} />
+                        </div>
+                    </div>
+                    <div className="row mb-2 ms-5">
+                        <div className="col-auto finestImage">
+                            <img alt="" src="../../assets/images/banner4_finest.jpg" width={"580px"} height={"450px"} />
+                        </div>
+                        <div className="col-auto finestImage">
+                            <img alt="" src="../../assets/images/banner5_finest.jpg" width={"580px"} height={"450px"} />
+                        </div>
+                        <div className="col-auto finestImage">
+                            <img alt="" src="../../assets/images/banner6_finest.jpg" width={"580px"} height={"450px"} />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
