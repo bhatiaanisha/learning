@@ -7,7 +7,7 @@ export default function TopPick() {
 
     useEffect(() => {
         getAllItems();
-    })
+    },[]);
 
     const [topPicks, setTopPicks] = useState([]);
     async function getAllItems(){
@@ -30,15 +30,13 @@ export default function TopPick() {
             </div>
             <div className="">
                 <div className="row gap-1">
-                    {topPicks.map(topPick => 
-                        <>
-                            {topPick.imageUrl && 
-                                <div className="col">
-                                    <img alt="" src={topPick.imageUrl} width={"190px"} height={"160px"} />
-                                    <p className="text-center me-4">{topPick.furnitureItemName}</p>
-                                </div>
-                            }
-                        </>
+                    {topPicks.map((topPick,i) => 
+                        (topPick.imageUrl && 
+                            <div key={i} className="col"> 
+                                <img alt="" src={topPick.imageUrl} width={"190px"} height={"160px"} />
+                                <p className="text-center me-4">{topPick.furnitureItemName}</p>
+                            </div>
+                        )
                     )}
                 </div>
             </div>

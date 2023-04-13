@@ -1,5 +1,6 @@
 import axios from "axios";
 import { environment } from "../environment";
+import Navbar from "../components/Navbar";
 
 const hosturl = environment.appurl;
 
@@ -14,6 +15,7 @@ export default async function postLogin(logindata){
         {
             localStorage.setItem("token",JSON.stringify(token));
             currentuser = token;
+            <Navbar currentuser = {token} />
         }
         return token;
     })
@@ -31,10 +33,10 @@ export function isLoggedIn(){
 }
 
 export function setCurrentUser(token){
-    currentuser = token;
+    return currentuser = token; 
 }
 
 export function logout(){
     localStorage.removeItem("token");
-    currentuser = undefined;
+    return currentuser = undefined;
 }

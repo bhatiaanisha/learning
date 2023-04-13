@@ -15,8 +15,6 @@ public partial class Category
 
     public DateTime ModifiedDate { get; set; }
 
-    public string? ImageUrl { get; set; }
-
     public virtual FurnitureItem? FurnitureItem { get; set; }
 
     public virtual ICollection<SubCategory> SubCategories { get; } = new List<SubCategory>();

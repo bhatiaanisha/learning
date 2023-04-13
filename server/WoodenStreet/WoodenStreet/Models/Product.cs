@@ -40,7 +40,6 @@ public partial class Product
 }
 
 [Keyless]
-
 public class ProductDTO
 {
     public int ProductId { get; set; }

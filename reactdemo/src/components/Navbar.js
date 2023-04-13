@@ -16,6 +16,7 @@ export default function Navbar() {
         return await getFurnitureItems().then((response) => {
             const data = response.data;
             setItemList(data);
+            return data;
         }).catch((error) => {
             toast.error('Error',{
                 position:"bottom-right"

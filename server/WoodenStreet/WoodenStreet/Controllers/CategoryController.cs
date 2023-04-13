@@ -21,10 +21,28 @@ namespace WoodenStreet.Controllers
             return await _CategoryService.GetCategory();
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCategoryById(int id)
+        {
+            return await _CategoryService.GetById(id);
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostCategory(Category category)
         {
             return await _CategoryService.Post(category);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCategory(int id,Category category)
+        {
+            return await _CategoryService.Put(id,category);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            return await _CategoryService.Delete(id);
         }
     }
 }

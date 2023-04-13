@@ -1,8 +1,8 @@
 .heading{
-    font-size: 1.625rem;
+    font-size: 1.625rem !important;
     font-family: "pangramregular";
     color: #333333;
-    line-height: 30px;
+    margin-top: 40px !important;
 }
 
 .product-main{

@@ -206,3 +206,6 @@ select * from employees
 update employees
 set FirstName = LastName,LastName = FirstName
 go
+
+ALTER TABLE Category
+DROP COLUMN ImageUrl

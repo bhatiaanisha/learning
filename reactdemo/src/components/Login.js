@@ -13,7 +13,6 @@ export default function Login(){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const [logindata, setLoginData] = useState([]);
 
     const onsubmit = (data) => {
         let obj = {
@@ -40,11 +39,15 @@ export default function Login(){
                 })
                 if(response.role === "Admin")
                 {
+                    //setCurrentUser(response);
                     navigate('/admin');
+                    window.location.reload();
                 }
                 if(response.role === "User")
                 {
+                    //setCurrentUser(response);
                     navigate('/');
+                    window.location.reload();
                 }
             }
         }).catch((error) => {

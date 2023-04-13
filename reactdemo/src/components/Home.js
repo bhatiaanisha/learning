@@ -34,15 +34,15 @@ export default function Home(){
                                 </div>
                             </Link>
                         </div>
+                        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <span className="carousel-control-prev-icon text-dark bg-dark text-start carousel-prev"></span>
+                            <span className="visually-hidden">Previous</span>
+                        </button>
+                        <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <span className="carousel-control-next-icon text-dark bg-dark text-end carousel-next"></span>
+                            <span className="visually-hidden">Next</span>
+                        </button>
                     </div>
-                    <button className="carousel-control-prev carousel-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                        <span className="carousel-control-prev-icon text-dark bg-dark text-start"></span>
-                        <span className="visually-hidden">Previous</span>
-                    </button>
-                    <button className="carousel-control-next carousel-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                        <span className="carousel-control-next-icon text-dark bg-dark text-end"></span>
-                        <span className="visually-hidden">Next</span>
-                    </button>
                 </div>
                 <div className="ms-2">
                     <img src="../../assets/images/new-launch.jpg" alt="" />

@@ -23,7 +23,6 @@ namespace WoodenStreet.Services
                                c.CategoryId,
                                fi.FurnitureItemName,
                                c.CategoryName,
-                               c.ImageUrl,
                                c.CreatedDate,
                                c.ModifiedDate
                            }).ToList();
