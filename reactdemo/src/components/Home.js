@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import './Home.css';
 import TopPick from "./TopPick";
 
@@ -10,29 +9,27 @@ export default function Home(){
                 <div>
                     <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
                         <div className="carousel-inner pointer">
-                            <Link to="/products">
-                                <div className="carousel-item active" data-bs-interval="2000">
-                                    <img src="../../assets/images/banner.jpg" alt="first" />
-                                </div>
-                                <div className="carousel-item" data-bs-interval="2000">
-                                    <img src="../../assets/images/banner-1.jpg" alt="second" />
-                                </div>
-                                <div className="carousel-item" data-bs-interval="2000">
-                                    <img src="../../assets/images/banner-2.jpg" alt="third" />
-                                </div>
-                                <div className="carousel-item" data-bs-interval="2000">
-                                    <img src="../../assets/images/banner-3.jpg" alt="fourth" />
-                                </div>
-                                <div className="carousel-item" data-bs-interval="2000">
-                                    <img src="../../assets/images/banner-4.jpg" alt="fifth" />
-                                </div>
-                                <div className="carousel-item" data-bs-interval="2000">
-                                    <img src="../../assets/images/banner-5.jpg" alt="sixth" />
-                                </div>
-                                <div className="carousel-item" data-bs-interval="2000">
-                                    <img src="../../assets/images/banner-6.jpg" alt="seventh" />
-                                </div>
-                            </Link>
+                            <div className="carousel-item active" data-bs-interval="2000">
+                                <img src="../../assets/images/banner.jpg" alt="first" />
+                            </div>
+                            <div className="carousel-item" data-bs-interval="2000">
+                                <img src="../../assets/images/banner-1.jpg" alt="second" />
+                            </div>
+                            <div className="carousel-item" data-bs-interval="2000">
+                                <img src="../../assets/images/banner-2.jpg" alt="third" />
+                            </div>
+                            <div className="carousel-item" data-bs-interval="2000">
+                                <img src="../../assets/images/banner-3.jpg" alt="fourth" />
+                            </div>
+                            <div className="carousel-item" data-bs-interval="2000">
+                                <img src="../../assets/images/banner-4.jpg" alt="fifth" />
+                            </div>
+                            <div className="carousel-item" data-bs-interval="2000">
+                                <img src="../../assets/images/banner-5.jpg" alt="sixth" />
+                            </div>
+                            <div className="carousel-item" data-bs-interval="2000">
+                                <img src="../../assets/images/banner-6.jpg" alt="seventh" />
+                            </div>
                         </div>
                         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                             <span className="carousel-control-prev-icon text-dark bg-dark text-start carousel-prev"></span>

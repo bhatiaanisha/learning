@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getCategory, postCategory, deleteCategory, getCategoryById } from "../../../services/CategoryService";
+import { getCategory, postCategory, deleteCategory, getCategoryById, putCategory } from "../../../services/CategoryService";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { getFurnitureItems } from "../../../services/FurnitureItemsService";
 
 export default function Category(){
 
-    
     useEffect(() => {
         getCategories();
         getAllItems();
@@ -27,30 +26,33 @@ export default function Category(){
             setCategoryList(data);
         }).catch((error) => {
             toast.error('Server Error',{
-                position: "bottom-right"
+                position: "bottom-right",
+                autoClose: 1000
             })
             console.log(error);
         })
     }
 
     const [categoryItem, setCategory] = useState({
-        categoryId : 0,
-        categoryName : '',
-        furnitureItemId : 0
+        Id : 0,
+        Name : '',
+        ItemId : 0,
+        CreatedDate : ''
     });
     async function getById(categoryId){
         return await getCategoryById(categoryId).then((response) => {
             const data = response.data;
-            console.log(data);
             setCategory({
-                categoryId : data.categoryId,
-                categoryName : data.categoryName,
-                furnitureItemId : data.furnitureItemId
+                Id : data.categoryId,
+                Name : data.categoryName,
+                ItemId : data.furnitureItemId,
+                CreatedDate : data.createdDate
             });
         }).catch((error) => {
             console.log(error);
             toast.error('Error',{
-                position:"bottom-right"
+                position:"bottom-right",
+                autoClose: 1000
             })
         })
     }
@@ -69,13 +71,38 @@ export default function Category(){
     async function addCategory(data){
         return await postCategory(data).then(() => {
             toast.success('Added Category Successfully',{
-                position:"bottom-right"
+                position:"bottom-right",
+                autoClose: 1000
             })
             getCategories();
         }).catch((error) => {
             console.log(error);
             toast.error('Error',{
-                position:"bottom-right"
+                position:"bottom-right",
+                autoClose: 1000
+            })
+        })
+    }
+
+    async function UpdateCategory(e){
+        e.preventDefault();
+        let UpdateCategoryForm = {
+            categoryId : categoryItem.Id,
+            furnitureItemId : categoryItem.ItemId,
+            categoryName : categoryItem.Name,
+            createdDate : categoryItem.CreatedDate
+        }
+        return await putCategory(UpdateCategoryForm.categoryId,UpdateCategoryForm).then(() => {
+            toast.success('Updated Category Successfully',{
+                position:"bottom-right",
+                autoClose:1000
+            })
+            getCategories();
+        }).catch((error) => {
+            console.log(error);
+            toast.error('Error',{
+                position:"bottom-right",
+                autoClose: 1000
             })
         })
     }
@@ -83,13 +110,15 @@ export default function Category(){
     async function CategoryDelete(categoryId){
         return await deleteCategory(categoryId).then(() => {
             toast.success('Deleted Category Successfully',{
-                position:"bottom-right"
+                position:"bottom-right",
+                autoClose: 1000
             })
             getCategories();
         }).catch((error) => {
             console.log(error);
             toast.error('Error',{
-                position:"bottom-right"
+                position:"bottom-right",
+                autoClose: 1000
             })
         })
     }
@@ -101,14 +130,11 @@ export default function Category(){
             setItems(data);
         }).catch((error) => {
             toast.error('Error',{
-                position:"bottom-right"
+                position:"bottom-right",
+                autoClose: 1000
             });
             console.log(error);
         })
-    }
-
-    function getAlert(value){
-        alert(value);
     }
 
     return(
@@ -154,62 +180,6 @@ export default function Category(){
                     </div>
                 </div>
             </div>
-            
-            {/* AddCategory */}
-            {/* {showAddForm &&
-                <div className="container-fluid mt-4">
-                    <div className="card shadow">
-                        <div className="card-header">
-                            <div className="card-title fs-5 fw-bold">Add Category</div>
-                        </div>
-                        <div className="card-body">
-                            <form onSubmit={handleSubmit(onsubmit)}>
-                                <div>
-                                    <label htmlFor="furnitureItemId">FurnitureItemId</label>
-                                    <div>
-                                        <select name="Cars" id="furnitureItemId" {...register('furnitureItemId',{onChange:(e) => setFurnitureItemId(e.target.value)})}>
-                                            <option>Select</option>
-                                            {items?.map((item,i) => 
-                                                <option key={i} value={item.furnitureItemId}>{item.furnitureItemName}</option>
-                                            )}
-                                        </select>
-                                    </div>
-                                </div>
-                                <br />
-                                <input 
-                                    type="text" 
-                                    className="form-control" 
-                                    id="furnitureItemId" 
-                                    {...register
-                                        ('furnitureItemId',
-                                            {
-                                                onChange:(e) => setFurnitureItemId(e.target.value)
-                                            }
-                                        )
-                                    } 
-                                />
-                                <div>
-                                    <label htmlFor="categoryName">CategoryName</label>
-                                    <input 
-                                        type="text" 
-                                        className="form-control w-25" 
-                                        id="categoryName" 
-                                        {...register
-                                            ('categoryName',
-                                                {
-                                                    onChange:(e) => setCategoryName(e.target.value)
-                                                }
-                                            )
-                                        }
-                                    />
-                                </div>
-                                <button type="submit" className="btn btn-primary mt-3 px-5">Submit</button>
-                                <button type="button" className="btn btn-secondary mt-3 ms-5 px-5" onClick={hide}>Cancel</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            } */}
 
             {/* AddCategory Modal */}
             <div className="modal fade" id="AddModal" tabIndex="-1" aria-labelledby="AddModal" aria-hidden="true">
@@ -241,28 +211,15 @@ export default function Category(){
                                                 <option key={i} value={item.furnitureItemId}>{item.furnitureItemName}</option>
                                             )}
                                         </select>
-                                        {errors.furnitureItemId && <p classNameName="text-danger small-font">{errors.furnitureItemId.message}</p>}
+                                        {errors.furnitureItemId && <p className="text-danger small-font">{errors.furnitureItemId.message}</p>}
                                     </div>
                                 </div>
                                 <br />
-                                {/* <input 
-                                    type="text" 
-                                    className="form-control" 
-                                    id="furnitureItemId" 
-                                    {...register
-                                        ('furnitureItemId',
-                                            {
-                                                onChange:(e) => setFurnitureItemId(e.target.value)
-                                            }
-                                        )
-                                    } 
-                                /> */}
                                 <div>
                                     <label htmlFor="categoryName">CategoryName</label>
                                     <input 
                                         type="text" 
-                                        className="form-control" 
-                                        value={"anisha"}
+                                        className="form-control"
                                         id="categoryName" 
                                         {...register
                                             ('categoryName',
@@ -279,8 +236,6 @@ export default function Category(){
                             <div className="modal-footer">
                                 <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Submit</button>
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                {/* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button> */}
                             </div>
                         </form>
                     </div>
@@ -298,16 +253,16 @@ export default function Category(){
                         <form>
                             <div className="modal-body">
                                 <div>
-                                    <label htmlFor="categoryId">CategoryId</label>
+                                    <label htmlFor="Id">CategoryId</label>
                                     <input 
                                         readOnly 
                                         className="form-control" 
-                                        id="categoryId" 
-                                        value={categoryItem.categoryId}
+                                        id="Id" 
+                                        value={categoryItem.Id}
                                         {...register
-                                            ('categoryId',
+                                            ('Id',
                                                 {
-                                                    onChange:(e) => setCategory({...categoryItem,categoryId: e.target.value})
+                                                    onChange:(e) => setCategory({...categoryItem,Id: e.target.value})
                                                 }
                                             )
                                         } 
@@ -315,16 +270,16 @@ export default function Category(){
                                 </div>
                                 <br />
                                 <div>
-                                    <label htmlFor="furnitureItemId">FurnitureItemId</label>
+                                    <label htmlFor="ItemId">FurnitureItemId</label>
                                     <input 
                                         readOnly 
                                         className="form-control" 
-                                        id="furnitureItemId" 
-                                        value={categoryItem.furnitureItemId}
+                                        id="ItemId" 
+                                        value={categoryItem.ItemId}
                                         {...register
-                                            ('categoryId',
+                                            ('ItemId',
                                                 {
-                                                    onChange:(e) => setCategory({...categoryItem,furnitureItemId: e.target.value})
+                                                    onChange:(e) => setCategory({...categoryItem,ItemId: e.target.value})
                                                 }
                                             )
                                         }
@@ -332,16 +287,16 @@ export default function Category(){
                                 </div>
                                 <br />
                                 <div>
-                                    <label htmlFor="categoryName">CategoryName</label>
+                                    <label htmlFor="Name">CategoryName</label>
                                     <input 
                                         type="text" 
                                         className="form-control" 
-                                        id="categoryName" 
-                                        value={categoryItem.categoryName}
+                                        id="Name" 
+                                        value={categoryItem.Name}
                                         {...register
-                                            ('categoryName',
+                                            ('Name',
                                                 {
-                                                    onChange:(e) => setCategory({...categoryItem,categoryName: e.target.value})
+                                                    onChange:(e) => setCategory({...categoryItem,Name: e.target.value})
                                                 }
                                             )
                                         }
@@ -349,7 +304,7 @@ export default function Category(){
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+                                <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" onClick={UpdateCategory}>Update</button>
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </form>

@@ -35,7 +35,8 @@ export default function Login(){
             if(response)
             {
                 toast.success('Successfully logged in',{
-                    position:"bottom-right"
+                    position:"bottom-right",
+                    autoClose: 1000
                 })
                 if(response.role === "Admin")
                 {
@@ -56,7 +57,8 @@ export default function Login(){
                 if(error.response.status === 401)
                 {
                     toast.error('Invalid Credentials',{
-                        position:"bottom-right"
+                        position:"bottom-right",
+                        autoClose: 1000
                     })
                 }
             }

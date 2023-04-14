@@ -22,7 +22,8 @@ export default function ProductDetail(){
             setProductDetails(data);
         }).catch((error) => {
             toast.error('Server Error',{
-                position:"bottom-right"
+                position:"bottom-right",
+                autoClose: 1000
             })
             console.log(error);
         })

@@ -15,8 +15,8 @@ export async function postCategory(category){
     return await axios.post(`${hosturl}/api/Category`,category);
 }
 
-export async function putCategory(category){
-    return await axios.put(`${hosturl}/api/Category/${category.categoryId}`,category);
+export async function putCategory(id,category){
+    return await axios.put(`${hosturl}/api/Category/${id}`,category);
 }
 
 export async function deleteCategory(categoryId){

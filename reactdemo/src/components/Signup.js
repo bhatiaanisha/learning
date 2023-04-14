@@ -32,12 +32,14 @@ export default function Signup(){
     async function RegisterUser(data){
         return await postRegister(data).then(() => {
             toast.success('Registered Successfully',{
-                position:"bottom-right"
+                position:"bottom-right",
+                autoClose: 1000
             })
             //alert("Registered Successfully!");
         }).catch((error) => {
             toast.error('Error',{
-                position:"bottom-right"
+                position:"bottom-right",
+                autoClose: 1000
             })
             console.log("Error =",error);
         })

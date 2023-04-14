@@ -19,7 +19,8 @@ export default function Navbar() {
             return data;
         }).catch((error) => {
             toast.error('Error',{
-                position:"bottom-right"
+                position:"bottom-right",
+                autoClose: 1000
             });
             console.log(error);
         })
@@ -193,7 +194,7 @@ export default function Navbar() {
                                     </li>
                                     {currentuser && <span className="myProfileLoggedin"><a href="/" className="alink">Hi {currentuser.userName}</a></span>}
                                     {!currentuser && <span className="myProfile"><a href="/" className="alink">Profile</a></span>}
-                                    <div className="profileMenu position-absolute text-center rounded-2">
+                                    <div className="profileMenu position-absolute text-center rounded-2" style={{zIndex:1}}>
                                         <div className="container">
                                             <button type="button" className="btn btn-dark mt-3 border border-0 rounded-0 btn-bgcolor">
                                                 <Link to="/login" className="text-white link">
