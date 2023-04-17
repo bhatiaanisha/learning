@@ -2,41 +2,36 @@
 using System;
 using System.Collections.Generic;
 
-namespace WoodenStreet.Models;
-
-public partial class Product
+namespace WoodenStreet.Models
 {
-    public int ProductId { get; set; }
+    public partial class Product
+    {
+        public Product()
+        {
+            CartItems = new HashSet<CartItem>();
+            Images = new HashSet<Image>();
+            ProductOverviews = new HashSet<ProductOverview>();
+            WishlistItems = new HashSet<WishlistItem>();
+        }
 
-    public int? SubCategoryId { get; set; }
+        public int ProductId { get; set; }
+        public int? SubCategoryId { get; set; }
+        public string ProductName { get; set; } = null!;
+        public string? CompanyName { get; set; }
+        public bool? IsRated { get; set; }
+        public int? Ratings { get; set; }
+        public int? Reviews { get; set; }
+        public int? OriginalPrice { get; set; }
+        public int? DiscountedPrice { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
 
-    public string ProductName { get; set; } = null!;
-
-    public string? CompanyName { get; set; }
-
-    public bool? IsRated { get; set; }
-
-    public int? Ratings { get; set; }
-
-    public int? Reviews { get; set; }
-
-    public int? OriginalPrice { get; set; }
-
-    public int? DiscountedPrice { get; set; }
-
-    public DateTime CreatedDate { get; set; }
-
-    public DateTime ModifiedDate { get; set; }
-
-    public virtual ICollection<CartItem> CartItems { get; } = new List<CartItem>();
-
-    public virtual ICollection<Image> Images { get; } = new List<Image>();
-
-    public virtual ICollection<ProductOverview> ProductOverviews { get; } = new List<ProductOverview>();
-
-    public virtual SubCategory? SubCategory { get; set; }
-
-    public virtual ICollection<WishlistItem> WishlistItems { get; } = new List<WishlistItem>();
+        public virtual SubCategory? SubCategory { get; set; }
+        public virtual ICollection<CartItem> CartItems { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<ProductOverview> ProductOverviews { get; set; }
+        public virtual ICollection<WishlistItem> WishlistItems { get; set; }
+    }
 }
 
 [Keyless]

@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { getCategory, postCategory, deleteCategory, getCategoryById, putCategory } from "../../../services/CategoryService";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { getFurnitureItems } from "../../../services/FurnitureItemsService";
+import Pagination from "../../Pagination";
 
 export default function Category(){
-
+    
     useEffect(() => {
         getCategories();
         getAllItems();
     },[])
-
+    
     const longEnUSFormatter = new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
     })
-
+    
     const { reset, handleSubmit, register, formState:{errors} } = useForm();
-
+    
     const [categoryList, setCategoryList] = useState([]);
     async function getCategories(){
         return await getCategory().then((response) => {
@@ -32,7 +33,7 @@ export default function Category(){
             console.log(error);
         })
     }
-
+    
     const [categoryItem, setCategory] = useState({
         Id : 0,
         Name : '',
@@ -56,7 +57,7 @@ export default function Category(){
             })
         })
     }
-
+    
     const [furnitureItemId, setFurnitureItemId] = useState();
     const [categoryName, setCategoryName] = useState('');
     const onsubmit = (data) => {
@@ -67,7 +68,7 @@ export default function Category(){
         addCategory(AddCategoryForm);
         reset(data.values);
     }
-
+    
     async function addCategory(data){
         return await postCategory(data).then(() => {
             toast.success('Added Category Successfully',{
@@ -83,7 +84,7 @@ export default function Category(){
             })
         })
     }
-
+    
     async function UpdateCategory(e){
         e.preventDefault();
         let UpdateCategoryForm = {
@@ -106,7 +107,7 @@ export default function Category(){
             })
         })
     }
-
+    
     async function CategoryDelete(categoryId){
         return await deleteCategory(categoryId).then(() => {
             toast.success('Deleted Category Successfully',{
@@ -122,7 +123,7 @@ export default function Category(){
             })
         })
     }
-
+    
     const [items, setItems] = useState();
     async function getAllItems(){
         return await getFurnitureItems().then((response) => {
@@ -136,7 +137,16 @@ export default function Category(){
             console.log(error);
         })
     }
-
+    
+    const PageSize = 8;
+    const [currentPage, setCurrentPage] = useState(1);
+    
+    const currentTableData = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        return categoryList.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage,PageSize,categoryList]);
+    
     return(
         <div>
 
@@ -161,19 +171,30 @@ export default function Category(){
                             </tr>
                             </thead>
                             <tbody className="text-center">
-                                {categoryList.map((category,i) =>
+                                {currentTableData.map((category,i) =>
                                     <tr key={i}>
                                         <td>{category.categoryId}</td>
                                         <td>{category.furnitureItemName}</td>
                                         <td>{category.categoryName}</td>
                                         <td>{longEnUSFormatter.format(new Date(category.createdDate))}</td>
                                         <td>{longEnUSFormatter.format(new Date(category.modifiedDate))}</td>
+                                        
+                                        {/* eslint-disable-next-line */}        
                                         <td><a type="button" onClick={() => getById(category.categoryId)} data-bs-toggle="modal" data-bs-target="#EditModal"><em className="fa-solid fa-pen text-primary"></em></a></td>
+                                        
+                                        {/* eslint-disable-next-line */}
                                         <td><a type="button" onClick={() => CategoryDelete(category.categoryId)}><em className="fa-solid fa-trash-can text-primary"></em></a></td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
+                        <Pagination
+                            className="pagination-bar"
+                            currentPage={currentPage}
+                            totalCount={categoryList.length}
+                            pageSize={PageSize}
+                            onPageChange={page => setCurrentPage(page)}
+                        />
                     </div>
                     <div className="card-footer">
                         <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddModal"><em className="fa-solid fa-plus text-white me-1"></em>Add Category</button>

@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WoodenStreet.Models;
-
-public partial class Category
+namespace WoodenStreet.Models
 {
-    public int CategoryId { get; set; }
+    public partial class Category
+    {
+        public Category()
+        {
+            SubCategories = new HashSet<SubCategory>();
+        }
 
-    public int? FurnitureItemId { get; set; }
+        public int CategoryId { get; set; }
+        public int? FurnitureItemId { get; set; }
+        public string CategoryName { get; set; } = null!;
+        public DateTime CreatedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
 
-    public string CategoryName { get; set; } = null!;
-
-    public DateTime CreatedDate { get; set; }
-
-    public DateTime ModifiedDate { get; set; }
-
-    public virtual FurnitureItem? FurnitureItem { get; set; }
-
-    public virtual ICollection<SubCategory> SubCategories { get; } = new List<SubCategory>();
+        public virtual FurnitureItem? FurnitureItem { get; set; }
+        public virtual ICollection<SubCategory> SubCategories { get; set; }
+    }
 }

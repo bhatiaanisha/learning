@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WoodenStreet.Models;
-
-public partial class FurnitureItem
+namespace WoodenStreet.Models
 {
-    public int FurnitureItemId { get; set; }
+    public partial class FurnitureItem
+    {
+        public FurnitureItem()
+        {
+            Categories = new HashSet<Category>();
+        }
 
-    public string FurnitureItemName { get; set; } = null!;
+        public int FurnitureItemId { get; set; }
+        public string FurnitureItemName { get; set; } = null!;
+        public DateTime CreatedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string? ImageUrl { get; set; }
 
-    public DateTime CreatedDate { get; set; }
-
-    public DateTime ModifiedDate { get; set; }
-
-    public string? ImageUrl { get; set; }
-
-    public virtual ICollection<Category> Categories { get; } = new List<Category>();
+        public virtual ICollection<Category> Categories { get; set; }
+    }
 }
