@@ -209,3 +209,6 @@ go
 
 ALTER TABLE Category
 DROP COLUMN ImageUrl
+
+ALTER TABLE SubCategory
+DROP COLUMN ImageUrl

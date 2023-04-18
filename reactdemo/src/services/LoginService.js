@@ -1,12 +1,7 @@
 import axios from "axios";
 import { environment } from "../environment";
-import Navbar from "../components/Navbar";
 
 const hosturl = environment.appurl;
-
-var currentuser = {};
-export {currentuser};
-
 
 export default async function postLogin(logindata){
     return await axios.post(`${hosturl}/api/Login`,logindata).then((response) => {
@@ -14,15 +9,14 @@ export default async function postLogin(logindata){
         if(token)
         {
             localStorage.setItem("token",JSON.stringify(token));
-            currentuser = token;
-            <Navbar currentuser = {token} />
+            window.currentuser = token;
         }
         return token;
     })
 }
 
 export function isLoggedIn(){
-    if(localStorage.getItem('token') != null)
+    if(localStorage.getItem('token') !== null)
     {
         return true;
     }
@@ -33,10 +27,10 @@ export function isLoggedIn(){
 }
 
 export function setCurrentUser(token){
-    return currentuser = token; 
+    return window.currentuser = token; 
 }
 
 export function logout(){
     localStorage.removeItem("token");
-    return currentuser = undefined;
+    return window.currentuser = undefined;
 }

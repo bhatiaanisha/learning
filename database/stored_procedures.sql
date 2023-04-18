@@ -10,9 +10,10 @@ GO
 
 CREATE PROCEDURE uspGetProducts
 AS
-	SELECT p.ProductId,p.ProductName,p.CompanyName,p.IsRated,p.Ratings,p.DiscountedPrice,p.OriginalPrice,i.ProductImageUrl
+	SELECT p.ProductId,p.ProductName,p.CompanyName,p.IsRated,p.Ratings,p.DiscountedPrice,p.OriginalPrice,i.ProductImageUrl,sc.SubCategoryName,p.CreatedDate,p.ModifiedDate
 	FROM Products p
 	INNER JOIN Images i ON i.ProductId = p.ProductId
+	JOIN SubCategory sc ON p.SubCategoryId = sc.SubCategoryId
 GO
 
 EXEC uspGetProducts

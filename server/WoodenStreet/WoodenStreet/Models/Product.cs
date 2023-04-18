@@ -52,6 +52,12 @@ public class ProductDTO
     public int? OriginalPrice { get; set; }
 
     public string ProductImageUrl { get; set; } = null!;
+
+    public string SubCategoryName { get; set; } = null!;
+
+    public DateTime CreatedDate { get; set; }
+
+    public DateTime ModifiedDate { get; set; }
 }
 
 [Keyless]

@@ -34,7 +34,7 @@ export default function Category(){
         })
     }
     
-    const [categoryItem, setCategory] = useState({
+    const [categoryItem, setCategoryItem] = useState({
         Id : 0,
         Name : '',
         ItemId : 0,
@@ -43,7 +43,7 @@ export default function Category(){
     async function getById(categoryId){
         return await getCategoryById(categoryId).then((response) => {
             const data = response.data;
-            setCategory({
+            setCategoryItem({
                 Id : data.categoryId,
                 Name : data.categoryName,
                 ItemId : data.furnitureItemId,
@@ -283,7 +283,7 @@ export default function Category(){
                                         {...register
                                             ('Id',
                                                 {
-                                                    onChange:(e) => setCategory({...categoryItem,Id: e.target.value})
+                                                    onChange:(e) => setCategoryItem({...categoryItem,Id: e.target.value})
                                                 }
                                             )
                                         } 
@@ -300,7 +300,7 @@ export default function Category(){
                                         {...register
                                             ('ItemId',
                                                 {
-                                                    onChange:(e) => setCategory({...categoryItem,ItemId: e.target.value})
+                                                    onChange:(e) => setCategoryItem({...categoryItem,ItemId: e.target.value})
                                                 }
                                             )
                                         }
@@ -317,7 +317,7 @@ export default function Category(){
                                         {...register
                                             ('Name',
                                                 {
-                                                    onChange:(e) => setCategory({...categoryItem,Name: e.target.value})
+                                                    onChange:(e) => setCategoryItem({...categoryItem,Name: e.target.value})
                                                 }
                                             )
                                         }

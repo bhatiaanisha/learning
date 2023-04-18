@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -15,29 +15,30 @@ import Products from './components/admin/products/Products';
 
 export default function App() {
 
-  useEffect(()=> {
-    const setUser = () => {
-      let data = localStorage.getItem("token");
-      if(data)
-      {
-        const Token = JSON.parse(data);
-        setCurrentUser(Token);
-      }
-      else
-      {
-        setCurrentUser();
-      }
-    }
+  useEffect(() => {
     setUser();
-  },[]);
-  
+  })
+
+  const setUser = () => {
+    let data = localStorage.getItem("token");
+    if(data)
+    {
+      const Token = JSON.parse(data);
+      setCurrentUser(Token);
+    }
+    else
+    {
+      setCurrentUser();
+    }
+  }
+
   return (
     <div>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route path="/products" element={<Product />}></Route>
         <Route path="/products/:productId" element={<ProductDetail />}></Route>
         <Route path="/admin" element={<Admin />}>
@@ -45,7 +46,7 @@ export default function App() {
           <Route path="sub-category" element={<SubCategory />}></Route>
           <Route path="admin-products" element={<Products />}></Route>
         </Route>
-      </Routes> 
+      </Routes>
     </div>
   );
 }

@@ -3,13 +3,28 @@ import { Link } from "react-router-dom";
 import './Navbar.css';
 import { getFurnitureItems } from "../services/FurnitureItemsService"; 
 import { ToastContainer,toast } from "react-toastify";
-import { currentuser,logout } from "../services/LoginService";
+import { logout,setCurrentUser } from "../services/LoginService";
 
 export default function Navbar() {
 
     useEffect(()=>{
         getItems();
+        setUser();
     },[]);
+
+    const setUser = () => {
+        let data = localStorage.getItem("token");
+        if(data)
+        {
+          const Token = JSON.parse(data);
+          setCurrentUser(Token);
+        }
+        else
+        {
+          //user = null;
+          setCurrentUser();
+        }
+    }
 
     const [ItemList, setItemList] = useState([]);
     async function getItems(){
@@ -192,8 +207,8 @@ export default function Navbar() {
                                             </svg>
                                         </a>
                                     </li>
-                                    {currentuser && <span className="myProfileLoggedin"><a href="/" className="alink">Hi {currentuser.userName}</a></span>}
-                                    {!currentuser && <span className="myProfile"><a href="/" className="alink">Profile</a></span>}
+                                    {window.currentuser && <span className="myProfileLoggedin"><a href="/" className="alink">Hi {window.currentuser.userName}</a></span>}
+                                    {!window.currentuser && <span className="myProfile"><a href="/" className="alink">Profile</a></span>}
                                     <div className="profileMenu position-absolute text-center rounded-2" style={{zIndex:1}}>
                                         <div className="container">
                                             <button type="button" className="btn btn-dark mt-3 border border-0 rounded-0 btn-bgcolor">
@@ -214,7 +229,7 @@ export default function Navbar() {
                                             <hr />
                                             <p className="text-start txt-color"><a href="/" className="alink alinks">Track Order</a></p>
                                             <p className="text-start txt-color"><a href="/" className="alink alinks">Help Desk</a></p>
-                                            {currentuser && <p className="text-start txt-color"><a href="/" className="alink alinks" onClick={logout}>Log Out</a></p>}
+                                            {window.currentuser && <p className="text-start txt-color"><a href="/" className="alink alinks" onClick={logout}>Log Out</a></p>}
                                         </div>
                                     </div>
                                     <li className="nav-item wishlist-logo">

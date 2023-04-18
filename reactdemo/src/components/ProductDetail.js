@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import './ProductDetail.css';
-import { getProductById } from "../services/ProductService";
+import { getProductDetailsById } from "../services/ProductService";
 import { ToastContainer,toast } from "react-toastify";
 
 export default function ProductDetail(){
@@ -16,7 +16,7 @@ export default function ProductDetail(){
     const productId = Object.values(params)[0]; 
 
     async function getProductDetails(){
-        return await getProductById(productId).then((response) => {
+        return await getProductDetailsById(productId).then((response) => {
             console.log(response);
             const data = response.data;
             setProductDetails(data);

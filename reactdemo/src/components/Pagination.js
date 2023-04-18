@@ -37,7 +37,7 @@ export default function Pagination({onPageChange, totalCount, siblingCount = 1, 
           >
             <div className="arrow left" />
           </li>
-          {paginationRange.map(pageNumber => {
+          {paginationRange.map((pageNumber) => {
             if (pageNumber === DOTS) {
               return <li className="pagination-item dots">&#8230;</li>;
             }

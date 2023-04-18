@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './Login.css';
 import { Link } from "react-router-dom";
-import postLogin from "../services/LoginService";
+import postLogin, {setCurrentUser} from "../services/LoginService";
 import { useForm } from "react-hook-form";
 import { ToastContainer,toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -38,6 +38,7 @@ export default function Login(){
                     position:"bottom-right",
                     autoClose: 1000
                 })
+                setCurrentUser(response);
                 if(response.role === "Admin")
                 {
                     //setCurrentUser(response);
