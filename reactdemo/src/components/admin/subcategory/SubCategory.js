@@ -20,7 +20,7 @@ export default function SubCategory() {
         day: 'numeric',
     })
 
-    //Fetch category data to fill the select box with category names
+    // Fetch category data to fill the select box with category names in add sub-category form
     const [category, setCategory] = useState();
     async function getCategories() {
         return await getCategory().then((response) => {
@@ -35,7 +35,7 @@ export default function SubCategory() {
         })
     }
 
-    //This will display all sub-categories
+    // Fetch all sub-categories
     const [subCategoryList, setSubCategoryList] = useState([]);
     async function getSubCategories() {
         return await getSubCategory().then((response) => {
@@ -50,7 +50,7 @@ export default function SubCategory() {
         })
     }
 
-    //Fetch the data of subcategory by id to fill the edit form on click of each subcategory item
+    // Fetch the data of subcategory by id to fill the edit form on click of each subcategory item
     const [subCategoryItem, setSubCategoryItem] = useState({
         Id : 0,
         CategoryId : 0,
@@ -144,10 +144,11 @@ export default function SubCategory() {
         })
     }
 
+    // Pagination code
     const PageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
 
-    const currentTableData = useMemo(() => {
+    const subCategoryData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
         return subCategoryList.slice(firstPageIndex, lastPageIndex);
@@ -176,7 +177,7 @@ export default function SubCategory() {
                                 </tr>
                             </thead>
                             <tbody className="text-center">
-                                {currentTableData.map((subcategory, i) =>
+                                {subCategoryData.map((subcategory, i) =>
                                     <tr key={i}>
                                         <td>{subcategory.subCategoryId}</td>
                                         <td>{subcategory.categoryName}</td>

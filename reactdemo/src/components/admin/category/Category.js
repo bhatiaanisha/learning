@@ -20,6 +20,7 @@ export default function Category(){
     
     const { reset, handleSubmit, register, formState:{errors} } = useForm();
     
+    // Fetch all categories
     const [categoryList, setCategoryList] = useState([]);
     async function getCategories(){
         return await getCategory().then((response) => {
@@ -34,6 +35,7 @@ export default function Category(){
         })
     }
     
+    // Fetch category by id to fill the edit form
     const [categoryItem, setCategoryItem] = useState({
         Id : 0,
         Name : '',
@@ -58,6 +60,7 @@ export default function Category(){
         })
     }
     
+    // Add category
     const [furnitureItemId, setFurnitureItemId] = useState();
     const [categoryName, setCategoryName] = useState('');
     const onsubmit = (data) => {
@@ -85,7 +88,8 @@ export default function Category(){
         })
     }
     
-    async function UpdateCategory(e){
+    // Update Category
+    async function updateCategory(e){
         e.preventDefault();
         let UpdateCategoryForm = {
             categoryId : categoryItem.Id,
@@ -108,7 +112,8 @@ export default function Category(){
         })
     }
     
-    async function CategoryDelete(categoryId){
+    // Delete Category
+    async function categoryDelete(categoryId){
         return await deleteCategory(categoryId).then(() => {
             toast.success('Deleted Category Successfully',{
                 position:"bottom-right",
@@ -124,6 +129,7 @@ export default function Category(){
         })
     }
     
+    // Fetch furniture items to fill option values in select tag for add category form
     const [items, setItems] = useState();
     async function getAllItems(){
         return await getFurnitureItems().then((response) => {
@@ -138,10 +144,11 @@ export default function Category(){
         })
     }
     
+    // Pagination code
     const PageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
     
-    const currentTableData = useMemo(() => {
+    const categoryData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
         return categoryList.slice(firstPageIndex, lastPageIndex);
@@ -171,7 +178,7 @@ export default function Category(){
                             </tr>
                             </thead>
                             <tbody className="text-center">
-                                {currentTableData.map((category,i) =>
+                                {categoryData.map((category,i) =>
                                     <tr key={i}>
                                         <td>{category.categoryId}</td>
                                         <td>{category.furnitureItemName}</td>
@@ -183,7 +190,7 @@ export default function Category(){
                                         <td><a type="button" onClick={() => getById(category.categoryId)} data-bs-toggle="modal" data-bs-target="#EditModal"><em className="fa-solid fa-pen text-primary"></em></a></td>
                                         
                                         {/* eslint-disable-next-line */}
-                                        <td><a type="button" onClick={() => CategoryDelete(category.categoryId)}><em className="fa-solid fa-trash-can text-primary"></em></a></td>
+                                        <td><a type="button" onClick={() => categoryDelete(category.categoryId)}><em className="fa-solid fa-trash-can text-primary"></em></a></td>
                                     </tr>
                                 )}
                             </tbody>
@@ -325,7 +332,7 @@ export default function Category(){
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" onClick={UpdateCategory}>Update</button>
+                                <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" onClick={updateCategory}>Update</button>
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </form>

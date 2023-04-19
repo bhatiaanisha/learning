@@ -43,13 +43,13 @@ export default function Login(){
                 {
                     //setCurrentUser(response);
                     navigate('/admin');
-                    window.location.reload();
+                    //window.location.reload();
                 }
                 if(response.role === "User")
                 {
                     //setCurrentUser(response);
                     navigate('/');
-                    window.location.reload();
+                    //window.location.reload();
                 }
             }
         }).catch((error) => {
