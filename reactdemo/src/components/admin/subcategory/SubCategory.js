@@ -60,6 +60,7 @@ export default function SubCategory() {
     async function getASubCategory(id) {
         return await getSubCategoryById(id).then((response) => {
             const data = response.data;
+            console.log("SubCategory",data);
             setSubCategoryItem({
                 Id : data.subCategoryId,
                 CategoryId : data.categoryId,

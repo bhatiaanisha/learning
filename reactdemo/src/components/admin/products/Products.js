@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { getAllProducts, getProductById, postProduct, putProduct, deleteProduct } from "../../../services/ProductService";
+import { getAllProducts, postProduct, putProduct, getProductDetailsById } from "../../../services/ProductService";
 import Pagination from "../../Pagination";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
@@ -9,19 +9,13 @@ import {ref,uploadBytesResumable,getDownloadURL} from "firebase/storage"
 import '../products/Products.css';
 
 export default function Products() {
-
+    console.log("re-render");
     useEffect(() => {
         getProducts();
         getSubCategories();
     },[])
 
     const { reset, handleSubmit, register, formState: { errors } } = useForm();
-
-    const longEnUSFormatter = new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    })
 
     // Fetch all products
     const [productsList, setProductsList] = useState([]);
@@ -48,6 +42,81 @@ export default function Products() {
             console.log(error);
             toast.error('Server Error', {
                 position: "bottom-right",
+                autoClose: 1000
+            })
+        })
+    }
+
+    // Fetch the data of product,image and overview table to fill the edit form based on product id
+    const [productEditDetails, setProductEditDetails] = useState({
+        Id : 0,
+        SubCategoryId : 0,
+        ProductName : '',
+        CompanyName : '',
+        IsRated : true,
+        Ratings : 0,
+        Reviews : 0,
+        OriginalPrice : 0,
+        DiscountedPrice : 0,
+        ProductCreated : '',
+        ImageId : 0,
+        ImageUrl : '',
+        ImageCreated : '',
+        ProductOverviewId : 0,
+        Seater : '',
+        Material : '',
+        Color : '',
+        DimensionsInInch : '',
+        Mechanism : '',
+        DimensionsInCm : '',
+        Foam : '',
+        WeightCapacity : '',
+        Width : '',
+        Warranty : '',
+        ShipsIn : '',
+        DeliveryCondition : '',
+        SKU : '',
+        OverviewCreated : ''
+    })
+    async function getProductEditDetails(productId){
+        console.log("function start");
+        return await getProductDetailsById(productId).then((response) => {
+            const data = response.data[0];
+            setProductEditDetails({
+                Id : data.productId,
+                SubCategoryId : data.subCategoryId,
+                ProductName : data.productName,
+                CompanyName : data.companyName,
+                IsRated : data.isRated,
+                Ratings : data.ratings,
+                Reviews : data.reviews,
+                OriginalPrice : data.originalPrice,
+                DiscountedPrice : data.discountedPrice,
+                ProductCreated : data.productCreatedDate,
+                ImageId : data.imageId,
+                ImageUrl : data.productImageUrl,
+                ImageCreated : data.imageCreatedDate,
+                ProductOverviewId : data.productOverviewId,
+                Seater : data.seater,
+                Material : data.material,
+                Color : data.color,
+                DimensionsInInch : data.dimensionsInInch,
+                Mechanism : data.mechanism,
+                DimensionsInCm : data.dimensionsInCm,
+                Foam : data.foam,
+                WeightCapacity : data.weightCapacity,
+                Width : data.width,
+                Warranty : data.warranty,
+                ShipsIn : data.shipsIn,
+                DeliveryCondition : data.deliveryCondition,
+                SKU : data.sku,
+                OverviewCreated : data.overviewCreatedDate
+            })
+            console.log("ProductEditDetails = ",productEditDetails);
+        }).catch((error) => {
+            console.log(error);
+            toast.error('Error',{
+                position:"bottom-right",
                 autoClose: 1000
             })
         })
@@ -82,7 +151,7 @@ export default function Products() {
             subCategoryId : subCategoryId,
             productName : productName,
             companyName : companyName,
-            isRated : isRated,
+            isRated :  Boolean(isRated),
             ratings : ratings,
             reviews : reviews,
             originalPrice : originalPrice,
@@ -106,8 +175,11 @@ export default function Products() {
                 sku : sku
             }]
         }
-        console.log(AddProductForm);
-        //addProducts(AddProductForm);
+        // if(!errors){
+        //     document.getElementById("submitBtn").setAttribute("data-bs-dismiss","modal");
+        // }
+        addProducts(AddProductForm);
+        //console.log(AddProductForm);
         reset(data.values);
         document.getElementsByClassName("progressBar")[0].style.width = "0%";
         setImageUrl('');
@@ -118,6 +190,58 @@ export default function Products() {
             toast.success('Added Product Successfully',{
                 position:"bottom-right",
                 autoClose: 1000
+            })
+            getProducts();
+        }).catch((error) => {
+            console.log(error);
+            toast.error('Error',{
+                position:"bottom-right",
+                autoClose: 1000
+            })
+        })
+    }
+
+    // Update Product
+    async function updateProduct(e){
+        e.preventDefault();
+        let UpdateProductForm = {
+            productId : productEditDetails.Id,
+            subCategoryId : productEditDetails.SubCategoryId,
+            productName : productEditDetails.ProductName,
+            companyName : productEditDetails.CompanyName,
+            isRated : productEditDetails.IsRated,
+            ratings : productEditDetails.Ratings,
+            reviews : productEditDetails.Reviews,
+            originalPrice : productEditDetails.OriginalPrice,
+            discountedPrice : productEditDetails.DiscountedPrice,
+            createdDate : productEditDetails.ProductCreated,
+            images : [{
+                imageId : productEditDetails.ImageId,
+                productImageUrl : productEditDetails.ImageUrl,
+                createdDate : productEditDetails.ImageCreated
+            }],
+            productOverviews : [{
+                productOverviewId : productEditDetails.ProductOverviewId,
+                seater : productEditDetails.Seater,
+                material : productEditDetails.Material,
+                color : productEditDetails.Color,
+                dimensionsInInch : productEditDetails.DimensionsInInch,
+                mechanism : productEditDetails.Mechanism,
+                dimensionsInCm : productEditDetails.DimensionsInCm,
+                foam : productEditDetails.Foam,
+                weightCapacity : productEditDetails.WeightCapacity,
+                width : productEditDetails.Width,
+                warranty : productEditDetails.Warranty,
+                shipsIn : productEditDetails.ShipsIn,
+                deliveryCondition : productEditDetails.DeliveryCondition,
+                sku : productEditDetails.SKU,
+                createdDate : productEditDetails.OverviewCreated
+            }]
+        }
+        return await putProduct(UpdateProductForm.productId,UpdateProductForm).then(() => {
+            toast.success('Updated Product Successfully',{
+                position:"bottom-right",
+                autoClose:1000
             })
             getProducts();
         }).catch((error) => {
@@ -180,6 +304,12 @@ export default function Products() {
         return productsList.slice(firstPageIndex, lastPageIndex);
     }, [currentPage, PageSize, productsList]);
 
+    const longEnUSFormatter = new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    })
+
     return (
         <div>
 
@@ -225,7 +355,7 @@ export default function Products() {
                                         <td>{longEnUSFormatter.format(new Date(product.modifiedDate))}</td>
 
                                         {/* eslint-disable-next-line */}
-                                        <td><a type="button" data-bs-toggle="modal" data-bs-target="#EditModal"><em className="fa-solid fa-pen text-primary"></em></a></td>
+                                        <td><a type="button" onClick={() => getProductEditDetails(product.productId)} data-bs-toggle="modal" data-bs-target="#EditModal"><em className="fa-solid fa-pen text-primary"></em></a></td>
 
                                         {/* eslint-disable-next-line */}
                                         <td><a type="button"><em className="fa-solid fa-trash-can text-primary"></em></a></td>
@@ -249,14 +379,14 @@ export default function Products() {
 
             {/* AddProducts Modal */}
             <div className="modal fade" id="AddModal" tabIndex="-1" aria-labelledby="AddModal" aria-hidden="true">
-                <div className="modal-dialog">
+                <div className="modal-dialog modal-dialog-scrollable">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h1 className="modal-title fs-5" id="AddModal">Add Product</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form onSubmit={handleSubmit(onAddProductSubmit)}>
-                            <div className="modal-body">
+                        <div className="modal-body">
+                            <form>
                                 <div>
                                     <label htmlFor="subCategoryId">SubCategoryId</label>
                                     <div>
@@ -434,7 +564,7 @@ export default function Products() {
                                     <br />
                                     <button type="button" className="btn btn-success" onClick={handleUpload}>Upload</button>
                                     <div className="progress mt-4">
-                                        <div className="progress-bar progress-bar-striped progressBar" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: `${percent}`}}>{percent}%</div>
+                                        <div className="progress-bar progress-bar-striped progressBar" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: `${percent}%`}}>{percent}%</div>
                                     </div>
                                     {errors.imageUrl && <p className="text-danger small-font">{errors.imageUrl.message}</p>}
                                 </div>
@@ -646,12 +776,430 @@ export default function Products() {
                                         }
                                     />
                                 </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="submit" className="btn btn-primary">Submit</button>
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
+                        <div className="modal-footer">
+                            <button id="submitBtn" type="submit" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSubmit(onAddProductSubmit)}>Submit</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* EditProducts Modal */}
+            <div className="modal fade" id="EditModal" tabIndex="-1" aria-labelledby="EditModal" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-scrollable">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="EditModal">Edit Product</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <form>
+                                <div>
+                                    <label htmlFor="Id">ProductId</label>
+                                    <input
+                                        readOnly
+                                        className="form-control"
+                                        id="Id"
+                                        value={productEditDetails.Id || 0}
+                                        {...register
+                                            ('Id',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, Id: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="SubCategoryId">SubCategoryId</label>
+                                    <input
+                                        readOnly
+                                        className="form-control"
+                                        id="SubCategoryId"
+                                        value={productEditDetails.SubCategoryId || 0}
+                                        {...register
+                                            ('SubCategoryId',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, SubCategoryId: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="ProductName">ProductName</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="ProductName"
+                                        value={productEditDetails.ProductName || ''}
+                                        {...register
+                                            ('ProductName',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, ProductName: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="CompanyName">CompanyName</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="CompanyName"
+                                        value={productEditDetails.CompanyName || ''}
+                                        {...register
+                                            ('CompanyName',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, CompanyName: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="IsRated">IsRated</label>
+                                    <input
+                                        readOnly
+                                        type="text"
+                                        className="form-control"
+                                        id="IsRated"
+                                        value={productEditDetails.IsRated || true}
+                                        {...register
+                                            ('IsRated',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, IsRated: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="Ratings">Ratings</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="Ratings"
+                                        value={productEditDetails.Ratings || 0}
+                                        {...register
+                                            ('Ratings',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, Ratings: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="Reviews">Reviews</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="Reviews"
+                                        value={productEditDetails.Reviews || 0}
+                                        {...register
+                                            ('Reviews',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, Reviews: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="OriginalPrice">OriginalPrice</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="OriginalPrice"
+                                        value={productEditDetails.OriginalPrice || 0}
+                                        {...register
+                                            ('OriginalPrice',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, OriginalPrice: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="DiscountedPrice">DiscountedPrice</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="DiscountedPrice"
+                                        value={productEditDetails.DiscountedPrice || 0}
+                                        {...register
+                                            ('DiscountedPrice',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, DiscountedPrice: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="ImageUrl">ImageUrl</label>
+                                    <br />
+                                    <img src={productEditDetails.ImageUrl} width={450} height={400} alt="" />
+                                    {/* <input 
+                                        readOnly
+                                        type="text" 
+                                        className="form-control mt-2"
+                                        id="ImageUrl"
+                                        {...register
+                                            ('ImageUrl',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, ImageUrl: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                    <br />
+                                    <button type="button" className="btn btn-success" onClick={handleUpload}>Upload</button>
+                                    <div className="progress mt-4">
+                                        <div className="progress-bar progress-bar-striped progressBar" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: `${percent}%`}}>{percent}%</div>
+                                    </div>
+                                    {errors.imageUrl && <p className="text-danger small-font">{errors.imageUrl.message}</p>} */}
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="Seater">Seater</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="Seater"
+                                        value={productEditDetails.Seater || ''}
+                                        {...register
+                                            ('Seater',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, Seater: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="material">Material</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="Material"
+                                        value={productEditDetails.Material || ''}
+                                        {...register
+                                            ('Material',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, Material: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="color">Color</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="Color"
+                                        value={productEditDetails.Color || ''}
+                                        {...register
+                                            ('Color',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, Color: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="DimensionsInInch">DimensionsInInch</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="DimensionsInInch"
+                                        value={productEditDetails.DimensionsInInch || ''}
+                                        {...register
+                                            ('DimensionsInInch',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, DimensionsInInch: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="Mechanism">Mechanism</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="Mechanism"
+                                        value={productEditDetails.Mechanism || ''}
+                                        {...register
+                                            ('Mechanism',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, Mechanism: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="DimensionsInCm">DimensionsInCm</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="DimensionsInCm"
+                                        value={productEditDetails.DimensionsInCm || ''}
+                                        {...register
+                                            ('DimensionsInCm',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, DimensionsInCm: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="Foam">Foam</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="Foam"
+                                        value={productEditDetails.Foam || ''}
+                                        {...register
+                                            ('Foam',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, Foam: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="WeightCapacity">WeightCapacity</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="WeightCapacity"
+                                        value={productEditDetails.WeightCapacity || ''}
+                                        {...register
+                                            ('WeightCapacity',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, WeightCapacity: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="Width">Width</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="Width"
+                                        value={productEditDetails.Width || ''}
+                                        {...register
+                                            ('Width',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, Width: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="Warranty">Warranty</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="Warranty"
+                                        value={productEditDetails.Warranty || ''}
+                                        {...register
+                                            ('Warranty',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, Warranty: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="ShipsIn">ShipsIn</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="ShipsIn"
+                                        value={productEditDetails.ShipsIn || ''}
+                                        {...register
+                                            ('ShipsIn',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, ShipsIn: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="DeliveryCondition">DeliveryCondition</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="DeliveryCondition"
+                                        value={productEditDetails.DeliveryCondition || ''}
+                                        {...register
+                                            ('DeliveryCondition',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, DeliveryCondition: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    <label htmlFor="SKU">SKU</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="SKU"
+                                        value={productEditDetails.SKU || ''}
+                                        {...register
+                                            ('SKU',
+                                                {
+                                                    onChange: (e) => setProductEditDetails({ ...productEditDetails, SKU: e.target.value })
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                            </form>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" onClick={updateProduct}>Update</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>

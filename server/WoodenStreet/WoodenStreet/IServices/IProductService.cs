@@ -8,5 +8,7 @@ namespace WoodenStreet.IServices
         public Task<IActionResult> GetAllProducts();
 
         public Task<IActionResult> GetProductDetailById(int id);
+
+        //public Task<IActionResult> GetProductEditFormDetails(int id);
     }
 }

@@ -12,6 +12,7 @@ import Admin from './components/admin/Admin';
 import Category from './components/admin/category/Category';
 import SubCategory from './components/admin/subcategory/SubCategory';
 import Products from './components/admin/products/Products';
+import EditProfile from './components/profile/EditProfile';
 
 export default function App() {
 
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/products" element={<Product />}></Route>
         <Route path="/products/:productId" element={<ProductDetail />}></Route>
+        <Route path="/edit-profile" element={<EditProfile />}></Route>
         <Route path="/admin" element={<Admin />}>
           <Route path="category" element={<Category />}></Route>
           <Route path="sub-category" element={<SubCategory />}></Route>

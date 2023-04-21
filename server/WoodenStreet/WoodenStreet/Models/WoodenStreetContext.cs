@@ -28,6 +28,7 @@ namespace WoodenStreet.Models
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ProductDTO> ProductDTOs { get; set; } = null!;
         public virtual DbSet<ProductDetailDTO> ProductDetailDTOs { get; set; } = null!;
+        //public virtual DbSet<ProductEditDTO> ProductEditDTOs { get; set; } = null!;
         public virtual DbSet<ProductOverview> ProductOverviews { get; set; } = null!;
         public virtual DbSet<SubCategory> SubCategories { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;

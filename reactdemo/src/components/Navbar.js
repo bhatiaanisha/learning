@@ -221,7 +221,7 @@ export default function Navbar() {
                                                 <Link to="/signup" className="txt-color">Start Here</Link>
                                             </p>
                                             <hr />
-                                            <p className="text-start mt-2"><a href="/" className="alink alinks">My Profile</a></p>
+                                            <p className="text-start mt-2"><Link to="/edit-profile" className="alink alinks">My Profile</Link></p>
                                             <p className="text-start txt-color"><a href="/" className="alink alinks">My Orders</a></p>
                                             <p className="text-start txt-color"><a href="/" className="alink alinks">My Wishlist</a></p>
                                             <p className="text-start txt-color"><a href="/" className="alink alinks">Saved Address</a></p>

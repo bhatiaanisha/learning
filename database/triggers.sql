@@ -27,3 +27,23 @@ AS
 	WHERE ProductId = (SELECT ProductId
 						FROM inserted)
 GO
+
+CREATE TRIGGER trgProductOverviewUpdate
+ON ProductOverview
+FOR UPDATE
+AS
+	UPDATE ProductOverview
+	SET ModifiedDate = GETDATE()
+	WHERE ProductOverviewId = (SELECT ProductOverviewId
+						FROM inserted)
+GO
+
+CREATE TRIGGER trgImageUpdate
+ON Images
+FOR UPDATE
+AS
+	UPDATE Images
+	SET ModifiedDate = GETDATE()
+	WHERE ImageId = (SELECT ImageId
+						FROM inserted)
+GO
