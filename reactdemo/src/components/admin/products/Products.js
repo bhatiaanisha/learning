@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { getAllProducts, postProduct, putProduct, getProductDetailsById } from "../../../services/ProductService";
+import { getAllProducts, postProduct, putProduct, getProductDetailsById, deleteProduct } from "../../../services/ProductService";
+import { deleteImage } from "../../../services/ImageService";
+import { deleteProductOverview } from "../../../services/ProductOverview";
 import Pagination from "../../Pagination";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
@@ -7,6 +9,7 @@ import { getSubCategory } from "../../../services/SubCategoryService";
 import storage from '../../firebaseConfig';
 import {ref,uploadBytesResumable,getDownloadURL} from "firebase/storage"
 import '../products/Products.css';
+import { NavLink } from "react-router-dom";
 
 export default function Products() {
     console.log("re-render");
@@ -27,7 +30,8 @@ export default function Products() {
             console.log(error);
             toast.error('Server Error', {
                 position: "bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -42,7 +46,8 @@ export default function Products() {
             console.log(error);
             toast.error('Server Error', {
                 position: "bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -117,7 +122,8 @@ export default function Products() {
             console.log(error);
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -189,14 +195,16 @@ export default function Products() {
         return await postProduct(data).then(() => {
             toast.success('Added Product Successfully',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
             getProducts();
         }).catch((error) => {
             console.log(error);
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -241,16 +249,65 @@ export default function Products() {
         return await putProduct(UpdateProductForm.productId,UpdateProductForm).then(() => {
             toast.success('Updated Product Successfully',{
                 position:"bottom-right",
-                autoClose:1000
+                autoClose:1000,
+                style:{fontSize:"14px"}
             })
             getProducts();
         }).catch((error) => {
             console.log(error);
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
+    }
+
+    async function imageDelete(productId){
+        return await deleteImage(productId).then().catch((error) => {
+            console.log(error);
+            toast.error('Image Deleting Error',{
+                position:"bottom-right",
+                autoClose: 1000,
+                style:{fontSize:"14px"}
+            })
+        })
+    }
+
+    async function productOverviewDelete(productId){
+        return await deleteProductOverview(productId).then().catch((error) => {
+            console.log(error);
+            toast.error('Product Overview Deleting Error',{
+                position:"bottom-right",
+                autoClose: 1000,
+                style:{fontSize:"14px"}
+            })
+        })
+    }
+
+    // Delete Product with deleting all its children records as well
+    async function productDelete(productId){
+        return await deleteProduct(productId).then(() => {
+            toast.success('Deleted Product Successfully',{
+                position:"bottom-right",
+                autoClose: 1000,
+                style:{fontSize:"14px"}
+            })
+        }).catch((error) => {
+            console.log(error);
+            toast.error('Product Deleting Error',{
+                position:"bottom-right",
+                autoClose: 1000,
+                style:{fontSize:"14px"}
+            })
+        })
+    }
+
+    async function deleteProductWithDescendants(productId){
+       await imageDelete(productId);
+       await productOverviewDelete(productId);
+       await productDelete(productId);
+       await getProducts();
     }
 
     // Code for uploading image to firebase and storing url in image field
@@ -355,10 +412,10 @@ export default function Products() {
                                         <td>{longEnUSFormatter.format(new Date(product.modifiedDate))}</td>
 
                                         {/* eslint-disable-next-line */}
-                                        <td><a type="button" onClick={() => getProductEditDetails(product.productId)} data-bs-toggle="modal" data-bs-target="#EditModal"><em className="fa-solid fa-pen text-primary"></em></a></td>
+                                        <td><NavLink type="button" onClick={() => getProductEditDetails(product.productId)} data-bs-toggle="modal" data-bs-target="#EditModal"><em className="fa-solid fa-pen text-primary"></em></NavLink></td>
 
                                         {/* eslint-disable-next-line */}
-                                        <td><a type="button"><em className="fa-solid fa-trash-can text-primary"></em></a></td>
+                                        <td><NavLink type="button" onClick={() => deleteProductWithDescendants(product.productId)}><em className="fa-solid fa-trash-can text-primary"></em></NavLink></td>
                                     </tr>
                                 )}
                             </tbody>

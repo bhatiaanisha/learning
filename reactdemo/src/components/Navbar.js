@@ -1,34 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import './Navbar.css';
 import { getFurnitureItems } from "../services/FurnitureItemsService"; 
 import { ToastContainer,toast } from "react-toastify";
-import { logout,setCurrentUser } from "../services/LoginService";
+import { logout } from "../services/LoginService";
+import { dataService } from "../shared/RxJsState";
 
 export default function Navbar() {
 
     useEffect(()=>{
         getItems();
-        setUser();
+        dataService.getData().subscribe({
+            next : (data) => {
+                setUser(data)
+            }
+        })
     },[]);
 
-    const setUser = () => {
-        let data = localStorage.getItem("token");
-        if(data)
-        {
-          const Token = JSON.parse(data);
-          setCurrentUser(Token);
-        }
-        else
-        {
-          //user = null;
-          setCurrentUser();
-        }
-    }
+    const [user,setUser] = useState();
 
     const [ItemList, setItemList] = useState([]);
-    async function getItems(){
-        return await getFurnitureItems().then((response) => {
+    function getItems(){
+        getFurnitureItems().then((response) => {
             const data = response.data;
             setItemList(data);
             return data;
@@ -60,7 +53,7 @@ export default function Navbar() {
                             </svg>
                             <span className="store">Find a Store</span>
                             <span className="ms-1 text-size">- Enter Pincode
-                                <a href="/">
+                                <NavLink>
                                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M7.22559 14.7314H4.03809C3.89719 14.7314 3.76206 14.6754 3.66244 14.5758C3.56281 14.4761 3.50684 14.341 3.50684 14.2001V11.2327C3.50684 11.1629 3.52058 11.0938 3.54727 11.0294C3.57397 10.9649 3.6131 10.9063 3.66244 10.857L11.6312 2.88827C11.7308 2.78864 11.8659 2.73267 12.0068 2.73267C12.1477 2.73267 12.2829 2.78864 12.3825 2.88827L15.3499 5.85571C15.4496 5.95534 15.5055 6.09047 15.5055 6.23137C15.5055 6.37226 15.4496 6.50739 15.3499 6.60702L7.22559 14.7314Z"
@@ -71,7 +64,7 @@ export default function Navbar() {
                                     <path d="M15.1947 14.7313H7.22597L3.54102 11.0464" stroke="#F9763A" strokeLinecap="round"
                                         strokeLinejoin="round"></path>
                                     </svg>
-                                </a>
+                                </NavLink>
                             </span>
                         </div>
                         <div>
@@ -150,9 +143,9 @@ export default function Navbar() {
                     <div className="container">
                         <div className="d-flex flex-row">
                             <div>
-                                <a href="/">
+                                <NavLink to="/">
                                     <img src="../assets/images/logo.svg" width="230" height="v=15.35" alt="Logo" />
-                                </a>
+                                </NavLink>
                             </div>
                             <div>
                                 <form className="w-50" role="search">
@@ -169,7 +162,7 @@ export default function Navbar() {
                             <div>
                                 <ul className="navbar-nav">
                                     <li className="nav-item ms-5 mt-2">
-                                        <a className="nav-link" href="/">
+                                        <NavLink className="nav-link" to="/">
                                             <svg width="28" height="28" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M4.5 13.0864V19.5C4.5 19.6989 4.57902 19.8897 4.71967 20.0303C4.86032 20.171 5.05109 20.25 5.25 20.25H18.75C18.9489 20.25 19.1397 20.171 19.2803 20.0303C19.421 19.8897 19.5 19.6989 19.5 19.5V13.0865"
@@ -192,11 +185,11 @@ export default function Navbar() {
                                                 stroke="#e57200" strokeLinecap="round" strokeLinejoin="round">
                                             </path>
                                             </svg>
-                                        </a>
+                                        </NavLink>
                                     </li>
-                                    <span className="stores"><a href="/" className="alink">Stores</a></span>
+                                    <span className="stores"><NavLink to="/" className="alink">Stores</NavLink></span>
                                     <li className="nav-item profile-logo">
-                                        <a className="nav-link" href="/">
+                                        <NavLink className="nav-link">
                                             <svg width="23.673" height="23.482" viewBox="0 0 23.673 23.482">
                                             <g transform="translate(37.837 11.741)">
                                                 <path
@@ -205,35 +198,50 @@ export default function Navbar() {
                                                 </path>
                                             </g>
                                             </svg>
-                                        </a>
+                                        </NavLink>
                                     </li>
-                                    {window.currentuser && <span className="myProfileLoggedin"><a href="/" className="alink">Hi {window.currentuser.userName}</a></span>}
-                                    {!window.currentuser && <span className="myProfile"><a href="/" className="alink">Profile</a></span>}
+                                    {user && <span className="myProfileLoggedin"><NavLink className="alink">Hi {user.firstName?.split(' ')[0]}</NavLink></span>}
+                                    {!user && <span className="myProfile"><NavLink className="alink">Profile</NavLink></span>}
                                     <div className="profileMenu position-absolute text-center rounded-2" style={{zIndex:1}}>
                                         <div className="container">
-                                            <button type="button" className="btn btn-dark mt-3 border border-0 rounded-0 btn-bgcolor">
-                                                <Link to="/login" className="text-white link">
-                                                    SIGN IN
-                                                </Link>
-                                            </button>
-                                            <p className="profileMenu-customer">
-                                                New Customer?
-                                                <Link to="/signup" className="txt-color">Start Here</Link>
+                                            {!user && 
+                                                <>
+                                                    <button type="button" className="btn btn-dark mt-3 border border-0 rounded-0 btn-bgcolor">
+                                                        <NavLink to="login" className="text-white link">
+                                                            SIGN IN
+                                                        </NavLink>
+                                                    </button>
+                                                    <p className="profileMenu-customer">
+                                                        New Customer?
+                                                        <NavLink to="signup" className="txt-color">Start Here</NavLink>
+                                                    </p>
+                                                    <hr />
+                                                </>
+                                            }
+                                            <p className="text-start mt-2">
+                                                {(user && user?.role === "Admin") && 
+                                                    <NavLink to="admin" className="alink alinks">
+                                                        My Profile
+                                                    </NavLink>
+                                                }
+                                                {((user && user?.role === "User") || !user) &&
+                                                    <NavLink to="profile/edit-profile" className="alink alinks">
+                                                        My Profile
+                                                    </NavLink>
+                                                }
                                             </p>
+                                            <p className="text-start txt-color"><NavLink to="/" className="alink alinks">My Orders</NavLink></p>
+                                            <p className="text-start txt-color"><NavLink to="/" className="alink alinks">My Wishlist</NavLink></p>
+                                            <p className="text-start txt-color"><NavLink to="/" className="alink alinks">Saved Address</NavLink></p>
+                                            <p className="text-start txt-color"><NavLink to="/" className="alink alinks">Wallet</NavLink></p>
                                             <hr />
-                                            <p className="text-start mt-2"><Link to="/edit-profile" className="alink alinks">My Profile</Link></p>
-                                            <p className="text-start txt-color"><a href="/" className="alink alinks">My Orders</a></p>
-                                            <p className="text-start txt-color"><a href="/" className="alink alinks">My Wishlist</a></p>
-                                            <p className="text-start txt-color"><a href="/" className="alink alinks">Saved Address</a></p>
-                                            <p className="text-start txt-color"><a href="/" className="alink alinks">Wallet</a></p>
-                                            <hr />
-                                            <p className="text-start txt-color"><a href="/" className="alink alinks">Track Order</a></p>
-                                            <p className="text-start txt-color"><a href="/" className="alink alinks">Help Desk</a></p>
-                                            {window.currentuser && <p className="text-start txt-color"><a href="/" className="alink alinks" onClick={logout}>Log Out</a></p>}
+                                            <p className="text-start txt-color"><NavLink to="/" className="alink alinks">Track Order</NavLink></p>
+                                            <p className="text-start txt-color"><NavLink to="/" className="alink alinks">Help Desk</NavLink></p>
+                                            {user && <p className="text-start txt-color"><NavLink to="/" className="alink alinks" onClick={logout}>Log Out</NavLink></p>}
                                         </div>
                                     </div>
                                     <li className="nav-item wishlist-logo">
-                                        <a className="nav-link" href="/">
+                                        <NavLink className="nav-link" to="/">
                                             <svg width="22" height="20.455" viewBox="0 0 22 20.455">
                                             <g transform="translate(0 -5.713)">
                                                 <path
@@ -242,11 +250,11 @@ export default function Navbar() {
                                                 </path>
                                             </g>
                                             </svg>
-                                        </a>
+                                        </NavLink>
                                     </li>
-                                    <span className="wishlist"><a href="/" className="alink">Wishlist (0)</a></span>
+                                    <span className="wishlist"><NavLink to="/" className="alink">Wishlist (0)</NavLink></span>
                                     <li className="nav-item cart-logo">
-                                        <a className="nav-link" href="/">
+                                        <NavLink className="nav-link" to="/">
                                             <svg width="22" height="20.165" viewBox="0 0 22 20.165">
                                             <g transform="translate(0 -5.384)">
                                                 <path
@@ -255,9 +263,9 @@ export default function Navbar() {
                                                 </path>
                                             </g>
                                             </svg>
-                                        </a>
+                                        </NavLink>
                                     </li>
-                                    <span className="cart"><a href="/" className="alink">Cart (0)</a></span>
+                                    <span className="cart"><NavLink to="/" className="alink">Cart (0)</NavLink></span>
                                 </ul>
                             </div>
                         </div>
@@ -267,7 +275,7 @@ export default function Navbar() {
                     <ul className="navbar-nav d-flex flex-row justify-content-around">
                     {ItemList.map(list => 
                         <li className="nav-item" key={list.furnitureItemId}>
-                            <a className="nav-link nowrap" href="/">{list.furnitureItemName}</a>
+                            <NavLink className="nav-link nowrap" to="/">{list.furnitureItemName}</NavLink>
                         </li>
                     )}
                     </ul>

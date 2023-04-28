@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import './ProductDetail.css';
 import { getProductDetailsById } from "../services/ProductService";
 import { ToastContainer,toast } from "react-toastify";
@@ -23,7 +23,8 @@ export default function ProductDetail(){
         }).catch((error) => {
             toast.error('Server Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
             console.log(error);
         })
@@ -64,14 +65,14 @@ export default function ProductDetail(){
                                         <span>{productDetail.ratings} Ratings & {productDetail.reviews} Reviews</span>
                                     </div>
                                     <div className="col">
-                                        <a className="cursor" href="/">
+                                        <NavLink className="cursor" to="/">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path
                                             d="M11.4861 18.2086L18.4499 11.2449C20.1609 9.53387 20.4133 6.71893 18.7941 4.92075C18.3885 4.46904 17.8951 4.10469 17.3441 3.84995C16.793 3.59521 16.1959 3.45542 15.589 3.4391C14.9821 3.42278 14.3783 3.53028 13.8143 3.75503C13.2504 3.97979 12.7382 4.31709 12.3089 4.74636L11 6.05522L9.86993 4.92515C8.15889 3.21409 5.34395 2.96166 3.54577 4.58089C3.09405 4.98648 2.72971 5.47986 2.47497 6.03091C2.22023 6.58196 2.08043 7.17914 2.06412 7.78601C2.0478 8.39287 2.15529 8.9967 2.38005 9.56065C2.6048 10.1246 2.94211 10.6368 3.37137 11.0661L10.5139 18.2086C10.6428 18.3376 10.8177 18.41 11 18.41C11.1823 18.41 11.3572 18.3376 11.4861 18.2086V18.2086Z"
                                             stroke="#646464" strokeLinecap="round" strokeLinejoin="round"></path>
                                         </svg>
                                         Add To Wishlist
-                                        </a>
+                                        </NavLink>
                                     </div>
                                 </div>
                                 <p className="fw-bold fs-3 mb-1">Rs {productDetail.discountedPrice.toLocaleString()} <span className="strikethrough fw-lighter fs-6">Rs {productDetail.originalPrice.toLocaleString()}</span> <span className="fs-6 text-success fw-semibold ms-2">{((productDetail.originalPrice - productDetail.discountedPrice) * 100 / productDetail.originalPrice).toFixed(0)}% off</span></p>
@@ -82,25 +83,25 @@ export default function ProductDetail(){
                                         <img src="../../assets/images/green-arrow.svg" alt="" />
                                         <span className="fw-semibold ms-2">Spring Sale</span> 
                                         - Apply Coupon SPRING23 & Get 20% Off (price inclusive of discount) 
-                                        <a href="/" className="alink">T&C</a>
+                                        <NavLink to="/" className="alink">T&C</NavLink>
                                     </p>
                                     <p className="font-size mb-2">
                                         <img src="../../assets/images/green-arrow.svg" alt="" />
                                         <span className="fw-semibold ms-2">Store Discount</span> 
                                         - Get upto 10% off on orders placed at your nearest experience stores 
-                                        <a href="/" className="alink">T&C</a>
+                                        <NavLink to="/" className="alink">T&C</NavLink>
                                     </p>
                                     <p className="font-size mb-2">
                                         <img src="../../assets/images/green-arrow.svg" alt="" />
                                         <span className="fw-semibold ms-2">UPI Payment Offer</span> 
                                         - Get 1% Instant Discount Online On UPI Payments 
-                                        <a href="/" className="alink">T&C</a>
+                                        <NavLink to="/" className="alink">T&C</NavLink>
                                     </p>
                                     <p className="font-size">
                                         <img src="../../assets/images/green-arrow.svg" alt="" />
                                         <span className="fw-semibold ms-2">No Cost EMI - Starting from Rs 3,482</span> 
                                         on ICICI, Axis, Kotak, HDFC, SBI & 
-                                        <a href="/" className="alink">More</a>
+                                        <NavLink to="/" className="alink">More</NavLink>
                                     </p>
                                 </div>
                                 <div className="mb-4">

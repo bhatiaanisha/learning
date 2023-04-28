@@ -242,3 +242,5 @@ C:\Users\anisha.bhatia\Desktop\WoodenStreet_Project\learning\server\WoodenStreet
 C:\Users\anisha.bhatia\Desktop\WoodenStreet_Project\learning\server\WoodenStreet\WoodenStreet\obj\Debug\net6.0\WoodenStreet.genruntimeconfig.cache
 C:\Users\anisha.bhatia\Desktop\WoodenStreet_Project\learning\server\WoodenStreet\WoodenStreet\obj\Debug\net6.0\ref\WoodenStreet.dll
 C:\Users\anisha.bhatia\Desktop\WoodenStreet_Project\learning\server\WoodenStreet\WoodenStreet\bin\Debug\net6.0\libman.json
+C:\Users\anisha.bhatia\Desktop\WoodenStreet_Project\learning\server\WoodenStreet\WoodenStreet\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\anisha.bhatia\Desktop\WoodenStreet_Project\learning\server\WoodenStreet\WoodenStreet\bin\Debug\net6.0\Newtonsoft.Json.dll

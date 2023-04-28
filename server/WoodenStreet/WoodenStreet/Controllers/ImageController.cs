@@ -23,6 +23,12 @@ namespace WoodenStreet.Controllers
             return await _ImageService.GetAll();
         }
 
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> DeleteImage(int productId)
+        {
+            return await _ImageService.DeleteImageByProductId(productId);
+        }
+
         //[HttpPost]
         //public async Task<IActionResult> PostImages(Image[] images)
         //{

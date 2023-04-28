@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 export default function Admin(){
     return(
@@ -13,13 +13,13 @@ export default function Admin(){
                                     <em className="fa-solid fa-gear fa-2x"><span className="fs-2" style={{fontFamily: 'Cambria, Cochin, Georgia, Times, Times New Roman, serif'}}>Admin</span></em>
                                 </li>
                                 <li className="nav-item mt-5 fs-5">
-                                    <button className="dropdown-item" type="button"><Link to="category" className="text-white text-decoration-none">Category</Link></button>
+                                    <button className="dropdown-item" type="button"><NavLink to="category" className="text-white text-decoration-none">Category</NavLink></button>
                                 </li>
                                 <li className="nav-item mt-5 fs-5">
-                                    <button className="dropdown-item" type="button"><Link to="sub-category" className="text-white text-decoration-none">SubCategory</Link></button>
+                                    <button className="dropdown-item" type="button"><NavLink to="sub-category" className="text-white text-decoration-none">SubCategory</NavLink></button>
                                 </li>
                                 <li className="nav-item mt-5 fs-5">
-                                    <button className="dropdown-item" type="button"><Link to="admin-products" className="text-white text-decoration-none">Products</Link></button>
+                                    <button className="dropdown-item" type="button"><NavLink to="admin-products" className="text-white text-decoration-none">Products</NavLink></button>
                                 </li>
                             </ul>
                         </div>

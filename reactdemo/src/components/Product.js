@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Product.css';
 import { getAllProducts } from "../services/ProductService";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function Product() {
@@ -18,7 +18,8 @@ export default function Product() {
         }).catch((error) => {
             toast.error('Server Error', {
                 position: "bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
             console.log(error);
         })
@@ -109,7 +110,7 @@ export default function Product() {
                         <div className="row m-1 gap-2">
                             {productList.map((product, i) =>
                                 <div key={i} className="card border-0 shadow col-md-3 p-2 card-width bg-white">
-                                    <Link to={`/products/${product.productId}`} style={{ textDecoration: "none", color: "black" }}>
+                                    <NavLink to={`/products/${product.productId}`} style={{ textDecoration: "none", color: "black" }}>
                                         <div className="card rounded-0 border-0">
                                             <img src={product.productImageUrl} className="cursor" alt="" />
                                             <div className="card-body card-bottom">
@@ -129,7 +130,7 @@ export default function Product() {
                                                 <p className="price fw-bold">Rs {product.discountedPrice.toLocaleString()} <span className="fw-lighter ms-2 fs-6 strikethrough">Rs {product.originalPrice.toLocaleString()}</span> <span className="fs-6 fw-semibold ms-2 orange-color">{((product.originalPrice - product.discountedPrice) * 100 / product.originalPrice).toFixed(0)}% off</span></p>
                                             </div>
                                         </div>
-                                    </Link>
+                                    </NavLink>
                                 </div>
                             )}
                         </div>

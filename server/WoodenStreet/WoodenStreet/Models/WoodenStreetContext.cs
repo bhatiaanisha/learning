@@ -28,7 +28,6 @@ namespace WoodenStreet.Models
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ProductDTO> ProductDTOs { get; set; } = null!;
         public virtual DbSet<ProductDetailDTO> ProductDetailDTOs { get; set; } = null!;
-        //public virtual DbSet<ProductEditDTO> ProductEditDTOs { get; set; } = null!;
         public virtual DbSet<ProductOverview> ProductOverviews { get; set; } = null!;
         public virtual DbSet<SubCategory> SubCategories { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -289,6 +288,14 @@ namespace WoodenStreet.Models
                     .HasMaxLength(400)
                     .IsUnicode(false);
 
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(40)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.ModifiedDate).HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Otp)
@@ -299,10 +306,6 @@ namespace WoodenStreet.Models
                 entity.Property(e => e.PasswordHash).HasMaxLength(200);
 
                 entity.Property(e => e.PasswordSalt).HasMaxLength(200);
-
-                entity.Property(e => e.UserName)
-                    .HasMaxLength(150)
-                    .IsUnicode(false);
 
                 entity.HasOne(d => d.UserTypeNavigation)
                     .WithMany(p => p.Users)

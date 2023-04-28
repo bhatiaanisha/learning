@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WoodenStreet.Models
 {
@@ -14,7 +15,7 @@ namespace WoodenStreet.Models
         }
 
         public int UserId { get; set; }
-        public string UserName { get; set; } = null!;
+        public string FirstName { get; set; } = null!;
         public long MobileNumber { get; set; }
         public int PinCode { get; set; }
         public string Email { get; set; } = null!;
@@ -24,45 +25,48 @@ namespace WoodenStreet.Models
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public string? Otp { get; set; }
-
+        public string? LastName { get; set; }
         public virtual Object UserTypeNavigation { get; set; } = null!;
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<Wishlist> Wishlists { get; set; }
     }
-}
 
-[Keyless]
-public class UserRegisterDTO
-{
-    [Required]
-    public string UserName { get; set; } = null!;
+    [Keyless]
+    public class UserRegisterDTO
+    {
+        [Required]
+        public string FirstName { get; set; } = null!;
 
-    [Required]
-    public long MobileNumber { get; set; }
+        [Required]
+        public string LastName { get; set; } = null!;
 
-    [Required]
-    public int PinCode { get; set; }
+        [Required]
+        public long MobileNumber { get; set; }
 
-    [Required]
-    public string Email { get; set; } = null!;
+        [Required]
+        public int PinCode { get; set; }
 
-    [Required]
-    public string Password { get; set; } = null!;
-}
+        [Required]
+        public string Email { get; set; } = null!;
 
-[Keyless]
-public class UserLoginByPasswordDTO
-{
-    [Required]
-    public string Email { get; set; } = null!;
+        [Required]
+        public string Password { get; set; } = null!;
+    }
 
-    [Required]
-    public string Password { get; set; } = null!;
-}
+    [Keyless]
+    public class UserLoginByPasswordDTO
+    {
+        [Required]
+        public string Email { get; set; } = null!;
 
-[Keyless]
-public class UserLoginByOtpDTO
-{
-    [Required]
-    public string? Otp { get; set; }
+        [Required]
+        public string Password { get; set; } = null!;
+    }
+
+    [Keyless]
+    public class UserLoginByOtpDTO
+    {
+        [Required]
+        public string? Otp { get; set; }
+    }
 }

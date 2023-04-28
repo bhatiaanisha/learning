@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import './TopPick.css';
 import { getFurnitureItems } from "../services/FurnitureItemsService";
 import { ToastContainer, toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function TopPick() {
 
@@ -18,7 +18,8 @@ export default function TopPick() {
         }).catch((error) => {
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             });
             console.log(error);
         })
@@ -35,10 +36,10 @@ export default function TopPick() {
                     {topPicks.map((topPick,i) => 
                         (topPick.imageUrl && 
                             <div key={i} className="col"> 
-                                <Link to="/products" className="text-decoration-none text-black">
+                                <NavLink to="products" className="text-decoration-none text-black">
                                     <img alt="" src={topPick.imageUrl} width={"190px"} height={"160px"} />
                                     <p className="text-center me-4">{topPick.furnitureItemName}</p>
-                                </Link>
+                                </NavLink>
                             </div>
                         )
                     )}

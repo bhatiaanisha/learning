@@ -25,10 +25,12 @@
 
 .myProfile:hover + .profileMenu,.profileMenu:hover{
     display: block;
+    margin-top: 68px;
 }
 
 .myProfileLoggedin:hover + .profileMenu,.profileMenu:hover{
     display: block;
+    margin-top: 68px;
 }
 
 .profileMenu div{
@@ -99,6 +101,7 @@
 .alink{
     text-decoration: none;
     color: #535353;
+    cursor: pointer;
 }
 
 .alinks:hover{

@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import './Signup.css';
 import { postRegister } from "../services/UserService";
 import { useForm } from "react-hook-form";
@@ -9,7 +9,8 @@ export default function Signup(){
 
     const {register, handleSubmit, reset, formState:{errors}} = useForm();
 
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [mobileno, setMobileNo] = useState('');
     const [pincode, setPincode] = useState('');
     const [email, setEmail] = useState('');
@@ -17,7 +18,8 @@ export default function Signup(){
 
     const onsubmit = (data) => {
         let obj = {
-            userName : name,
+            firstName : firstName,
+            lastName : lastName,
             mobileNumber : mobileno,
             pinCode : pincode,
             email : email,
@@ -33,13 +35,15 @@ export default function Signup(){
         return await postRegister(data).then(() => {
             toast.success('Registered Successfully',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
             //alert("Registered Successfully!");
         }).catch((error) => {
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
             console.log("Error =",error);
         })
@@ -53,7 +57,7 @@ export default function Signup(){
                         <img src="../../assets/images/register-image.jpg" className="signup-img" width="370px" height="570px" alt="" />
                     </div>
                     <div className="ms-2">
-                        <a className="float-end" href="/">
+                        <NavLink className="float-end" to="/">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20.448 20.408">
                             <g transform="translate(0 0)">
                                 <path
@@ -62,27 +66,47 @@ export default function Signup(){
                                 </path>
                             </g>
                             </svg>
-                        </a>
+                        </NavLink>
                         <h5 className="mt-4 mb-0">Register</h5>
                         <p className="register-text">Get exclusive discounts, newsletters and more</p>
                         <form onSubmit={handleSubmit(onsubmit)}>
-                            <div className="mb-1">
-                                <input 
-                                    type="text" 
-                                    className={`form-control rounded-0 text-size p-2 border border-1 border-gray-900 ${errors.name ? 'is-invalid' : ''}`} 
-                                    placeholder="Name" 
-                                    id="name"
-                                    {...register
-                                        ('name',
-                                            {
-                                                required:{value:true,message:"Field is required"},
-                                                pattern:{value:/^[A-Za-z]+$/,message:"Only alphabets are allowed"},
-                                                onChange:(e) => setName(e.target.value)
-                                            }
-                                        )
-                                    }
-                                />
-                                {errors.name && <p className="text-danger small-font">{errors.name.message}</p>}
+                            <div className="d-flex flex-row mb-1">
+                                <div>
+                                    <input 
+                                        type="text" 
+                                        className={`form-control rounded-0 text-size p-2 border border-1 border-gray-900 ${errors.firstName ? 'is-invalid' : ''}`} 
+                                        placeholder="First Name" 
+                                        id="firstName"
+                                        {...register
+                                            ('firstName',
+                                                {
+                                                    required:{value:true,message:"Field is required"},
+                                                    pattern:{value:/^[A-Za-z ]+$/,message:"Only alphabets are allowed"},
+                                                    onChange:(e) => setFirstName(e.target.value)
+                                                }
+                                            )
+                                        }
+                                    />
+                                    {errors.firstName && <p className="text-danger small-font">{errors.firstName.message}</p>}
+                                </div>
+                                <div className="ms-2">
+                                    <input 
+                                        type="text" 
+                                        className={`form-control rounded-0 text-size p-2 border border-1 border-gray-900 ${errors.lastName ? 'is-invalid' : ''}`} 
+                                        placeholder="Last Name" 
+                                        id="lastName"
+                                        {...register
+                                            ('lastName',
+                                                {
+                                                    required:{value:true,message:"Field is required"},
+                                                    pattern:{value:/^[A-Za-z ]+$/,message:"Only alphabets are allowed"},
+                                                    onChange:(e) => setLastName(e.target.value)
+                                                }
+                                            )
+                                        }
+                                    />
+                                    {errors.lastName && <p className="text-danger small-font">{errors.lastName.message}</p>}
+                                </div>
                             </div>
                             <div className="d-flex flex-row mb-1">
                                 <div>
@@ -169,7 +193,7 @@ export default function Signup(){
                                 {/* {!areFieldsFilled &&
                                     <button type="submit" className="grey-bg border-0 text-white w-100 rounded-1 fw-semibold" disabled>CONTINUE</button>
                                 } */}
-                                <p className="small-font mt-4 text-center mb-3">Already have an account? <Link to="/login" className="orange-color alink">Sign in</Link></p>
+                                <p className="small-font mt-2 text-center mb-3">Already have an account? <NavLink to="/login" className="orange-color alink">Sign in</NavLink></p>
                             </div>
                         </form>
                         <div>

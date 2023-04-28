@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { getFurnitureItems } from "../../../services/FurnitureItemsService";
 import Pagination from "../../Pagination";
+import { NavLink } from "react-router-dom";
 
 export default function Category(){
     
@@ -29,7 +30,8 @@ export default function Category(){
         }).catch((error) => {
             toast.error('Server Error',{
                 position: "bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
             console.log(error);
         })
@@ -55,7 +57,8 @@ export default function Category(){
             console.log(error);
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -76,14 +79,16 @@ export default function Category(){
         return await postCategory(data).then(() => {
             toast.success('Added Category Successfully',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
             getCategories();
         }).catch((error) => {
             console.log(error);
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -100,31 +105,35 @@ export default function Category(){
         return await putCategory(UpdateCategoryForm.categoryId,UpdateCategoryForm).then(() => {
             toast.success('Updated Category Successfully',{
                 position:"bottom-right",
-                autoClose:1000
+                autoClose:1000,
+                style:{fontSize:"14px"}
             })
             getCategories();
         }).catch((error) => {
             console.log(error);
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
     
     // Delete Category
-    async function categoryDelete(categoryId){
+    async function categoryDelete(categoryId){  
         return await deleteCategory(categoryId).then(() => {
             toast.success('Deleted Category Successfully',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
             getCategories();
         }).catch((error) => {
             console.log(error);
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -138,7 +147,8 @@ export default function Category(){
         }).catch((error) => {
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             });
             console.log(error);
         })
@@ -187,10 +197,10 @@ export default function Category(){
                                         <td>{longEnUSFormatter.format(new Date(category.modifiedDate))}</td>
                                         
                                         {/* eslint-disable-next-line */}        
-                                        <td><a type="button" onClick={() => getById(category.categoryId)} data-bs-toggle="modal" data-bs-target="#EditModal"><em className="fa-solid fa-pen text-primary"></em></a></td>
+                                        <td><NavLink type="button" onClick={() => getById(category.categoryId)} data-bs-toggle="modal" data-bs-target="#EditModal"><em className="fa-solid fa-pen text-primary"></em></NavLink></td>
                                         
                                         {/* eslint-disable-next-line */}
-                                        <td><a type="button" onClick={() => categoryDelete(category.categoryId)}><em className="fa-solid fa-trash-can text-primary"></em></a></td>
+                                        <td><NavLink type="button" onClick={() => categoryDelete(category.categoryId)}><em className="fa-solid fa-trash-can text-primary"></em></NavLink></td>
                                     </tr>
                                 )}
                             </tbody>

@@ -21,13 +21,14 @@ namespace WoodenStreet.Services
         }
         public async Task<IActionResult> RegisterUser(UserRegisterDTO userRegisterDTO, UserType userType)
         {
-            if (await UserExists(userRegisterDTO.UserName)) return new BadRequestObjectResult(new { ErrorMessage = "Username already exists!" });
+            if (await UserExists(userRegisterDTO.Email)) return new BadRequestObjectResult(new { ErrorMessage = "Email already exists!" });
 
             using var hmac = new HMACSHA512();
 
             var userdata = new User
             {
-                UserName = userRegisterDTO.UserName,
+                FirstName = userRegisterDTO.FirstName,
+                LastName = userRegisterDTO.LastName,
                 MobileNumber = userRegisterDTO.MobileNumber,
                 PinCode = userRegisterDTO.PinCode,
                 Email = userRegisterDTO.Email,
@@ -41,9 +42,9 @@ namespace WoodenStreet.Services
             return await base.Post(userdata);
         }
 
-        private async Task<bool> UserExists(string username)
+        private async Task<bool> UserExists(string email)
         {
-            return await _DbContext.Users.AnyAsync(x => x.UserName == username);
+            return await _DbContext.Users.AnyAsync(x => x.Email == email);
         }
 
         public async Task<IActionResult> LoginUserByPassword(UserLoginByPasswordDTO userLoginByPasswordDTO)
@@ -67,7 +68,7 @@ namespace WoodenStreet.Services
             var key = Encoding.ASCII.GetBytes(_appSettings.Key);
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name,loginuser.UserName),
+                new Claim(ClaimTypes.Name,loginuser.FirstName),
                 new Claim(ClaimTypes.Email,userLoginByPasswordDTO.Email),
                 new Claim(ClaimTypes.Role,((UserType)loginuser.UserType).ToString())
             };
@@ -84,7 +85,7 @@ namespace WoodenStreet.Services
             var tokenhandler = new JwtSecurityTokenHandler();
             var token = tokenhandler.CreateToken(tokendescriptor);
 
-            return new OkObjectResult(new { userId = loginuser.UserId, userName = loginuser.UserName, email = userLoginByPasswordDTO.Email, role = ((UserType)loginuser.UserType).ToString(), token = tokenhandler.WriteToken(token) });
+            return new OkObjectResult(new { userId = loginuser.UserId, firstName = loginuser.FirstName, lastName = loginuser.LastName, email = userLoginByPasswordDTO.Email, mobileNo = loginuser.MobileNumber, role = ((UserType)loginuser.UserType).ToString(), token = tokenhandler.WriteToken(token) });
         }
 
         public Task<IActionResult> LoginUserByOtp(UserLoginByOtpDTO userLoginByOtpDTO)

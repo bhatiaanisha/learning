@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "/Z++Vvd6ygWYS4Jb3LZ7XQ+F9PntZxAC7gx3CBvPog3HJU7x7K4hXeCsIwbl+ZOJZuVIwVf5uP4P/Zbil19fhQ==",
+  "dgSpecHash": "DKAOYjajWt2htMIPv3fifmsD+KYRvHDHqZVeWfIA4r6VPTwqOV6BqArM7EaYo720Syl0mn5aEaX/KWvDVljNhA==",
   "success": true,
   "projectFilePath": "C:\\Users\\anisha.bhatia\\Desktop\\WoodenStreet_Project\\learning\\server\\WoodenStreet\\WoodenStreet\\WoodenStreet.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\anisha.bhatia\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\anisha.bhatia\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.1\\microsoft.aspnetcore.authentication.jwtbearer.6.0.1.nupkg.sha512",
-    "C:\\Users\\anisha.bhatia\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\anisha.bhatia\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\7.0.5\\microsoft.aspnetcore.jsonpatch.7.0.5.nupkg.sha512",
+    "C:\\Users\\anisha.bhatia\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\anisha.bhatia\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\anisha.bhatia\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
     "C:\\Users\\anisha.bhatia\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.8\\microsoft.entityframeworkcore.6.0.8.nupkg.sha512",
@@ -36,6 +37,7 @@
     "C:\\Users\\anisha.bhatia\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\anisha.bhatia\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\anisha.bhatia\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\anisha.bhatia\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\anisha.bhatia\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\anisha.bhatia\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\anisha.bhatia\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",

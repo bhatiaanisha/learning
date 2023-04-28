@@ -1,18 +1,12 @@
 import axios from "axios";
 import { environment } from "../environment";
+import { dataService } from "../shared/RxJsState";
 
 const hosturl = environment.appurl;
 
+
 export default async function postLogin(logindata){
-    return await axios.post(`${hosturl}/api/Login`,logindata).then((response) => {
-        const token = response.data;
-        if(token)
-        {
-            localStorage.setItem("token",JSON.stringify(token));
-            window.currentuser = token;
-        }
-        return token;
-    })
+    return await axios.post(`${hosturl}/api/Login`,logindata);
 }
 
 export function isLoggedIn(){
@@ -26,11 +20,7 @@ export function isLoggedIn(){
     }
 }
 
-export function setCurrentUser(token){
-    return window.currentuser = token; 
-}
-
 export function logout(){
     localStorage.removeItem("token");
-    return window.currentuser = undefined;
+    dataService.setData("");
 }

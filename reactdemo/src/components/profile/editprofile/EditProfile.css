@@ -1,0 +1,21 @@
+
+
+.alink{
+    text-decoration: none;
+    color: #4A4A4A;
+    font-size: 14px;
+}
+
+.text{
+    font-size: 18px;
+}
+
+.btn-color{
+    background: #e57200;
+}
+
+.logout-btn, .logout-btn:hover{
+    text-decoration: none;
+    color: #e57200;
+    cursor: pointer;
+}

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using WoodenStreet.IServices;
 using WoodenStreet.Models;
@@ -23,6 +24,12 @@ namespace WoodenStreet.Controllers
             return await _UserService.GetAll();
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            return await _UserService.GetById(id);
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostUser(UserRegisterDTO userRegisterDTO)
         {
@@ -33,6 +40,12 @@ namespace WoodenStreet.Controllers
         public async Task<IActionResult> PostAdmin(UserRegisterDTO userRegisterDTO)
         {
             return await _UserService.RegisterUser(userRegisterDTO, UserType.Admin);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutUser(int id,User user)
+        {
+            return await _UserService.Put(id, user);
         }
     }
 }

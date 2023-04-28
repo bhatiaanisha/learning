@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function AuthGuard(props){
+export default function AuthGuard({props}){
 
     const { Component } = props;
     const navigate = useNavigate();

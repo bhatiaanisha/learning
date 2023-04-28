@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import './Login.css';
-import { Link } from "react-router-dom";
-import postLogin, {setCurrentUser} from "../services/LoginService";
+import { NavLink } from "react-router-dom";
+import postLogin from "../services/LoginService";
 import { useForm } from "react-hook-form";
 import { ToastContainer,toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { dataService } from "../shared/RxJsState";
 
 export default function Login(){
 
@@ -30,27 +31,35 @@ export default function Login(){
         reset(data.values);
     }
 
-    async function login(data){
-        return await postLogin(data).then((response) => {
+    function login(data){
+        postLogin(data).then((response) => {
             if(response)
             {
+                const token = response.data;
+                if(token)
+                {
+                    localStorage.setItem("token",JSON.stringify(token));
+                    dataService.setData(token);
+                }
                 toast.success('Successfully logged in',{
                     position:"bottom-right",
-                    autoClose: 1000
+                    autoClose: 1000,
+                    style:{fontSize:"14px"}
                 })
-                setCurrentUser(response);
-                if(response.role === "Admin")
+                
+                if(token.role === "Admin")
                 {
                     //setCurrentUser(response);
                     navigate('/admin');
                     //window.location.reload();
                 }
-                if(response.role === "User")
+                if(token.role === "User")
                 {
                     //setCurrentUser(response);
                     navigate('/');
                     //window.location.reload();
                 }
+                //setCurrentUser(response);
             }
         }).catch((error) => {
             if(error.response)
@@ -59,7 +68,8 @@ export default function Login(){
                 {
                     toast.error('Invalid Credentials',{
                         position:"bottom-right",
-                        autoClose: 1000
+                        autoClose: 1000,
+                        style:{fontSize:"14px"}
                     })
                 }
             }
@@ -76,7 +86,7 @@ export default function Login(){
                         <img src="../../assets/images/login-image.jpg" className="login-img" width="370px" height="540px" alt="" />
                     </div>
                     <div className="w-50 ms-2">
-                        <a className="float-end" href="/">
+                        <NavLink className="float-end" to="/">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20.448 20.408">
                             <g transform="translate(0 0)">
                                 <path
@@ -85,7 +95,7 @@ export default function Login(){
                                 </path>
                             </g>
                             </svg>
-                        </a>
+                        </NavLink>
                         <div>
                             <h5 className="mt-4 mb-0">Login</h5>
                             <p className="login-text">Track your order, create wishlist & more</p>
@@ -128,14 +138,14 @@ export default function Login(){
                                     {errors.password && <p className="text-danger small-font">{errors.password.message}</p>}
                                 </div>  
                                 <div>
-                                    <p className="fontsize">Forgot Password? <a className="orange-color float-end" href="/">LOGIN USING OTP</a></p>
+                                    <p className="fontsize">Forgot Password? <NavLink className="orange-color float-end" to="/">LOGIN USING OTP</NavLink></p>
                                     <button type="submit" className="orange-bg border-0 text-white w-100 rounded-1 fw-semibold mt-1">LOG IN</button>
                                     {/* {areFieldsFilled &&
                                     }
                                     {!areFieldsFilled && 
                                         <button type="submit" className="grey-bg border-0 text-white w-100 rounded-1 fw-semibold mt-1" disabled>LOG IN</button>
                                     } */}
-                                    <p className="fontsize mt-4 text-center">New to Woodenstreet? <Link className="orange-color alink" to="/signup">Register Here</Link></p>
+                                    <p className="fontsize mt-4 text-center">New to Woodenstreet? <NavLink className="orange-color alink" to="/signup">Register Here</NavLink></p>
                                 </div>
                             </form>
                         </div>

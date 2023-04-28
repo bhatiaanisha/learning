@@ -4,8 +4,6 @@ GO
 USE WoodenStreet
 GO
 
-use DAY1
-
 CREATE TABLE ObjectTypes
 (
 	ObjectTypeId int IDENTITY(1,1) PRIMARY KEY,
@@ -212,3 +210,16 @@ DROP COLUMN ImageUrl
 
 ALTER TABLE SubCategory
 DROP COLUMN ImageUrl
+
+ALTER TABLE Users
+ADD LastName varchar(40)
+GO
+
+ALTER TABLE Users
+RENAME COLUMN UserName TO FirstName
+
+ALTER TABLE Users
+RENAME COLUMN UserName TO FirstName
+
+EXEC sp_rename 'Users.UserName', 'FirstName', 'COLUMN'
+

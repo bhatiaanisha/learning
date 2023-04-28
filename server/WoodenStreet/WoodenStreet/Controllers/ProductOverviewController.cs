@@ -20,5 +20,11 @@ namespace WoodenStreet.Controllers
         {
             return await _ProductOverviewService.GetAll();
         }
+
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> DeleteProductOverview(int productId)
+        {
+            return await _ProductOverviewService.DeleteOverviewByProductId(productId);
+        }
     }
 }

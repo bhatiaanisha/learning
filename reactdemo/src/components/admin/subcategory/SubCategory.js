@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import Pagination from "../../Pagination";
 import { useForm } from "react-hook-form";
 import { getCategory } from "../../../services/CategoryService";
+import { NavLink } from "react-router-dom";
 
 export default function SubCategory() {
 
@@ -29,7 +30,8 @@ export default function SubCategory() {
         }).catch((error) => {
             toast.error('Error', {
                 position: "bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             });
             console.log(error);
         })
@@ -45,7 +47,8 @@ export default function SubCategory() {
             console.log(error);
             toast.error('Server Error', {
                 position: "bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -71,7 +74,8 @@ export default function SubCategory() {
             console.log(error);
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -92,14 +96,16 @@ export default function SubCategory() {
         return await postSubCategory(data).then(() => {
             toast.success('Added SubCategory Successfully', {
                 position: "bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
             getSubCategories();
         }).catch((error) => {
             console.log(error);
             toast.error('Error', {
                 position: "bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -116,14 +122,16 @@ export default function SubCategory() {
         return await putSubCategory(UpdateSubCategoryForm.subCategoryId,UpdateSubCategoryForm).then(() => {
             toast.success('Updated SubCategory Successfully',{
                 position:"bottom-right",
-                autoClose:1000
+                autoClose:1000,
+                style:{fontSize:"14px"}
             })
             getSubCategories();
         }).catch((error) => {
             console.log(error);
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -133,14 +141,16 @@ export default function SubCategory() {
         return await deleteSubCategory(id).then(() => {
             toast.success('Deleted SubCategory Successfully',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
             getSubCategories();
         }).catch((error) => {
             console.log(error);
             toast.error('Error',{
                 position:"bottom-right",
-                autoClose: 1000
+                autoClose: 1000,
+                style:{fontSize:"14px"}
             })
         })
     }
@@ -187,10 +197,10 @@ export default function SubCategory() {
                                         <td>{longEnUSFormatter.format(new Date(subcategory.modifiedDate))}</td>
 
                                         {/* eslint-disable-next-line */}
-                                        <td><a type="button" onClick={() => getASubCategory(subcategory.subCategoryId)} data-bs-toggle="modal" data-bs-target="#EditModal"><em className="fa-solid fa-pen text-primary"></em></a></td>
+                                        <td><NavLink type="button" onClick={() => getASubCategory(subcategory.subCategoryId)} data-bs-toggle="modal" data-bs-target="#EditModal"><em className="fa-solid fa-pen text-primary"></em></NavLink></td>
 
                                         {/* eslint-disable-next-line */}
-                                        <td><a type="button" onClick={() => deleteSubCategoryById(subcategory.subCategoryId)}><em className="fa-solid fa-trash-can text-primary"></em></a></td>
+                                        <td><NavLink type="button" onClick={() => deleteSubCategoryById(subcategory.subCategoryId)}><em className="fa-solid fa-trash-can text-primary"></em></NavLink></td>
                                     </tr>
                                 )}
                             </tbody>
