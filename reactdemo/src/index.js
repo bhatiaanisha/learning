@@ -11,16 +11,12 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthProvider } from './components/AuthProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-window.currentuser = {};
 root.render(
   //<React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
         <App />
-      </AuthProvider>
     </BrowserRouter>
   //</React.StrictMode>
 );

@@ -231,7 +231,7 @@ export default function Navbar() {
                                                 }
                                             </p>
                                             <p className="text-start txt-color"><NavLink to="/" className="alink alinks">My Orders</NavLink></p>
-                                            <p className="text-start txt-color"><NavLink to="/" className="alink alinks">My Wishlist</NavLink></p>
+                                            <p className="text-start txt-color"><NavLink to="profile/wishlist" className="alink alinks">My Wishlist</NavLink></p>
                                             <p className="text-start txt-color"><NavLink to="/" className="alink alinks">Saved Address</NavLink></p>
                                             <p className="text-start txt-color"><NavLink to="/" className="alink alinks">Wallet</NavLink></p>
                                             <hr />
@@ -252,7 +252,7 @@ export default function Navbar() {
                                             </svg>
                                         </NavLink>
                                     </li>
-                                    <span className="wishlist"><NavLink to="/" className="alink">Wishlist (0)</NavLink></span>
+                                    <span className="wishlist"><NavLink to="profile/wishlist" className="alink">Wishlist (0)</NavLink></span>
                                     <li className="nav-item cart-logo">
                                         <NavLink className="nav-link" to="/">
                                             <svg width="22" height="20.165" viewBox="0 0 22 20.165">

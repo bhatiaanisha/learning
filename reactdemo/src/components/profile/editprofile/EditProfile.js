@@ -166,7 +166,7 @@ export default function EditProfile(){
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" className="btn-color text-white border-0 mt-4 rounded-1 px-3 py-2">Update Password</button>
+                            <button type="button" className="btn-color text-white border-0 mt-4 rounded-1 px-3 py-2 mb-2">Update Password</button>
                         </form>
                     </div>
                 </div>
