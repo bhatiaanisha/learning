@@ -32,6 +32,7 @@ namespace WoodenStreet.Models
         public virtual DbSet<SubCategory> SubCategories { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Wishlist> Wishlists { get; set; } = null!;
+        public virtual DbSet<WishlistDataDTO> WishlistDataDTOs { get; set; } = null!;
         public virtual DbSet<WishlistItem> WishlistItems { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }

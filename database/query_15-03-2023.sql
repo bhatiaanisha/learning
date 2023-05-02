@@ -192,6 +192,8 @@ SELECT * FROM SubCategory
 SELECT * FROM Products
 SELECT * FROM Images
 SELECT * FROM ProductOverview
+SELECT * FROM Wishlist
+SELECT * FROM WishlistItems
 
 ALTER TABLE Images
 ADD CONSTRAINT DF_Images_Modify DEFAULT GETDATE() for [ModifiedDate]
@@ -223,3 +225,8 @@ RENAME COLUMN UserName TO FirstName
 
 EXEC sp_rename 'Users.UserName', 'FirstName', 'COLUMN'
 
+SELECT f.FurnitureItemName,c.CategoryName,sc.SubCategoryName,p.ProductName
+FROM FurnitureItems f
+JOIN Category c ON c.FurnitureItemId = f.FurnitureItemId
+JOIN SubCategory sc ON sc.CategoryId = c.CategoryId
+JOIN Products p ON p.SubCategoryId = sc.SubCategoryId

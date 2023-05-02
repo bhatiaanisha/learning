@@ -13,7 +13,7 @@ import SubCategory from './components/admin/subcategory/SubCategory';
 import Products from './components/admin/products/Products';
 import EditProfile from './components/profile/editprofile/EditProfile';
 import PageNotFound from './components/PageNotFound';
-import { dataService } from './shared/RxJsState';
+import { dataService,wishlistCountService } from './shared/RxJsState';
 import Profile from './components/profile/Profile';
 import Wishlist from './components/profile/wishlist/Wishlist';
 
@@ -26,23 +26,31 @@ export default function App() {
         setUserData(value);
       }
     })
+    wishlistCountService.getData().subscribe({
+      next : (value) => {
+        setCount(value);
+      }
+    })
   },[]);
   
   const [isLoaded, setIsLoaded] = useState(false);
+  const [count, setCount] = useState();
 
+  
   if(!isLoaded){
     let data = localStorage.getItem("token");
     if(data)
     {
       const Token = JSON.parse(data);
       dataService.setData(Token);
+      wishlistCountService.setData(count);
       setUserData(Token);
     }
     setIsLoaded(true);
   }
 
   const UserPrivate = ({Component}) => {
-    return (userData && userData?.role === "User") === true ? <Component /> : <Navigate to="/login" />;
+    return userData === true ? <Component /> : <Navigate to="/login" />;
   }
 
   const AdminPrivate = ({Component}) => {

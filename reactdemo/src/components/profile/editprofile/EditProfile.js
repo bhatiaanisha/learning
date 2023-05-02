@@ -10,7 +10,7 @@ export default function EditProfile(){
     useEffect(() => {
         dataService.getData().subscribe({
             next : (value) => {
-                getAUser(value.userId);
+                getAUser(value?.userId);
             }
         })
     },[]);

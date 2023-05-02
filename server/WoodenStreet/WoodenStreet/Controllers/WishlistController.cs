@@ -28,6 +28,12 @@ namespace WoodenStreet.Controllers
             return await _WishlistService.GetById(id);
         }
 
+        [HttpGet("data/{userId}")]
+        public async Task<IActionResult> GetWishlistByUserId(int userId)
+        {
+            return await _WishlistService.GetWishlistData(userId);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateWishlist(Wishlist wishlist)
         {

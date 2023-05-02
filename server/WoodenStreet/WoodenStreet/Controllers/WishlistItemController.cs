@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WoodenStreet.IServices;
+using WoodenStreet.Models;
 
 namespace WoodenStreet.Controllers
 {
@@ -25,6 +26,12 @@ namespace WoodenStreet.Controllers
         public async Task<IActionResult> GetWishlistItemsById(int id)
         {
             return await _WishlistItemsService.GetById(id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostWishlistItems(WishlistItem wishlistItem)
+        {
+            return await _WishlistItemsService.Post(wishlistItem);
         }
     }
 }

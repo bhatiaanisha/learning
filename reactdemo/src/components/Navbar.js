@@ -4,7 +4,7 @@ import './Navbar.css';
 import { getFurnitureItems } from "../services/FurnitureItemsService"; 
 import { ToastContainer,toast } from "react-toastify";
 import { logout } from "../services/LoginService";
-import { dataService } from "../shared/RxJsState";
+import { dataService,wishlistCountService } from "../shared/RxJsState";
 
 export default function Navbar() {
 
@@ -15,8 +15,16 @@ export default function Navbar() {
                 setUser(data)
             }
         })
+        wishlistCountService.getData().subscribe({
+            next : (data) => {
+                console.log(data);
+                setWishlistCount(data);
+            }
+        })
     },[]);
 
+    const [wishlistCount, setWishlistCount] = useState(0);
+    console.log("wishlist = ",wishlistCount);
     const [user,setUser] = useState();
 
     const [ItemList, setItemList] = useState([]);
@@ -252,7 +260,7 @@ export default function Navbar() {
                                             </svg>
                                         </NavLink>
                                     </li>
-                                    <span className="wishlist"><NavLink to="profile/wishlist" className="alink">Wishlist (0)</NavLink></span>
+                                    <span className="wishlist"><NavLink to="profile/wishlist" className="alink">Wishlist({wishlistCount})</NavLink></span>
                                     <li className="nav-item cart-logo">
                                         <NavLink className="nav-link" to="/">
                                             <svg width="22" height="20.165" viewBox="0 0 22 20.165">

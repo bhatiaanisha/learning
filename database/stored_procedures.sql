@@ -65,3 +65,27 @@ GO
 
 EXEC uspGetProductEditDetails @ProductId = 12
 GO */
+
+-- =============================================
+-- Author:		<Anisha Bhatia>
+-- Create date: <02/05/2023>
+-- Description:	<Created stored procedure for wishlist items based on user id>
+-- =============================================
+
+IF OBJECT_ID ( 'uspGetWishlistItems') IS NOT NULL   
+    DROP PROCEDURE uspGetWishlistItems;  
+GO
+
+CREATE PROCEDURE uspGetWishlistItems @UserId int
+AS
+	SELECT w.WishlistId,w.UserId,wi.WishlistItemId,wi.ProductId,wi.IsActive,p.ProductName,p.DiscountedPrice,p.OriginalPrice,po.SKU,i.ProductImageUrl
+	FROM Wishlist w
+	JOIN WishlistItems wi ON wi.WishlistId = w.WishlistId
+	JOIN Products p ON p.ProductId = wi.ProductId
+	JOIN ProductOverview po ON po.ProductId = p.ProductId
+	JOIN Images i ON i.ProductId = p.ProductId
+	WHERE w.UserId = @UserId AND wi.IsActive = 1
+GO
+
+EXEC uspGetWishlistItems @UserId = 3
+GO

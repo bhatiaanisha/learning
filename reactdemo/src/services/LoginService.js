@@ -4,7 +4,6 @@ import { dataService } from "../shared/RxJsState";
 
 const hosturl = environment.appurl;
 
-
 export default async function postLogin(logindata){
     return await axios.post(`${hosturl}/api/Login`,logindata);
 }

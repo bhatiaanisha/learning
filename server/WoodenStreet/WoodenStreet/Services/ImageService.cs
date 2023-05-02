@@ -16,7 +16,7 @@ namespace WoodenStreet.Services
         {
             var response = await _DbContext.Images.Where(x => x.ProductId == productId).ToListAsync();
 
-            if (response != null)
+            if (response.Count > 0)
             {
                 for (int i = 0; i < response.Count; i++)
                 {
