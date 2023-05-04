@@ -21,6 +21,29 @@ GO
 
 -- =============================================
 -- Author:		<Anisha Bhatia>
+-- Create date: <03/05/2023>
+-- Description:	<Created stored procedure for getting all the Products through fetching item name from query params>
+-- =============================================
+
+IF OBJECT_ID ( 'uspGetProductsByQuery') IS NOT NULL   
+    DROP PROCEDURE uspGetProductsByQuery;  
+GO
+
+CREATE PROCEDURE uspGetProductsByQuery @ItemName varchar(100)
+AS
+	SELECT p.ProductId,p.ProductName,p.CompanyName,p.IsRated,p.Ratings,p.DiscountedPrice,p.OriginalPrice,i.ProductImageUrl,sc.SubCategoryName,p.CreatedDate,p.ModifiedDate
+	FROM FurnitureItems f
+	JOIN Category c ON c.FurnitureItemId = f.FurnitureItemId
+	JOIN SubCategory sc ON sc.CategoryId = c.CategoryId
+	JOIN Products p ON p.SubCategoryId = sc.SubCategoryId
+	JOIN Images i ON i.ProductId = p.ProductId
+	WHERE f.FurnitureItemName = 'Storage'
+GO
+
+EXEC uspGetProductsByQuery @ItemName = 'Dining & Kitchen'
+
+-- =============================================
+-- Author:		<Anisha Bhatia>
 -- Create date: <22/03/2023>
 -- Description:	<Created stored procedure for getting details for /product-detail page based on particular product id>
 -- =============================================
@@ -43,28 +66,6 @@ GO
 
 EXEC uspGetProductDetails @ProductId = 2
 GO
-
--- =============================================
--- Author:		<Anisha Bhatia>
--- Create date: <21/04/2023>
--- Description:	<Created stored procedure for getting details for edit form of product>
--- =============================================
-
-/* IF OBJECT_ID ( 'uspGetProductEditDetails') IS NOT NULL   
-    DROP PROCEDURE uspGetProductEditDetails;  
-GO
-
-CREATE PROCEDURE uspGetProductEditDetails @ProductId int
-AS
-	SELECT p.ProductId,p.SubCategoryId,p.ProductName,p.CompanyName,p.IsRated,p.Ratings,p.Reviews,p.OriginalPrice,p.DiscountedPrice,p.CreatedDate AS ProductCreatedDate,i.ImageId,i.ProductImageUrl,i.CreatedDate AS ImageCreatedDate,po.ProductOverviewId,po.Seater,po.Material,po.Color,po.DimensionsInInch,po.Mechanism,po.DimensionsInCm,po.Foam,po.WeightCapacity,po.Width,po.Warranty,po.ShipsIn,po.DeliveryCondition,po.SKU,po.CreatedDate AS OverviewCreatedDate
-	FROM Products p
-	JOIN Images i ON i.ProductId = p.ProductId
-	JOIN ProductOverview po ON po.ProductId = p.ProductId
-	WHERE p.ProductId = @ProductId
-GO
-
-EXEC uspGetProductEditDetails @ProductId = 12
-GO */
 
 -- =============================================
 -- Author:		<Anisha Bhatia>

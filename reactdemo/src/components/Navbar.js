@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
 import './Navbar.css';
 import { getFurnitureItems } from "../services/FurnitureItemsService"; 
 import { ToastContainer,toast } from "react-toastify";
 import { logout } from "../services/LoginService";
-import { dataService,wishlistCountService } from "../shared/RxJsState";
+import { dataService } from "../shared/RxJsState";
 
 export default function Navbar() {
 
@@ -12,19 +12,11 @@ export default function Navbar() {
         getItems();
         dataService.getData().subscribe({
             next : (data) => {
-                setUser(data)
-            }
-        })
-        wishlistCountService.getData().subscribe({
-            next : (data) => {
-                console.log(data);
-                setWishlistCount(data);
+                setUser(data);
             }
         })
     },[]);
 
-    const [wishlistCount, setWishlistCount] = useState(0);
-    console.log("wishlist = ",wishlistCount);
     const [user,setUser] = useState();
 
     const [ItemList, setItemList] = useState([]);
@@ -260,7 +252,7 @@ export default function Navbar() {
                                             </svg>
                                         </NavLink>
                                     </li>
-                                    <span className="wishlist"><NavLink to="profile/wishlist" className="alink">Wishlist({wishlistCount})</NavLink></span>
+                                    <span className="wishlist"><NavLink to="profile/wishlist" className="alink">Wishlist (0)</NavLink></span>
                                     <li className="nav-item cart-logo">
                                         <NavLink className="nav-link" to="/">
                                             <svg width="22" height="20.165" viewBox="0 0 22 20.165">
@@ -283,7 +275,7 @@ export default function Navbar() {
                     <ul className="navbar-nav d-flex flex-row justify-content-around">
                     {ItemList.map(list => 
                         <li className="nav-item" key={list.furnitureItemId}>
-                            <NavLink className="nav-link nowrap" to="/">{list.furnitureItemName}</NavLink>
+                            <a className="link" href={`/products?itemName=${encodeURIComponent(list.furnitureItemName)}`}>{list.furnitureItemName}</a>
                         </li>
                     )}
                     </ul>

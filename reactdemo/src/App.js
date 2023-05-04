@@ -13,7 +13,7 @@ import SubCategory from './components/admin/subcategory/SubCategory';
 import Products from './components/admin/products/Products';
 import EditProfile from './components/profile/editprofile/EditProfile';
 import PageNotFound from './components/PageNotFound';
-import { dataService,wishlistCountService } from './shared/RxJsState';
+import { dataService } from './shared/RxJsState';
 import Profile from './components/profile/Profile';
 import Wishlist from './components/profile/wishlist/Wishlist';
 
@@ -26,16 +26,9 @@ export default function App() {
         setUserData(value);
       }
     })
-    wishlistCountService.getData().subscribe({
-      next : (value) => {
-        setCount(value);
-      }
-    })
   },[]);
   
   const [isLoaded, setIsLoaded] = useState(false);
-  const [count, setCount] = useState();
-
   
   if(!isLoaded){
     let data = localStorage.getItem("token");
@@ -43,18 +36,17 @@ export default function App() {
     {
       const Token = JSON.parse(data);
       dataService.setData(Token);
-      wishlistCountService.setData(count);
       setUserData(Token);
     }
     setIsLoaded(true);
   }
 
   const UserPrivate = ({Component}) => {
-    return userData === true ? <Component /> : <Navigate to="/login" />;
+    return (userData?.role === "User" || userData?.role === "Admin") === true ? <Component /> : <Navigate to="/login" />
   }
 
   const AdminPrivate = ({Component}) => {
-    return (userData && userData?.role === "Admin") === true ? <Component /> : <Navigate to="/" />
+    return (userData?.role === "Admin") === true ? <Component /> : <Navigate to="/" />
   }
 
   return (

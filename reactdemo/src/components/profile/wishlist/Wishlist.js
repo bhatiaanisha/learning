@@ -3,7 +3,6 @@ import './Wishlist.css';
 import { NavLink } from "react-router-dom";
 import { getWishlist } from "../../../services/WishlistService";
 import { dataService } from "../../../shared/RxJsState";
-import { wishlistCountService } from "../../../shared/RxJsState";
 
 export default function Wishlist(){
 
@@ -23,7 +22,6 @@ export default function Wishlist(){
             const data = response.data
             if(data.length > 0)
             {
-                wishlistCountService.setData(data.length);
                 setIsWishlist(true)
                 setWishlistData(data)
             }

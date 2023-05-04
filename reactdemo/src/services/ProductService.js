@@ -3,8 +3,13 @@ import { environment } from "../environment";
 
 const hosturl = environment.appurl;
 
+
 export async function getAllProducts(){
     return await axios.get(`${hosturl}/api/Product`);
+}
+
+export async function getProductsByQuery(itemName){
+    return await axios.get(`${hosturl}/api/Product/get`,{params : {itemName : itemName}});
 }
 
 export async function getProductDetailsById(productId){

@@ -36,7 +36,7 @@ export default function TopPick() {
                     {topPicks.map((topPick,i) => 
                         (topPick.imageUrl && 
                             <div key={i} className="col"> 
-                                <NavLink to="products" className="text-decoration-none text-black">
+                                <NavLink to={`/products?itemName=${encodeURIComponent(topPick.furnitureItemName)}`} className="text-decoration-none text-black">
                                     <img alt="" src={topPick.imageUrl} width={"190px"} height={"160px"} />
                                     <p className="text-center me-4">{topPick.furnitureItemName}</p>
                                 </NavLink>

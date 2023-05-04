@@ -536,7 +536,6 @@ export default function Products() {
                                         {...register
                                             ('ratings',
                                                 {
-                                                    required: { value: true, message: "Field is required" },
                                                     pattern: { value: /^[0-9+-]+$/, message: "Please enter valid numbers" },
                                                     onChange: (e) => setRatings(e.target.value)
                                                 }
@@ -555,7 +554,6 @@ export default function Products() {
                                         {...register
                                             ('reviews',
                                                 {
-                                                    required: { value: true, message: "Field is required" },
                                                     pattern: { value: /^[0-9+-]+$/, message: "Please enter valid numbers" },
                                                     onChange: (e) => setReviews(e.target.value)
                                                 }

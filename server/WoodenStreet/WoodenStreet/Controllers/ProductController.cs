@@ -22,6 +22,12 @@ namespace WoodenStreet.Controllers
             return await _ProductService.GetAllProducts();
         }
 
+        [HttpGet("get")]
+        public async Task<IActionResult> GetProductsByItemName(string itemName)
+        {
+            return await _ProductService.GetProductsByQuery(itemName);
+        }
+
         [HttpGet("original")]
         public async Task<IActionResult> GetAllProducts()
         {

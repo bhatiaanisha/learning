@@ -15,13 +15,26 @@ namespace WoodenStreet.Services
         public async Task<IActionResult> GetAllProducts()
         {
             var response = await _DbContext.ProductDTOs.FromSqlRaw<ProductDTO>("exec uspGetProducts").ToListAsync();
-            if(response.Count > 0)
+            if (response.Count > 0)
             {
                 return new OkObjectResult(response);
             }
             else
             {
                 return new NotFoundObjectResult(new { message = "No Records Found" });
+            }
+        }
+
+        public async Task<IActionResult> GetProductsByQuery(string itemName)
+        {
+            var response = await _DbContext.ProductDTOs.FromSqlRaw<ProductDTO>("exec uspGetProductsByQuery {0}", itemName).ToListAsync();
+            if(response.Count > 0) 
+            {
+                return new OkObjectResult(response);
+            }
+            else
+            {
+                return new NotFoundObjectResult(new { message = "No Products found for the specified furniture item name" });
             }
         }
 

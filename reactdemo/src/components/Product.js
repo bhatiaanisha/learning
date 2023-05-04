@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Product.css';
-import { getAllProducts } from "../services/ProductService";
-import { NavLink } from "react-router-dom";
+import { getProductsByQuery } from "../services/ProductService";
+import { NavLink, useSearchParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function Product() {
@@ -10,9 +10,13 @@ export default function Product() {
         getProducts();
     }, [])
 
+    
+    const [searchParams] = useSearchParams();
+    const itemName = searchParams.get('itemName');
+
     const [productList, setProductList] = useState([]);
     async function getProducts() {
-        return await getAllProducts().then((response) => {
+        return await getProductsByQuery(itemName).then((response) => {
             const data = response.data;
             setProductList(data);
         }).catch((error) => {
@@ -57,21 +61,124 @@ export default function Product() {
         setProductList(clonedList);
     }
 
+    const arrayList = [];
+    var clonedList = [];
+    async function filterByPrice(){
+        await getProductsByQuery(itemName).then((response) => {
+            const data = response.data;
+            console.log("Data =",data);
+            clonedList = data;
+        })
+        if((document.getElementById('price1')).checked)
+        {
+            clonedList.filter(price => price.discountedPrice <= 10000).map(filteredPrice => {
+                arrayList.push(filteredPrice);
+            })
+        }
+        if((document.getElementById('price2')).checked)
+        {
+            clonedList.filter(price => price.discountedPrice > 10000 && price.discountedPrice <= 30000).map(filteredPrice => {
+                arrayList.push(filteredPrice);
+            })
+        }
+        if((document.getElementById('price3')).checked)
+        {
+            clonedList.filter(price => price.discountedPrice > 30000).map(filteredPrice => {
+                arrayList.push(filteredPrice);
+            })
+        }
+        console.log("array =",arrayList);
+        if(arrayList)
+        {
+            setProductList(arrayList);
+        }
+        // if(arrayList !== null)
+        // {
+
+        // }
+        if(arrayList.length < 1)
+        {
+            console.log("cloned =",clonedList)
+            setProductList(clonedList);
+        }
+        // setProductList(arrayList);
+    }
+
+    // price range under 10,000
+    // let price1_check = document.getElementById('price1');
+    // price1_check?.addEventListener('change',function(){
+    //     if(price1_check.checked)
+    //     {
+    //         const clonedList = [...productList];
+    //         clonedList.forEach((item) => {
+    //             if(item.discountedPrice > 10000)
+    //             {
+    //                arrayList.push(item);
+    //             }
+    //         })
+    //         setProductList(arrayList);
+    //     }
+    //     else
+    //     {
+    //         getProducts();
+    //     }
+    // })
+
+    // price range between 10,000 and 30,000
+    // let price2_check = document.getElementById('price2');
+    // price2_check?.addEventListener('change',function(){
+    //     if(price2_check.checked)
+    //     {
+    //         const clonedList = [...productList];
+    //         clonedList.forEach((item) => {
+    //             if(item.discountedPrice <= 30000)
+    //             {
+    //                arrayList.push(item);
+    //             }
+    //         })
+    //         setProductList(arrayList);
+    //     }
+    //     else
+    //     {
+    //         getProducts();
+    //     }
+    // })
+
+    // price range between 10,000 and 30,000
+    // let price3_check = document.getElementById('price3');
+    // price3_check?.addEventListener('change',function(){
+    //     if(price3_check.checked)
+    //     {
+    //         const clonedList = [...productList];
+    //         clonedList.forEach((item) => {
+    //             if(item.discountedPrice > 30000)
+    //             {
+    //                arrayList.push(item);
+    //             }
+    //         })
+    //         setProductList(arrayList);
+    //     }
+    //     else
+    //     {
+    //         getProducts();
+    //     }
+    // })
+
     return (
         <div>
             <div className="container mt-1">
                 <nav
                     aria-label="breadcrumb">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item active">Furniture</li>
-                        <li className="breadcrumb-item active" aria-current="page">Sofas</li>
-                        <li className="breadcrumb-item active" aria-current="page">Fabric Sofas</li>
+                        <li className="breadcrumb-item active"><NavLink to="/" className="link">Furniture</NavLink></li>
+                        <li className="breadcrumb-item" aria-current="page">{itemName}</li>
+                        {/* <li className="breadcrumb-item active" aria-current="page">Fabric Sofas</li> */}
                     </ol>
                 </nav>
                 <div className="text-center">
-                    <p className="heading mb-0">Fabric Sofas</p>
-                    <p>Fabric sofa sets are the perfect addition to the home décor because they never fail to add that extra glamour.</p>
-                    <img src="../../assets/images/fabric_sofa.png" alt="" />
+                    <p className="heading mb-0">{itemName}</p>
+                    <p>{itemName} are the perfect addition to the home décor because they never fail to add that extra glamour.</p>
+                    {/* <img src="../../assets/images/logo.svg" alt="" height={200} width={200} /> */}
                 </div>
             </div>
             <div className="product-main container-fluid">
@@ -81,24 +188,54 @@ export default function Product() {
                             <div className="accordion" id="accordionExample">
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="headingOne">
-                                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <button className="accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                             Sort by
                                         </button>
-                                        <hr />
+                                        <hr className="mt-1 mb-0" />
                                     </h2>
                                     <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            <div className="">
+                                            <div>
                                                 <input type="radio" value="Name" name="products" onClick={sortbyName} />
                                                 <span className="ms-2">Sort (A-Z)</span>
                                             </div>
-                                            <div className="">
+                                            <div>
                                                 <input type="radio" value="LTH" name="products" onClick={sortByPriceLowToHigh} />
                                                 <span className="ms-2">Price (Low to High)</span>
                                             </div>
-                                            <div className="">
+                                            <div>
                                                 <input type="radio" value="HTL" name="products" onClick={sortByPriceHighToLow} />
                                                 <span className="ms-2">Price (High to Low)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-white mt-2">
+                            <div className="accordion" id="accordionExample2">
+                                <div className="accordion-item">
+                                    <p className="mx-3 my-2">Filter</p>
+                                    <hr className="mt-1" />
+                                    <h2 className="accordion-header" id="headingTwo">
+                                        <button className="accordion-button border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                            PRICE RANGE
+                                        </button>
+                                        <hr className="mt-1 mb-0" />
+                                    </h2>
+                                    <div id="collapseTwo" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample2">
+                                        <div className="accordion-body">
+                                            <div>
+                                                <input type="checkbox" id="price1" onClick={filterByPrice} />
+                                                <span className="ms-2">Under Rs 10,000</span>
+                                            </div>
+                                            <div>
+                                                <input type="checkbox" id="price2" onClick={filterByPrice} />
+                                                <span className="ms-2">Rs 10,000 - Rs 30,000</span>
+                                            </div>
+                                            <div>
+                                                <input type="checkbox" id="price3" onClick={filterByPrice} />
+                                                <span className="ms-2">Over Rs 30,000</span>
                                             </div>
                                         </div>
                                     </div>
