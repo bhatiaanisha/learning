@@ -11,8 +11,8 @@ export default function TopPick() {
     },[]);
 
     const [topPicks, setTopPicks] = useState([]);
-    async function getAllItems(){
-        return await getFurnitureItems().then((response) => {
+    function getAllItems(){
+        getFurnitureItems().then((response) => {
             const data = response.data;
             setTopPicks(data);
         }).catch((error) => {

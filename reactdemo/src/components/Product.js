@@ -8,6 +8,7 @@ export default function Product() {
 
     useEffect(() => {
         getProducts();
+        // eslint-disable-next-line
     }, [])
 
     
@@ -15,8 +16,8 @@ export default function Product() {
     const itemName = searchParams.get('itemName');
 
     const [productList, setProductList] = useState([]);
-    async function getProducts() {
-        return await getProductsByQuery(itemName).then((response) => {
+    function getProducts() {
+        getProductsByQuery(itemName).then((response) => {
             const data = response.data;
             setProductList(data);
         }).catch((error) => {
@@ -71,19 +72,19 @@ export default function Product() {
         })
         if((document.getElementById('price1')).checked)
         {
-            clonedList.filter(price => price.discountedPrice <= 10000).map(filteredPrice => {
+            clonedList.filter(price => price.discountedPrice <= 10000).forEach(filteredPrice => {
                 arrayList.push(filteredPrice);
             })
         }
         if((document.getElementById('price2')).checked)
         {
-            clonedList.filter(price => price.discountedPrice > 10000 && price.discountedPrice <= 30000).map(filteredPrice => {
+            clonedList.filter(price => price.discountedPrice > 10000 && price.discountedPrice <= 30000).forEach(filteredPrice => {
                 arrayList.push(filteredPrice);
             })
         }
         if((document.getElementById('price3')).checked)
         {
-            clonedList.filter(price => price.discountedPrice > 30000).map(filteredPrice => {
+            clonedList.filter(price => price.discountedPrice > 30000).forEach(filteredPrice => {
                 arrayList.push(filteredPrice);
             })
         }
@@ -92,77 +93,12 @@ export default function Product() {
         {
             setProductList(arrayList);
         }
-        // if(arrayList !== null)
-        // {
-
-        // }
         if(arrayList.length < 1)
         {
             console.log("cloned =",clonedList)
             setProductList(clonedList);
         }
-        // setProductList(arrayList);
     }
-
-    // price range under 10,000
-    // let price1_check = document.getElementById('price1');
-    // price1_check?.addEventListener('change',function(){
-    //     if(price1_check.checked)
-    //     {
-    //         const clonedList = [...productList];
-    //         clonedList.forEach((item) => {
-    //             if(item.discountedPrice > 10000)
-    //             {
-    //                arrayList.push(item);
-    //             }
-    //         })
-    //         setProductList(arrayList);
-    //     }
-    //     else
-    //     {
-    //         getProducts();
-    //     }
-    // })
-
-    // price range between 10,000 and 30,000
-    // let price2_check = document.getElementById('price2');
-    // price2_check?.addEventListener('change',function(){
-    //     if(price2_check.checked)
-    //     {
-    //         const clonedList = [...productList];
-    //         clonedList.forEach((item) => {
-    //             if(item.discountedPrice <= 30000)
-    //             {
-    //                arrayList.push(item);
-    //             }
-    //         })
-    //         setProductList(arrayList);
-    //     }
-    //     else
-    //     {
-    //         getProducts();
-    //     }
-    // })
-
-    // price range between 10,000 and 30,000
-    // let price3_check = document.getElementById('price3');
-    // price3_check?.addEventListener('change',function(){
-    //     if(price3_check.checked)
-    //     {
-    //         const clonedList = [...productList];
-    //         clonedList.forEach((item) => {
-    //             if(item.discountedPrice > 30000)
-    //             {
-    //                arrayList.push(item);
-    //             }
-    //         })
-    //         setProductList(arrayList);
-    //     }
-    //     else
-    //     {
-    //         getProducts();
-    //     }
-    // })
 
     return (
         <div>

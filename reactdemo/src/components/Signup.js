@@ -31,14 +31,13 @@ export default function Signup(){
         
     //const areFieldsFilled = (name !== "") && (mobileno !== "") && (pincode !== "") && (email !== "") && (password !== "")
 
-    async function RegisterUser(data){
-        return await postRegister(data).then(() => {
+    function RegisterUser(data){
+        postRegister(data).then(() => {
             toast.success('Registered Successfully',{
                 position:"bottom-right",
                 autoClose: 1000,
                 style:{fontSize:"14px"}
             })
-            //alert("Registered Successfully!");
         }).catch((error) => {
             toast.error('Error',{
                 position:"bottom-right",

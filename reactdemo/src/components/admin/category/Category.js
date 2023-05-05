@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { getCategory, postCategory, deleteCategory, getCategoryById, putCategory } from "../../../services/CategoryService";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { getFurnitureItems } from "../../../services/FurnitureItemsService";
-import Pagination from "../../Pagination";
 import { NavLink } from "react-router-dom";
+import { Pagination } from "@mui/material";
+import usePagination from "../../Paging";
 
 export default function Category(){
     
@@ -20,11 +21,12 @@ export default function Category(){
     })
     
     const { reset, handleSubmit, register, formState:{errors} } = useForm();
+    const [page, setPage] = useState(1);
     
     // Fetch all categories
     const [categoryList, setCategoryList] = useState([]);
-    async function getCategories(){
-        return await getCategory().then((response) => {
+    function getCategories(){
+        getCategory().then((response) => {
             const data = response.data;
             setCategoryList(data);
         }).catch((error) => {
@@ -44,8 +46,8 @@ export default function Category(){
         ItemId : 0,
         CreatedDate : ''
     });
-    async function getById(categoryId){
-        return await getCategoryById(categoryId).then((response) => {
+    function getById(categoryId){
+        getCategoryById(categoryId).then((response) => {
             const data = response.data;
             setCategoryItem({
                 Id : data.categoryId,
@@ -75,8 +77,8 @@ export default function Category(){
         reset(data.values);
     }
     
-    async function addCategory(data){
-        return await postCategory(data).then(() => {
+    function addCategory(data){
+        postCategory(data).then(() => {
             toast.success('Added Category Successfully',{
                 position:"bottom-right",
                 autoClose: 1000,
@@ -94,7 +96,7 @@ export default function Category(){
     }
     
     // Update Category
-    async function updateCategory(e){
+    function updateCategory(e){
         e.preventDefault();
         let UpdateCategoryForm = {
             categoryId : categoryItem.Id,
@@ -102,7 +104,7 @@ export default function Category(){
             categoryName : categoryItem.Name,
             createdDate : categoryItem.CreatedDate
         }
-        return await putCategory(UpdateCategoryForm.categoryId,UpdateCategoryForm).then(() => {
+        putCategory(UpdateCategoryForm.categoryId,UpdateCategoryForm).then(() => {
             toast.success('Updated Category Successfully',{
                 position:"bottom-right",
                 autoClose:1000,
@@ -120,8 +122,8 @@ export default function Category(){
     }
     
     // Delete Category
-    async function categoryDelete(categoryId){  
-        return await deleteCategory(categoryId).then(() => {
+    function categoryDelete(categoryId){  
+        deleteCategory(categoryId).then(() => {
             toast.success('Deleted Category Successfully',{
                 position:"bottom-right",
                 autoClose: 1000,
@@ -140,8 +142,8 @@ export default function Category(){
     
     // Fetch furniture items to fill option values in select tag for add category form
     const [items, setItems] = useState();
-    async function getAllItems(){
-        return await getFurnitureItems().then((response) => {
+    function getAllItems(){
+        getFurnitureItems().then((response) => {
             const data = response.data;
             setItems(data);
         }).catch((error) => {
@@ -154,15 +156,15 @@ export default function Category(){
         })
     }
     
-    // Pagination code
-    const PageSize = 8;
-    const [currentPage, setCurrentPage] = useState(1);
-    
-    const categoryData = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
-        const lastPageIndex = firstPageIndex + PageSize;
-        return categoryList.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage,PageSize,categoryList]);
+    //Pagination code
+    const per_page = 8;
+    const count = Math.ceil(categoryList.length / per_page);
+    const _Data = usePagination(categoryList,per_page);
+
+    const handlePageChange = (e,p) => {
+        setPage(p);
+        _Data.jump(p);
+    }
     
     return(
         <div>
@@ -188,7 +190,7 @@ export default function Category(){
                             </tr>
                             </thead>
                             <tbody className="text-center">
-                                {categoryData.map((category,i) =>
+                                {_Data.currentData().map((category,i) =>
                                     <tr key={i}>
                                         <td>{category.categoryId}</td>
                                         <td>{category.furnitureItemName}</td>
@@ -206,11 +208,11 @@ export default function Category(){
                             </tbody>
                         </table>
                         <Pagination
-                            className="pagination-bar"
-                            currentPage={currentPage}
-                            totalCount={categoryList.length}
-                            pageSize={PageSize}
-                            onPageChange={page => setCurrentPage(page)}
+                            count={count}
+                            page={page}
+                            variant="outlined"
+                            color="primary"
+                            onChange={handlePageChange}
                         />
                     </div>
                     <div className="card-footer">

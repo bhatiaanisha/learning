@@ -15,8 +15,8 @@ export default function ProductDetail(){
     const params = useParams();
     const productId = Object.values(params)[0]; 
 
-    async function getProductDetails(){
-        return await getProductDetailsById(productId).then((response) => {
+    function getProductDetails(){
+        getProductDetailsById(productId).then((response) => {
             console.log(response);
             const data = response.data;
             setProductDetails(data);
@@ -32,9 +32,9 @@ export default function ProductDetail(){
 
     return(
         <div>
-            <div className="container mt-2">
+            <div className="container mt-5">
                 <div>
-                    <nav
+                    {/* <nav
                         aria-label="breadcrumb">
                         <ol className="breadcrumb font-size">
                             <li className="breadcrumb-item active">Furniture</li>
@@ -42,7 +42,7 @@ export default function ProductDetail(){
                             <li className="breadcrumb-item active" aria-current="page">Fabric Sofas</li>
                             <li className="breadcrumb-item active" aria-current="page">Product</li>
                         </ol>
-                    </nav>
+                    </nav> */}
                 </div>
                 {productDetails.map((productDetail,i) =>      
                     <div className="row" key={i}>

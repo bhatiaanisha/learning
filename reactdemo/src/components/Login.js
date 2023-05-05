@@ -22,12 +22,6 @@ export default function Login(){
         };
 
         login(obj);
-        // setLoginData(obj);
-        // logindata.push(obj);
-
-        // console.log("Login =",logindata);
-        // setEmail('');
-        // setPassword('');
         reset(data.values);
     }
 
@@ -49,17 +43,12 @@ export default function Login(){
                 
                 if(token.role === "Admin")
                 {
-                    //setCurrentUser(response);
                     navigate('/admin');
-                    //window.location.reload();
                 }
                 if(token.role === "User")
                 {
-                    //setCurrentUser(response);
                     navigate('/');
-                    //window.location.reload();
                 }
-                //setCurrentUser(response);
             }
         }).catch((error) => {
             if(error.response)

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink,Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import './Navbar.css';
 import { getFurnitureItems } from "../services/FurnitureItemsService"; 
 import { ToastContainer,toast } from "react-toastify";

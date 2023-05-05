@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { getAllProducts, postProduct, putProduct, getProductDetailsById, deleteProduct } from "../../../services/ProductService";
 import { deleteImage } from "../../../services/ImageService";
 import { deleteProductOverview } from "../../../services/ProductOverview";
-import Pagination from "../../Pagination";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { getSubCategory } from "../../../services/SubCategoryService";
@@ -10,6 +9,8 @@ import storage from '../../firebaseConfig';
 import {ref,uploadBytesResumable,getDownloadURL} from "firebase/storage"
 import '../products/Products.css';
 import { NavLink } from "react-router-dom";
+import { Pagination } from "@mui/material";
+import usePagination from "../../Paging";
 
 export default function Products() {
     console.log("re-render");
@@ -18,12 +19,13 @@ export default function Products() {
         getSubCategories();
     },[])
 
-    const { reset, handleSubmit, register, formState: { errors } } = useForm();
+    const { reset, handleSubmit, register, formState: { errors } } = useForm(); 
+    const [page, setPage] = useState(1);
 
     // Fetch all products
     const [productsList, setProductsList] = useState([]);
-    async function getProducts(){
-        return await getAllProducts().then((response) => {
+    function getProducts(){
+        getAllProducts().then((response) => {
             const data = response.data;
             setProductsList(data);
         }).catch((error) => {
@@ -38,8 +40,8 @@ export default function Products() {
 
     // Fetch subCategories to fill option values for add product form
     const [subCategory, setSubCategory] = useState();
-    async function getSubCategories(){
-        return await getSubCategory().then((response) => {
+    function getSubCategories(){
+        getSubCategory().then((response) => {
             const data = response.data;
             setSubCategory(data);
         }).catch((error) => {
@@ -83,9 +85,8 @@ export default function Products() {
         SKU : '',
         OverviewCreated : ''
     })
-    async function getProductEditDetails(productId){
-        console.log("function start");
-        return await getProductDetailsById(productId).then((response) => {
+    function getProductEditDetails(productId){
+        getProductDetailsById(productId).then((response) => {
             const data = response.data[0];
             setProductEditDetails({
                 Id : data.productId,
@@ -181,18 +182,14 @@ export default function Products() {
                 sku : sku
             }]
         }
-        // if(!errors){
-        //     document.getElementById("submitBtn").setAttribute("data-bs-dismiss","modal");
-        // }
         addProducts(AddProductForm);
-        //console.log(AddProductForm);
         reset(data.values);
         document.getElementsByClassName("progressBar")[0].style.width = "0%";
         setImageUrl('');
     }
 
-    async function addProducts(data){
-        return await postProduct(data).then(() => {
+    function addProducts(data){
+        postProduct(data).then(() => {
             toast.success('Added Product Successfully',{
                 position:"bottom-right",
                 autoClose: 1000,
@@ -210,7 +207,7 @@ export default function Products() {
     }
 
     // Update Product
-    async function updateProduct(e){
+    function updateProduct(e){
         e.preventDefault();
         let UpdateProductForm = {
             productId : productEditDetails.Id,
@@ -246,7 +243,7 @@ export default function Products() {
                 createdDate : productEditDetails.OverviewCreated
             }]
         }
-        return await putProduct(UpdateProductForm.productId,UpdateProductForm).then(() => {
+        putProduct(UpdateProductForm.productId,UpdateProductForm).then(() => {
             toast.success('Updated Product Successfully',{
                 position:"bottom-right",
                 autoClose:1000,
@@ -263,8 +260,8 @@ export default function Products() {
         })
     }
 
-    async function imageDelete(productId){
-        return await deleteImage(productId).then().catch((error) => {
+    function imageDelete(productId){
+        deleteImage(productId).then().catch((error) => {
             console.log(error);
             toast.error('Image Deleting Error',{
                 position:"bottom-right",
@@ -274,8 +271,8 @@ export default function Products() {
         })
     }
 
-    async function productOverviewDelete(productId){
-        return await deleteProductOverview(productId).then().catch((error) => {
+    function productOverviewDelete(productId){
+        deleteProductOverview(productId).then().catch((error) => {
             console.log(error);
             toast.error('Product Overview Deleting Error',{
                 position:"bottom-right",
@@ -286,8 +283,8 @@ export default function Products() {
     }
 
     // Delete Product with deleting all its children records as well
-    async function productDelete(productId){
-        return await deleteProduct(productId).then(() => {
+    function productDelete(productId){
+        deleteProduct(productId).then(() => {
             toast.success('Deleted Product Successfully',{
                 position:"bottom-right",
                 autoClose: 1000,
@@ -303,11 +300,11 @@ export default function Products() {
         })
     }
 
-    async function deleteProductWithDescendants(productId){
-       await imageDelete(productId);
-       await productOverviewDelete(productId);
-       await productDelete(productId);
-       await getProducts();
+    function deleteProductWithDescendants(productId){
+       imageDelete(productId);
+       productOverviewDelete(productId);
+       productDelete(productId);
+       getProducts();
     }
 
     // Code for uploading image to firebase and storing url in image field
@@ -351,21 +348,21 @@ export default function Products() {
         );
     }
 
-    // Pagination code
-    const PageSize = 2;
-    const [currentPage, setCurrentPage] = useState(1);
-
-    const productsData = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
-        const lastPageIndex = firstPageIndex + PageSize;
-        return productsList.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, PageSize, productsList]);
-
     const longEnUSFormatter = new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
     })
+
+    //Pagination code
+    const per_page = 2;
+    const count = Math.ceil(productsList.length / per_page);
+    const _Data = usePagination(productsList,per_page);
+
+    const handlePageChange = (e,p) => {
+        setPage(p);
+        _Data.jump(p);
+    }
 
     return (
         <div>
@@ -397,7 +394,7 @@ export default function Products() {
                                 </tr>
                             </thead>
                             <tbody className="text-center">
-                                {productsData.map((product, i) =>
+                                {_Data.currentData().map((product, i) =>
                                     <tr key={i}>
                                         <td>{product.productId}</td>
                                         <td>{product.productName}</td>
@@ -410,22 +407,18 @@ export default function Products() {
                                         <td><img src={product.productImageUrl} height={200} width={250} alt="" /></td>
                                         <td>{longEnUSFormatter.format(new Date(product.createdDate))}</td>
                                         <td>{longEnUSFormatter.format(new Date(product.modifiedDate))}</td>
-
-                                        {/* eslint-disable-next-line */}
                                         <td><NavLink type="button" onClick={() => getProductEditDetails(product.productId)} data-bs-toggle="modal" data-bs-target="#EditModal"><em className="fa-solid fa-pen text-primary"></em></NavLink></td>
-
-                                        {/* eslint-disable-next-line */}
                                         <td><NavLink type="button" onClick={() => deleteProductWithDescendants(product.productId)}><em className="fa-solid fa-trash-can text-primary"></em></NavLink></td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
                         <Pagination
-                            className="pagination-bar"
-                            currentPage={currentPage}
-                            totalCount={productsList.length}
-                            pageSize={PageSize}
-                            onPageChange={page => setCurrentPage(page)}
+                            count={count}
+                            page={page}
+                            variant="outlined"
+                            color="primary"
+                            onChange={handlePageChange}
                         />
                     </div>
                     <div className="card-footer">

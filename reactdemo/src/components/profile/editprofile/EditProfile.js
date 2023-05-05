@@ -18,8 +18,8 @@ export default function EditProfile(){
     const { register } = useForm();
 
     const [user, setUser] = useState();
-    async function getAUser(id){
-        return await getUserById(id).then((response) => {
+    function getAUser(id){
+        getUserById(id).then((response) => {
             const userData = response.data;
             setUser(userData);
         })
@@ -33,7 +33,7 @@ export default function EditProfile(){
         email : 0
     })
 
-    async function updateUser(e){
+    function updateUser(e){
         e.preventDefault();
         let UserEditForm = {
             userId : user.userId,
@@ -45,7 +45,7 @@ export default function EditProfile(){
             passwordSalt : user.passwordSalt,
             userType : user.userType
         }
-        return await putUser(UserEditForm.userId,UserEditForm).then(() => {
+        putUser(UserEditForm.userId,UserEditForm).then(() => {
             toast.success('Your Profile Updated Successfully',{
                 position:"bottom-right",
                 autoClose:1000,

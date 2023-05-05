@@ -1,10 +1,11 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getSubCategory, getSubCategoryById, postSubCategory, putSubCategory, deleteSubCategory } from "../../../services/SubCategoryService";
 import { toast } from "react-toastify";
-import Pagination from "../../Pagination";
 import { useForm } from "react-hook-form";
 import { getCategory } from "../../../services/CategoryService";
 import { NavLink } from "react-router-dom";
+import { Pagination } from "@mui/material";
+import usePagination from "../../Paging";
 
 export default function SubCategory() {
 
@@ -14,6 +15,7 @@ export default function SubCategory() {
     }, [])
 
     const { reset, handleSubmit, register, formState: { errors } } = useForm();
+    const [page, setPage] = useState(1);
 
     const longEnUSFormatter = new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
@@ -23,8 +25,8 @@ export default function SubCategory() {
 
     // Fetch category data to fill the select box with category names in add sub-category form
     const [category, setCategory] = useState();
-    async function getCategories() {
-        return await getCategory().then((response) => {
+    function getCategories() {
+        getCategory().then((response) => {
             const data = response.data;
             setCategory(data);
         }).catch((error) => {
@@ -39,8 +41,8 @@ export default function SubCategory() {
 
     // Fetch all sub-categories
     const [subCategoryList, setSubCategoryList] = useState([]);
-    async function getSubCategories() {
-        return await getSubCategory().then((response) => {
+    function getSubCategories() {
+        getSubCategory().then((response) => {
             const data = response.data;
             setSubCategoryList(data);
         }).catch((error) => {
@@ -60,8 +62,8 @@ export default function SubCategory() {
         Name : '',
         CreatedDate : ''
     })
-    async function getASubCategory(id) {
-        return await getSubCategoryById(id).then((response) => {
+    function getASubCategory(id) {
+        getSubCategoryById(id).then((response) => {
             const data = response.data;
             console.log("SubCategory",data);
             setSubCategoryItem({
@@ -92,8 +94,8 @@ export default function SubCategory() {
         reset(data.values);
     }
 
-    async function addSubCategory(data) {
-        return await postSubCategory(data).then(() => {
+    function addSubCategory(data) {
+        postSubCategory(data).then(() => {
             toast.success('Added SubCategory Successfully', {
                 position: "bottom-right",
                 autoClose: 1000,
@@ -111,7 +113,7 @@ export default function SubCategory() {
     }
 
     //Update subcategory
-    async function updateSubCategory(e){
+    function updateSubCategory(e){
         e.preventDefault();
         let UpdateSubCategoryForm = {
             subCategoryId : subCategoryItem.Id,
@@ -119,7 +121,7 @@ export default function SubCategory() {
             subCategoryName : subCategoryItem.Name,
             createdDate : subCategoryItem.CreatedDate
         }
-        return await putSubCategory(UpdateSubCategoryForm.subCategoryId,UpdateSubCategoryForm).then(() => {
+        putSubCategory(UpdateSubCategoryForm.subCategoryId,UpdateSubCategoryForm).then(() => {
             toast.success('Updated SubCategory Successfully',{
                 position:"bottom-right",
                 autoClose:1000,
@@ -137,8 +139,8 @@ export default function SubCategory() {
     }
 
     //Delete subcategory
-    async function deleteSubCategoryById(id){
-        return await deleteSubCategory(id).then(() => {
+    function deleteSubCategoryById(id){
+        deleteSubCategory(id).then(() => {
             toast.success('Deleted SubCategory Successfully',{
                 position:"bottom-right",
                 autoClose: 1000,
@@ -155,15 +157,15 @@ export default function SubCategory() {
         })
     }
 
-    // Pagination code
-    const PageSize = 8;
-    const [currentPage, setCurrentPage] = useState(1);
+    //Pagination code
+    const per_page = 8;
+    const count = Math.ceil(subCategoryList.length / per_page);
+    const _Data = usePagination(subCategoryList,per_page);
 
-    const subCategoryData = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
-        const lastPageIndex = firstPageIndex + PageSize;
-        return subCategoryList.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, PageSize, subCategoryList]);
+    const handlePageChange = (e,p) => {
+        setPage(p);
+        _Data.jump(p);
+    }
 
     return (
         <div>
@@ -188,7 +190,7 @@ export default function SubCategory() {
                                 </tr>
                             </thead>
                             <tbody className="text-center">
-                                {subCategoryData.map((subcategory, i) =>
+                                {_Data.currentData().map((subcategory, i) =>
                                     <tr key={i}>
                                         <td>{subcategory.subCategoryId}</td>
                                         <td>{subcategory.categoryName}</td>
@@ -206,11 +208,11 @@ export default function SubCategory() {
                             </tbody>
                         </table>
                         <Pagination
-                            className="pagination-bar"
-                            currentPage={currentPage}
-                            totalCount={subCategoryList.length}
-                            pageSize={PageSize}
-                            onPageChange={page => setCurrentPage(page)}
+                            count={count}
+                            page={page}
+                            variant="outlined"
+                            color="primary"
+                            onChange={handlePageChange}
                         />
                     </div>
                     <div className="card-footer">
